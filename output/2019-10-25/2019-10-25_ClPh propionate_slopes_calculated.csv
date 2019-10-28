@@ -1,0 +1,76 @@
+variable,intercept,minutes,cmpnd
+Mobilicoccus massiliensis,-0.6651706410387889,0.10635567900832989,ClPh propionate
+XC,-2.0993306333219586,0.06386744050682609,ClPh propionate
+Granulosicoccus antarcticus,0.04311850452435804,0.06367581148290058,ClPh propionate
+Actinoplanes atraurantiacus,-2.8555113275694253,0.06046838142670579,ClPh propionate
+Dermabacter hominis,-1.7705559631477834,0.053136215167000796,ClPh propionate
+Mycolicibacterium obuense,-2.486609749215888,0.04743132488095785,ClPh propionate
+Isoptericola variabilis,-2.62897545384859,0.04409352425930549,ClPh propionate
+Halobacteriovorax marinus,-4.685275303179352,0.03478852149099101,ClPh propionate
+Micromonospora peucetia,-1.5022072646982971,0.03370314726531481,ClPh propionate
+Kytococcus sedentarius,-1.4001517200437927,0.033029304222167155,ClPh propionate
+Cellulomonas cellasea,-2.5124482528517382,0.031833978917189566,ClPh propionate
+Micromonospora avicenniae,-1.5865187994598153,0.02972605965400954,ClPh propionate
+Okibacterium fritillariae,-2.216784564844354,0.029617679304412402,ClPh propionate
+Nesterenkonia alba,-2.0937807217000737,0.027985691141637428,ClPh propionate
+Kocuria varians,-1.1039539839369428,0.0270024143467412,ClPh propionate
+Agreia bicolorata,-1.9138012764148993,0.022733171010434896,ClPh propionate
+Pet28_2,-1.7684773641724176,0.02063310539577647,ClPh propionate
+Pseudoxanthomonas,-2.2073025931960206,0.019868160029778953,ClPh propionate
+Rothia mucilaginosa,-1.4053717784277726,0.01948804344133667,ClPh propionate
+Brachybacterium paraconglomeratum,-2.1056711455616783,0.017375411989043774,ClPh propionate
+Subtercola sp. Z020,-3.398549236708116,0.0165413545160568,ClPh propionate
+Brachybacterium alimentarium,-2.650850482863907,0.01623506222371692,ClPh propionate
+Leifsonia sp. Leaf325,-3.393114511931214,0.016079559982990554,ClPh propionate
+Plantibacter sp. VKM Ac-1784,-2.5816074817323735,0.01603557955126991,ClPh propionate
+Silanimonas lenta,-1.1717362064434709,0.014904654164168874,ClPh propionate
+Humibacillus sp. DSM 29435,-3.1811131237409027,0.013556968077873594,ClPh propionate
+Geodermatophilus obscurus,-1.2564247163340232,0.013520841294674448,ClPh propionate
+Arenimonas oryziterrae,-3.607561002694565,0.01174120453969468,ClPh propionate
+Arthrobacter globiformis,-2.669887726880105,0.01074222044775537,ClPh propionate
+Dermatophilus congolensis,-2.7729747173737738,0.0105835767476204,ClPh propionate
+Sanguibacter keddieii,-2.328735706635993,0.010208172348291033,ClPh propionate
+Cephaloticoccus capnophilus,-2.233832217901765,0.009799782625171217,ClPh propionate
+Intrasporangiaceae bacterium URHB0013,-2.882543585780547,0.008906037423420504,ClPh propionate
+Streptococcus pneumoniae,-2.3514903442857213,0.008863627721404295,ClPh propionate
+Wenzhouxiangella sediminis,-2.4178798531210965,0.008370418594251902,ClPh propionate
+Citricoccus muralis,-2.4122985269051247,0.006386586977712166,ClPh propionate
+Bacteriovorax sp. BAL6 X,-1.715952162860392,0.006015894767495699,ClPh propionate
+Xanthomonas translucens,-2.602786153912112,0.004864549894238665,ClPh propionate
+Paenibacillus polysaccharolyticus,-1.8487573593595477,0.004665067221791721,ClPh propionate
+Clavibacter michiganensis,-3.133797509281494,0.002843020764795645,ClPh propionate
+Luteimonas tolerans,-2.388124996755841,0.0016618320271567753,ClPh propionate
+Brevibacterium antiquum,-2.585461005273605,0.0010351108751382148,ClPh propionate
+Allokutzneria albata,-3.2504398971233313,7.068283669383886e-5,ClPh propionate
+Chlamydiales bacterium SCGC AG-110-P3,-0.9360901004376567,-1.979119427427286e-4,ClPh propionate
+Auraticoccus monumenti,-1.2863732960294754,-9.754231463746725e-4,ClPh propionate
+Sediminihabitans luteus,-2.073670145719265,-0.002395362799068128,ClPh propionate
+Thermomonas haemolytica,-3.604560908959338,-0.0041058874470584605,ClPh propionate
+Anaerocolumna xylanovorans,-2.0827384918787955,-0.005109583728110651,ClPh propionate
+Pelobacter propionicus DSM 2379,-0.8137197849407819,-0.005786568230666931,ClPh propionate
+Nakamurella multipartita,-1.393716964021814,-0.008532203753795568,ClPh propionate
+Desulfobulbus elongatus,-2.151473623739269,-0.010812903284449294,ClPh propionate
+Actinomycetospora chiangmaiensis,-3.094665396581524,-0.010908717796412028,ClPh propionate
+Virgibacillus salinus,-1.9923587046929734,-0.012997788303140254,ClPh propionate
+Clostridium combesii,0.42998399492948486,-0.015152829457449446,ClPh propionate
+Psychromonas aquimarina,-1.7692889078529763,-0.015526663127074515,ClPh propionate
+Kineosphaera limosa,-1.5232236281419242,-0.016095267280033704,ClPh propionate
+Agrococcus casei,-0.5506120879379994,-0.01666701289240142,ClPh propionate
+Shewanella putrefaciens,-1.7406178549836924,-0.019269712012438066,ClPh propionate
+Nonomuraea candida,-0.9174874249729801,-0.020188588889457695,ClPh propionate
+Pet28_1,-1.5825553248392803,-0.020633105395776525,ClPh propionate
+Bacillus sp. 7586-K,-2.0747487134495537,-0.0206676614492713,ClPh propionate
+Microlunatus phosphovorus,-2.056219338704413,-0.02122841195370886,ClPh propionate
+Desulfobacter curvatus,-1.5185480893887713,-0.021250402169569183,ClPh propionate
+Saccharothrix espanaensis,-1.4785625468827963,-0.02336774581097499,ClPh propionate
+Brevibacterium mcbrellneri,-1.8052847969100114,-0.02342272135062572,ClPh propionate
+Kocuria flava,-1.0720576994081503,-0.02351225294377122,ClPh propionate
+Chromatocurvus halotolerans,-2.7740375778070216,-0.024215939851300758,ClPh propionate
+Bacteroides luti,-0.8680042035216291,-0.024479822441624364,ClPh propionate
+Legionella brunensis,-1.5878277408800732,-0.02645422967993814,ClPh propionate
+Chloroflexi bacterium RBG 13 51 36,-1.5025580609989269,-0.039310652309690816,ClPh propionate
+Enhygromyxa salina,-2.371066872167065,-0.041936912375292144,ClPh propionate
+Frankiales bacterium YIM 75000,-1.6339757795926086,-0.04270342847099397,ClPh propionate
+Sandaracinus amylolyticus,-2.5327106660372958,-0.054130487069827225,ClPh propionate
+Streptomyces ambofaciens,-1.153007872602452,-0.060952166175632386,ClPh propionate
+Streptomyces avermitilis,-1.9821856119747439,-0.07411488109772488,ClPh propionate
