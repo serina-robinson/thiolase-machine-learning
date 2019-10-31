@@ -42,7 +42,7 @@ normalize_all <- function(x) {
     dplyr::mutate(orgs = case_when(is.na(orgs) ~ temp,
                                    TRUE ~ orgs)) %>%
     dplyr::select(temp, orgs)
-
+  
   # Rename columns to match organisms
   colnames(tma1) <- c("time", newnams$orgs)
   
@@ -72,7 +72,7 @@ normalize_all <- function(x) {
     group_by(variable) %>%
     mutate_at(c("value"), norm_pet) %>%
     bind_rows(pnp_rem)
-
+  
   return(dat)
 }
 
@@ -93,7 +93,7 @@ pNPs <- resbind %>%
   dplyr::mutate(mM = µL * (4/200)) %>% # 4 mM stock solution, 200 µL final well volume
   dplyr::mutate(nM = mM * 1e6) %>%
   dplyr::mutate(nmol = nM * (1/1000) * (1/1000) * 200) # nmoles = nmoles/L * 1L/1000 mL * 1ml/1000µL * 200 µL (final volume)
- # dplyr::filter(time == min(time))
+# dplyr::filter(time == min(time))
 pNPs
 
 pNP_fit <- lm(value ~ nmol, data = pNPs)
@@ -148,12 +148,9 @@ dat5 <- dat3 %>%
   dplyr::mutate(winners = case_when(variable %in% tofind ~ as.character(variable),
                                     TRUE ~ " inactive")) 
 
-# pal2 <- distinctColorPalette(length(unique(dat4$winners)))
-#rawpal <- read_csv("data/OleA_palette_key.csv")
-#pal <- rawpal$pal2[!rawpal$pal2 %in% c("seagreen1", "cyan3", "gold1", "wheat3", "orchid1", "blueviolet", "#7B6E4F")]
 pal <- colorRampPalette(brewer.pal(8,"Set1"))(8)
-pal2 <- c("gray80", "dodgerblue", "wheat3", pal[c(1, 3:5, 8)], "blue", "gold1", "black")
-length(pal2)
+pal2 <- c("gray80", "dodgerblue", "goldenrod", pal[c(1, 3:5, 8)], "blue", "gold1", "black", "cyan3", "seagreen1", "#7B6E4F")
+
 
 pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_without_errorbars_normalized.pdf"), width = 16, height = 14)
 pl <- ggplot(dat5, aes(x=time, y=mean, color=winners)) +
@@ -167,7 +164,7 @@ pl <- ggplot(dat5, aes(x=time, y=mean, color=winners)) +
         panel.background=element_blank(),
         text = element_text(size = 20),
         legend.key= element_rect(fill=NA, color=NA),
-        legend.position="top") + 
+        legend.position="right") + 
   guides(shape = guide_legend(override.aes = list(size = 10))) +
   scale_color_manual(values=pal2) 
 pl
@@ -184,8 +181,8 @@ pl <- ggplot(dat5, aes(x=time, y=mean, color=winners)) +
         panel.border=element_blank(),
         panel.background=element_blank(),
         text = element_text(size = 20),
-        legend.key= element_rect(fill=NA, color=NA),
-        legend.position="top") + 
+        legend.key = element_rect(fill=NA, color=NA),
+        legend.position = "right") + 
   guides(shape = guide_legend(override.aes = list(size = 10))) +
   scale_color_manual(values=pal2) 
 pl
@@ -200,29 +197,117 @@ a <- dat5 %>%
   dplyr::mutate(minutes = case_when(grepl(max(time), time) ~ 60,
                                     TRUE ~ minutes)) %>%
   dplyr::group_by(variable) %>%
-  dplyr::slice(11:31) %>%
+  dplyr::slice(0:46) %>%
   dplyr::ungroup() %>%
   dplyr::select(variable, minutes, mean)
 
 
-linr <- a %>%
-  split(.$variable) %>%
-  map(~lm(mean ~ minutes, data = .x)) %>%
-  map_df(broom::tidy)
+## Function that calculates slopes
+slopes <- function(d) { 
+  m <- lm(mean ~ minutes, as.data.frame(d, stringsAsFactors = F))
+  summ <- summary(m)
+  r2 <- summ$r.squared
+  intercept <- coef(m)[1]
+  slope <- coef(m)[2]
+  return(list(org = d$variable[1], r2 = r2, slope = slope, intercept = intercept))
+}
 
-linr$variable <- sort(rep(unique(a$variable), 2))
+## The number of frames to take the windowed slope of
+windowsize <- 15
 
-wid <- dcast(linr, variable ~ term, value.var="estimate") %>%
-  janitor::clean_names() %>%
-  arrange(desc(minutes)) %>%
-  dplyr::mutate(cmpnd = cmpnd)
-wid
-write_csv(wid, paste0("output/", date, "/", date, "_", cmpnd, "_slopes_calculated.csv"))
+# Calculate slopes for each organisms organism
+orgs <- unique(a$variable)
 
-pdf(paste0("output/", date, "/", date, "_", cmpnd, "_slopes_plotted.pdf"), width = 20, height = 20)
-ggplot(a, aes(x = minutes, y = mean, color = variable)) +
-  geom_point() +
-  #  geom_smooth(method = "lm", se = TRUE)
-  geom_abline(slope = wid$minutes, intercept = wid$intercept)
-# theme(legend.position="none")
+res <- list()
+for(i in 1:length(orgs)) {
+  tmp <- a[a$variable == orgs[i],]
+  res[[i]] <- do.call(rbind.data.frame,lapply(seq(dim(tmp)[1] - windowsize),
+                                              function(x) slopes(tmp[x:(x + windowsize),])))
+}
+res[[1]]$org
+
+names(res) <- orgs
+resl <- plyr::ldply(res, data.frame)
+resll <- do.call(rbind.data.frame, res)
+resll$org
+
+# Find max slope for each organism
+resmax <- resl %>%
+  dplyr::filter(r2 >= 0.9) %>% # make sure R^2 is above or equal to 0.9
+  group_by(org) %>%
+  summarise_each(funs(max_slope = max), slope) %>%
+  dplyr::filter(max_slope > 0)
+
+
+# Merge with the original dataset
+slope_merg <- resmax %>%
+  inner_join(., resl, by = "org") %>%
+  dplyr::filter(r2 >= 0.9) %>%
+  group_by(org) %>%
+  dplyr::filter(slope == max(slope)) %>%
+  dplyr::select(org, max_slope, r2, intercept)
+
+# Plot winners on graph
+merg_all <- slope_merg %>% 
+  right_join(., a, by = c("org" = "variable")) %>%
+  #left_join(., a, by = c("org" = "variable")) %>% # to exclude inactive ones
+  dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
+                                    TRUE ~ org))
+
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_test_assessment.pdf"),  width = 16, height = 14)
+pl <- ggplot(merg_all,  aes(x = minutes, y = mean, color = winners)) + 
+  geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
+  geom_abline(slope = unique(merg_all$max_slope), intercept = unique(merg_all$intercept), color = pal2[1:length(unique(merg_all$max_slope))]) +
+  labs(y = "nmol pNP", x = "Time (minutes)") +
+  theme(legend.title=element_blank(), axis.line=element_line(color="black"),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.border=element_blank(),
+        panel.background=element_blank(),
+        text = element_text(size = 16),
+        legend.position = "top",
+        legend.key= element_rect(fill=NA, color=NA)) +
+  guides(shape = guide_legend(override.aes = list(size = 10))) +
+  scale_color_manual(values=pal2) 
+# legend.position = "none")
+pl
 dev.off()
+
+# Visually assess results and remove any that look strange
+# For dodecanoate, Microlunatus phosphovorus does not look active
+slope_final <- slope_merg %>%
+ dplyr::filter(!grepl("Microlunatus", org))
+
+
+write_csv(slope_final, paste0("output/", date, "/", date, "_", cmpnd, "_all_data_calculated_slopes.csv"))
+
+# Plot updated winners on graph
+merg_all_final <- slope_final %>% 
+  right_join(., a, by = c("org" = "variable")) %>%
+  #left_join(., a, by = c("org" = "variable")) %>% # to exclude inactive ones
+  dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
+                                    TRUE ~ org))
+
+
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final.pdf"), width = 16, height = 14)
+pl <- ggplot(merg_all_final,  aes(x = minutes, y = mean, color = winners)) + 
+  geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
+  geom_abline(slope = unique(merg_all_final$max_slope), intercept = unique(merg_all_final$intercept), color = pal2[1:length(unique(merg_all_final$max_slope))]) +
+  labs(y = "nmol pNP", x = "Time (minutes)") +
+  theme(legend.title=element_blank(), axis.line=element_line(color="black"),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.border=element_blank(),
+        panel.background=element_blank(),
+        text = element_text(size = 16),
+        legend.position = "top",
+        legend.key= element_rect(fill=NA, color=NA)) +
+  guides(shape = guide_legend(override.aes = list(size = 10))) +
+  scale_color_manual(values=pal2) 
+# 
+pl
+dev.off()
+
+
+
+

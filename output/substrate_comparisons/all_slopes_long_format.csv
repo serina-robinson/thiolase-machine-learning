@@ -1,0 +1,81 @@
+filename,org,max_slope,r2,intercept,cmpnd
+output//2019-10-18/2019-10-18_benzoate_all_data_calculated_slopes.csv,Kytococcus sedentarius,0.06899057223435559,0.9082667333345514,-3.456047972518699,benzoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Arenimonas oryziterrae,0.11293304577114846,0.9241769658946793,-3.5230275117036003,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Brachybacterium paraconglomeratum,0.0726876540584219,0.9329828647617953,-4.06783988080921,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Chromatocurvus halotolerans,0.09898119201626399,0.9588361601443047,-3.781955161573106,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Humibacillus sp. DSM 29435,0.09125237816701406,0.9366347041056965,-4.683597028139564,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Kytococcus sedentarius,0.08728180621698726,0.9738874046568555,-1.5961765360884586,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Micromonospora peucetia,0.08025368153538916,0.9124651029237535,-3.5265734235520227,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Mobilicoccus massiliensis,0.1019980481547647,0.9401518284987521,-3.8233949098216025,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Pseudoxanthomonas,0.07079791660627016,0.9313564504823028,-3.419932424953019,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,Thermomonas haemolytica,0.1534385417961094,0.9745477045997628,-5.431184595762579,dodecanoate
+output//2019-10-18/2019-10-18_dodecanoate_all_data_calculated_slopes.csv,XC,0.07807022084629242,0.9617297506589977,-3.6554329925505287,dodecanoate
+output//2019-10-18/2019-10-18_TMA_all_data_calculated_slopes.csv,Actinoplanes atraurantiacus,0.14368493091341297,0.992463919899921,-2.720320179370866,TMA
+output//2019-10-18/2019-10-18_TMA_all_data_calculated_slopes.csv,Chromatocurvus halotolerans,0.016444884144342056,0.9513419380756446,-1.8075642740908155,TMA
+output//2019-10-18/2019-10-18_TMA_all_data_calculated_slopes.csv,Granulosicoccus antarcticus,0.04687257465120536,0.9613900254533285,-1.9701761162439504,TMA
+output//2019-10-18/2019-10-18_TMA_all_data_calculated_slopes.csv,Halobacteriovorax marinus,0.02010890806813193,0.9634917421794648,-1.6649100577113172,TMA
+output//2019-10-18/2019-10-18_TMA_all_data_calculated_slopes.csv,Kytococcus sedentarius,0.07611328100126923,0.9803098426393339,-1.3803048382553,TMA
+output//2019-10-18/2019-10-18_TMA_all_data_calculated_slopes.csv,Mobilicoccus massiliensis,0.09412418626004418,0.981020012117331,-2.9514562511586195,TMA
+output//2019-10-18/2019-10-18_TMA_all_data_calculated_slopes.csv,Thermomonas haemolytica,0.01074603023746738,0.9016026459885544,-1.7824863245035332,TMA
+output//2019-10-18/2019-10-18_TMA_all_data_calculated_slopes.csv,XC,0.03066708226957921,0.9017230545754448,-1.7490280007783992,TMA
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Actinoplanes atraurantiacus,0.08325928653751942,0.9801447344546952,-3.4137871793476418,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Arthrobacter globiformis,0.04646592708090119,0.9027076579426384,-1.7879447265233752,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Cellulomonas cellasea,0.0716889685315545,0.9766748328140252,-4.225886690755946,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Chromatocurvus halotolerans,0.09005962868364414,0.9586690137135242,-4.396806768917909,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Clavibacter michiganensis,0.06897202116954443,0.9210760689487218,-5.126093523290264,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Dermabacter hominis,0.11489741253801612,0.9662133733951503,-2.7522134343922824,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Granulosicoccus antarcticus,0.18722511969869926,0.9929399048633224,-2.2418940040240005,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Intrasporangiaceae bacterium URHB0013,0.024544853786611188,0.921056368346441,-3.50160240974707,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Kineosphaera limosa,0.0562366976218833,0.9057501512629728,-4.839402278434007,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Kocuria varians,0.07551888228282162,0.9743634203330255,-2.1475570927463488,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Kytococcus sedentarius,0.3677002577213761,0.9632880363553253,-5.413823033171788,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Micromonospora avicenniae,0.04100601278066159,0.9377362912013841,-2.688423505596245,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Micromonospora peucetia,0.06063988139114648,0.9738616751457065,-2.933183783704295,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Mobilicoccus massiliensis,0.15006580749267218,0.9884637099235323,-2.013609993051033,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Mycolicibacterium obuense,0.04301539553773677,0.9065212294084719,-2.9658173683304785,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Nesterenkonia alba,0.030730798197489854,0.9085165262093586,-3.8053096181096673,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Plantibacter sp. VKM Ac-1784,0.056053721247179056,0.9532192025172036,-4.313320860264935,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Pseudoxanthomonas,0.031234402898511163,0.9150657354239541,-3.723079363844567,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Sandaracinus amylolyticus,0.0483225497453332,0.9056964304255263,-4.042376495068446,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Sanguibacter keddieii,0.048471113132134654,0.941485938122965,-4.057240387819095,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Sediminihabitans luteus,0.06261317247798173,0.9221878057629893,-5.04913433156252,7Ph heptanoate
+output//2019-10-25/2019-10-25_7Ph heptanoate_all_data_calculated_slopes.csv,Thermomonas haemolytica,0.09863433805970061,0.9886517808045614,-5.312064667283417,7Ph heptanoate
+output//2019-10-25/2019-10-25_ClPh propionate_all_data_calculated_slopes.csv,Granulosicoccus antarcticus,0.13633658955686334,0.940605892322286,-0.8901220411704044,ClPh propionate
+output//2019-10-25/2019-10-25_ClPh propionate_all_data_calculated_slopes.csv,Kocuria varians,0.030362828856342408,0.9072417475036598,-1.2074750540540184,ClPh propionate
+output//2019-10-25/2019-10-25_ClPh propionate_all_data_calculated_slopes.csv,Mobilicoccus massiliensis,0.11147859083996078,0.979817100711778,-0.7947595297790562,ClPh propionate
+output//2019-10-25/2019-10-25_ClPh propionate_all_data_calculated_slopes.csv,Mycolicibacterium obuense,0.053872633309692095,0.9553048748080794,-2.6517610633622164,ClPh propionate
+output//2019-10-25/2019-10-25_ClPh propionate_all_data_calculated_slopes.csv,XC,0.07646289101600137,0.9329392515710886,-2.4191041753283593,ClPh propionate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Actinoplanes atraurantiacus,0.22153783185869824,0.9973830531015374,-2.0565750124915327,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Agreia bicolorata,0.04461267962450436,0.9500803298025335,-2.4783544713050607,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Arenimonas oryziterrae,0.17463127542445936,0.9942197342151465,-2.386156284560062,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Arthrobacter globiformis,0.18246177859021986,0.9975288615570644,-2.5509100711676647,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Bacillus sp. 7586-K,0.025435316753723538,0.9014416072825971,-2.3978200493343826,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Brevibacterium antiquum,0.02624231919763003,0.9209022581989815,-2.9815453684438338,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Cellulomonas cellasea,0.0344228919166835,0.950533293242884,-2.837307500130526,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Chlamydiales bacterium SCGC AG-110-P3,0.06799824702013162,0.9913741862035288,-0.8750156500392556,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Chromatocurvus halotolerans,0.2807981585815076,0.9972221858896242,-3.185197409836268,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Clavibacter michiganensis,0.030671620282450844,0.9032648944084408,-2.2327825221414757,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Dermabacter hominis,0.20966586782373872,0.9978206678648152,-2.7205242971520383,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Dermatophilus congolensis,0.049454694287944016,0.9705476641910246,-2.2657314369916635,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Granulosicoccus antarcticus,0.7932124672138806,0.9943179664366315,0.735436031808061,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Humibacillus sp. DSM 29435,0.037344130215345425,0.9415819537401147,-2.2586646381934816,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Kocuria varians,0.13121528093081652,0.9931619424829695,-1.570337615324464,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Kytococcus sedentarius,0.9226764791425666,0.9997060002981255,-3.8548915201134424,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Leifsonia sp. Leaf325,0.12173300221491377,0.9941360652488735,-2.897226510354925,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Luteimonas tolerans,0.12630140988538513,0.9959229385331253,-2.370371832649222,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Micromonospora peucetia,0.23752495561618162,0.9991798791389576,-1.9457236459700247,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Mobilicoccus massiliensis,0.4426592651961112,0.9992859188651563,-3.756054909155207,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Mycolicibacterium obuense,0.0346532008333235,0.9410285197929417,-2.209457756299843,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Nakamurella multipartita,0.06105120885860223,0.9714737328009407,-2.6406679046319463,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Nesterenkonia alba,0.032160337119611956,0.9614574793818171,-2.2700032067775036,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Okibacterium fritillariae,0.14061556967239544,0.99699029213701,-2.597360615946956,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Plantibacter sp. VKM Ac-1784,0.16469574876060905,0.9981576189676203,-2.627481337300805,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Pseudoxanthomonas,0.17988968860918417,0.9981110478989603,-2.370804813412505,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Sandaracinus amylolyticus,0.04082824350627563,0.9753940411541787,-3.1301683185299716,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Sanguibacter keddieii,0.09154687312874009,0.9819731153892169,-2.7908495854659017,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Sediminihabitans luteus,0.09650219977916667,0.9801671584490651,-2.2680299199797322,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Silanimonas lenta,0.07645887538181932,0.9927511738565863,-3.131999735035092,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Subtercola sp. Z020,0.061111089176928604,0.9852653231754254,-2.380415143886061,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Thermomonas haemolytica,0.2600648286699068,0.9987127135857035,-2.2912376888917123,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,Xanthomonas translucens,0.14855293617547696,0.9969479270797317,-2.6815072029662192,heptynoate
+output//2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv,XC,0.10470396091855094,0.9942579199534591,-2.4023101519731935,heptynoate
