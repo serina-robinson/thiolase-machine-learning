@@ -1,5 +1,5 @@
 # Pipeline for files with # Install packages
-pacman::p_load("tidyverse", "readxl", "randomcoloR", "RColorBrewer", "ggplot2", "pheatmap", "viridis", "scales", "wesanderson")
+pacman::p_load("tidyverse", "maditr", "readxl", "randomcoloR", "RColorBrewer", "ggplot2", "pheatmap", "viridis", "scales")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
@@ -7,9 +7,11 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analys
 # Read in the data
 fils <- list.files("output/", recursive=TRUE, full.names = T)
 suffix <- "_calculated_slopes.csv"
-
+head(fils)
 
 ll <- fils[grepl(suffix, fils)]
+ll <- ll[!grepl("BocPhe", ll)]
+
 rawdat <- tibble(filename = ll) %>%
   # purrr::map(read_excel) %>%   
   mutate(file_contents = map(filename,          # read files into
@@ -21,10 +23,9 @@ rawdat <- tibble(filename = ll) %>%
 head(rawdat)
 
 # Write to file
-maprdat_long  <- rawdat
+maprdat_long  <- rawdat #%>%
+ # dplyr::filter(max_slope >= 0.01)
 write_csv(maprdat_long, "output/substrate_comparisons/all_slopes_long_format.csv")
-
-
 
 maprdat_wide <- dcast(maprdat_long, org ~ cmpnd, value.var = "max_slope") 
 maprdat_wide[is.na(maprdat_wide)] <- 0
@@ -35,7 +36,6 @@ maprdat_mat <- maprdat_wide %>%
 
 summary(maprdat_long$max_slope)
         
-maprdat_mat[is.na(maprdat_mat)]
 
 
 rownames(maprdat_mat) <- maprdat_wide$org
@@ -48,13 +48,14 @@ quantile_breaks <- function(xs, n = 20) {
 }
 
 mat_breaks <- quantile_breaks(maprdat_mat, n = 21)
+mat_breaks <- sort(c(mat_breaks, 0.6, 1.0, 1.4))
+# mat_breaks <- sort(c(mat_breaks, 0.6, 1.0, 1.4))#0.4, 0.6, 0.8, 1.0, 1.2, 1.4))
 mat_breaks
-mat_breaks <- sort(c(mat_breaks, 0.3, 0.5, 0.7))
-mat_breaks
+
 # labs <- as.character(scientific(mat_breaks, digit = 3))
 maprdat_mat
 pal <- inferno(length(mat_breaks))
-pal2 <- pal[c(1, 3:11)]
+pal2 <- pal[c(1, 3:10)]
 pal2
 
 tax <- read_excel("data/OleA_taxonomic_classification.xlsx")
@@ -64,8 +65,8 @@ rownames(maprdat_mat) <- gsub("Pseudoxanthomonas", "Pseudoxanthomonas sp.", rown
 rownames(maprdat_mat) <- paste0(word(rownames(maprdat_mat), 1, sep = " "), " ", word(rownames(maprdat_mat), 2, sep = " "))
 
 annot_pal <- colorRampPalette(brewer.pal(8, "Set2"))(8)
-annot_pal <- c("dodgerblue", annot_pal[4:6])
-
+annot_pal <- c("dodgerblue", annot_pal[4:6], "purple", "red", "orange")
+annot_pal
 # pdf("output/annot_pal.pdf")
 # show_col(annot_pal)
 # dev.off()
@@ -79,16 +80,29 @@ annot_df <- data.frame(maprdat_mat) %>%
   dplyr::mutate(fill = annot_pal[as.numeric(as.factor(phylum))])
 dim(annot_df)
 
+annot_df$phylum[grep("Verruco", annot_df$phylum)] <- "Verrucomicrobia"
 annot_nams <- data.frame(phylum = as.factor(annot_df$phylum))
-annot_nams
-annot_cols <- list(phylum = #c(levels(annot_nams$ID)[1] = annot_pal[1],
+
+levels(annot_nams$phylum)
+ 
+annot_cols <- list(phylum = # c(levels(annot_nams$phylum)[1] = annot_pal[1],
+                              # levels(annot_nams$phylum)[2] = annot_pal[2],
+                              # levels(annot_nams$phylum)[3] = annot_pal[3],
+                              # levels(annot_nams$phylum)[4] = annot_pal[4],
+                              # levels(annot_nams$phylum)[5] = annot_pal[5],
+                              # levels(annot_nams$phylum)[6] = annot_pal[6]))
+                   #c(levels(annot_nams$ID)[1] = annot_pal[1],
                    #levels(annot_nams$ID)[2] = annot_pal[2]))
                    c("Actinobacteria" = annot_pal[1],
-                          "Firmicutes" = annot_pal[2],
-                           "Proteobacteria" = annot_pal[3],
-                     "Chlamydiae" = annot_pal[4]))
+                     "Firmicutes" = annot_pal[2],
+                     "Proteobacteria" = annot_pal[3],
+                     "Chlamydiae" = annot_pal[4],
+                     "Verrucomicrobia" = annot_pal[5],
+                     "Chloroflexi" = annot_pal[6],
+                     "Bacteroidetes" = annot_pal[7]))
                             
-annot_cols
+annot_pal
+table(annot_nams)
 rownames(maprdat_mat)
 annot_nams
 
@@ -98,10 +112,11 @@ newnames <- lapply(
   function(x) bquote(italic(.(x))))
 
 
-pdf("output/substrate_comparisons/substrate_comparison_heatmap_clustered_only_active_no_labs.pdf", width = 9, height = 6)
+
+pdf("output/substrate_comparisons/substrate_comparison_heatmap_clustered_only_active_no_labs.pdf", width = 10, height = 10)
 pheatmap(annotation_row = annot_nams,
-         annotation_colors = annot_cols[1],
-         labels_col = rep("", 6),
+         annotation_colors = annot_cols,
+         # labels_col = rep("", 6),
          labels_row = as.expression(newnames),
          border_color = NA,
          mat = maprdat_mat, 

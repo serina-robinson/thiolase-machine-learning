@@ -305,11 +305,25 @@ dev.off()
 
 # Visually assess results and remove any that look strange
 # For dodecanoate, Microlunatus phosphovorus does not look active
-slope_final <- slope_merg #%>%
-  #dplyr::filter(!grepl("Microlunatus", org))
+pet_ind <- grep("Pet", slope_merg$org) - 1
+pet_ind
+
+# Visually assess results and remove any that look strange
+# For dodecanoate, Microlunatus phosphovorus does not look active
+slope_final <- slope_merg
+if(length(pet_ind) > 0) {
+  slope_final <- slope_merg[1:nrow(pet_ind),]
+} 
 
 
 write_csv(slope_final, paste0("output/", date, "/", date, "_", cmpnd, "_all_data_calculated_slopes.csv"))
+
+# Plot updated winners on graph
+merg_all_final <- slope_final %>% 
+  right_join(., a, by = c("org" = "variable")) %>%
+  #left_join(., a, by = c("org" = "variable")) %>% # to exclude inactive ones
+  dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
+                                    TRUE ~ org))
 
 # Plot updated winners on graph
 merg_all_final <- slope_final %>% 

@@ -226,9 +226,9 @@ slopes <- function(d) {
 }
 
 ## The number of frames to take the windowed slope of
-windowsize <- 15
+windowsize <- 7
 
-# Calculate slopes for each organisms organism
+# Calculate slopes for each organism
 orgs <- unique(a$variable)
 
 res <- list()
@@ -247,10 +247,10 @@ resll$org
 # Find max slope for each organism
 resmax <- resl %>%
   dplyr::filter(r2 >= 0.9) %>% # make sure R^2 is above or equal to 0.9
+  dplyr::filter(!grepl("Pet28", org)) %>%
   group_by(org) %>%
   summarise_each(funs(max_slope = max), slope) %>%
   dplyr::filter(max_slope > 0)
-
 
 # Merge with the original dataset
 slope_merg <- resmax %>%
@@ -267,7 +267,7 @@ merg_all <- slope_merg %>%
   dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
                                     TRUE ~ org))
 
-pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_test_assessment.pdf"),  width = 16, height = 14)
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_test_assessment_windowsize_", windowsize, ".pdf"),  width = 16, height = 14)
 pl <- ggplot(merg_all,  aes(x = minutes, y = mean, color = winners)) + 
   geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
   geom_abline(slope = unique(merg_all$max_slope), intercept = unique(merg_all$intercept), color = pal2[1:length(unique(merg_all$max_slope))]) +
@@ -302,7 +302,7 @@ merg_all_final <- slope_final %>%
                                     TRUE ~ org))
 
 
-pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final.pdf"), width = 16, height = 14)
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final_windowsize_", windowsize, ".pdf"), width = 16, height = 14)
 pl <- ggplot(merg_all_final,  aes(x = minutes, y = mean, color = winners)) + 
   geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
   geom_abline(slope = unique(merg_all_final$max_slope), intercept = unique(merg_all_final$intercept), color = pal2[1:length(unique(merg_all_final$max_slope))]) +
