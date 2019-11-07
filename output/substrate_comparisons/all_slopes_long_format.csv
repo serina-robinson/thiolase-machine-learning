@@ -154,3 +154,39 @@ output//2019-11-01/2019-11-01_Butoxy_all_data_calculated_slopes.csv,Nakamurella 
 output//2019-11-01/2019-11-01_Butoxy_all_data_calculated_slopes.csv,Nonomuraea candida,0.11144306185675658,0.994781563215759,-0.6279560247707594,Butoxy
 output//2019-11-01/2019-11-01_Butoxy_all_data_calculated_slopes.csv,Paenibacillus polysaccharolyticus,0.0705419845466561,0.9734155379965468,-0.005260745458896278,Butoxy
 output//2019-11-01/2019-11-01_Butoxy_all_data_calculated_slopes.csv,Pelobacter propionicus DSM 2379,0.0957620657703209,0.9975310667002857,-1.651934068351936,Butoxy
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Actinoplanes atraurantiacus,0.1404374350386956,0.9983420336904013,-0.05147323039731022,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Agreia bicolorata,0.22088474458709095,0.999632380327504,-2.1503839028790885,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Arenimonas oryziterrae,0.1811202062373812,0.9993506892238464,-2.026437146945177,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Arthrobacter globiformis,0.13348463462096002,0.9934567326792424,-0.8190751180361419,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Auraticoccus monumenti,0.05517715011316287,0.9917403930319696,-0.11667428653144574,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Bacteriovorax sp. BAL6 X,0.04452206094378291,0.9147348030549296,-0.4168173677594652,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Brachybacterium paraconglomeratum,0.017718795153244073,0.9295152170009551,-1.037211687933135,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Cellulomonas cellasea,0.04612529876002358,0.9860877749280852,-0.9968322760770953,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Chloroflexi bacterium RBG 13 51 36,0.04011519565438072,0.9569734338462254,-1.4418685865594467,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Chromatocurvus halotolerans,0.10970843840004757,0.9975145740114313,-1.191677046122884,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Dermabacter hominis,0.0762068026081858,0.9470264264704953,-0.9494902780180735,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Dermatophilus congolensis,0.04970363423187722,0.9470533470465156,-1.2618362334486495,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Geodermatophilus obscurus,0.08997540245020406,0.9672718551169412,-1.6684763845516115,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Granulosicoccus antarcticus,0.4716960514226054,0.9941357301291432,0.36081821168558426,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Halobacteriovorax marinus,0.0790136920097628,0.9797944523697683,-2.0670856678955003,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Humibacillus sp. DSM 29435,0.08079470492465081,0.9622376128858515,-1.1045917122488549,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Kocuria varians,0.06306938591457559,0.9668188048965883,-1.6994891689624123,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Kytococcus sedentarius,1.176993475360306,0.9976768236328422,-2.904086713539268,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Leifsonia sp. Leaf325,0.07719516691809611,0.9653068547417861,-0.8333998766730105,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Luteimonas tolerans,0.3619011719195457,0.9997783496922266,-1.3496669179656289,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Micromonospora avicenniae,0.057480071574538105,0.9496955529043973,0.17622894457826999,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Micromonospora peucetia,0.08584580107612319,0.9984620198284277,-1.1368309817438988,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Mobilicoccus massiliensis,0.7489338713166627,0.9995872342432583,-6.530020244832503,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Mycolicibacterium obuense,0.0674958227744711,0.9286971219585515,-0.16310457559832287,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Nesterenkonia alba,0.01374576634310944,0.9170068301217317,-1.0722464300803032,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Okibacterium fritillariae,0.06937958643444869,0.9606028574997302,-1.1093883779839147,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Plantibacter sp. VKM Ac-1784,0.06842710333710939,0.9816064302391224,-0.6985093509049507,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Pseudoxanthomonas,0.33619554504083815,0.9996488929074466,-1.9598171519502818,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Sandaracinus amylolyticus,0.03275139225628631,0.9597242391841695,-0.828404233304602,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Sanguibacter keddieii,0.18225372636178336,0.9827379769222774,-0.826515576752001,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Sediminihabitans luteus,0.05763175124586093,0.9476059479550518,-1.2103401695524296,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Silanimonas lenta,0.07664879390849222,0.9842526002328669,-1.1183978242676518,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Subtercola sp. Z020,0.05695490109963517,0.903818447937244,-1.3410244386286432,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Thermomonas haemolytica,0.24866985083070875,0.9995014690353344,-2.0247132177775615,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,Xanthomonas translucens,0.16113926372795606,0.9987053633687724,-1.186208423134219,hexanoate
+output//C6_control/2019-11-05_C6_all_data_calculated_slopes.csv,XC,0.4659876766954005,0.9995526078525011,-2.2182157042803547,hexanoate

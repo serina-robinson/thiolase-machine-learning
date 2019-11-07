@@ -7,6 +7,7 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analys
 # Read in the data
 fils <- list.files("output/", recursive=TRUE, full.names = T)
 suffix <- "_calculated_slopes.csv"
+# Remove those that have the word "rep" in the name
 head(fils)
 
 ll <- fils[grepl(suffix, fils)]

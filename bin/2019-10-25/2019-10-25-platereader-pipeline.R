@@ -7,8 +7,8 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analys
 ### Fill in your parameters of interest ###
 
 ### 2019-10-24
-# cmpnd <- "7Ph heptanoate"
-cmpnd <- "ClPh propionate"
+cmpnd <- "7Ph_heptanoate_rep2_only"
+# cmpnd <- "ClPh propionate"
 date <- "2019-10-25"
 
 
@@ -22,7 +22,8 @@ temp <- read_excel(paste0("data/", date, "/Plate Set up SynBio Paper.xlsx"), ski
 temp
 
 # Read in the raw data 
-tmafils <- list.files(paste0("data/", date, "/"), pattern = cmpnd, full.names = T)
+cmpnd_shrt <- "7Ph heptanoate"
+tmafils <- list.files(paste0("data/", date, "/"), pattern = cmpnd_shrt, full.names = T)
 tmafils <- tmafils[!grepl("~", tmafils)] # remove any temporary files
 tmafils
 
@@ -44,9 +45,9 @@ normalize_all <- function(x) {
     dplyr::mutate(orgs = case_when(is.na(orgs) ~ temp,
                                    TRUE ~ orgs)) %>%
     dplyr::select(temp, orgs)
-
+  
   newnams$orgs
-
+  
   # Rename columns to match organisms
   colnames(tma1) <- c("time", newnams$orgs)
   
@@ -76,7 +77,7 @@ normalize_all <- function(x) {
     group_by(variable) %>%
     mutate_at(c("value"), norm_pet) %>%
     bind_rows(pnp_rem)
-
+  
   return(dat)
 }
 
@@ -86,7 +87,7 @@ head(res[[1]])
 head(res[[2]])
 table(res[[1]]$value == res[[2]]$value) # check values are different
 
-resbind <- res[[1]] %>%
+resbind <- res[[2]] %>%
   bind_rows(res[[2]]) %>%
   dplyr::filter(!grepl("Nothing_", variable))
 
@@ -100,7 +101,7 @@ pNPs <- resbind %>%
   dplyr::mutate(mM = µL * (4/200)) %>% # 4 mM stock solution, 200 µL final well volume
   dplyr::mutate(nM = mM * 1e6) %>%
   dplyr::mutate(nmol = nM * (1/1000) * (1/1000) * 200) # nmoles = nmoles/L * 1L/1000 mL * 1ml/1000µL * 200 µL (final volume)
- # dplyr::filter(time == min(time))
+# dplyr::filter(time == min(time))
 pNPs
 
 pNP_fit <- lm(value ~ nmol, data = pNPs)
@@ -226,7 +227,7 @@ slopes <- function(d) {
 }
 
 ## The number of frames to take the windowed slope of
-windowsize <- 7
+windowsize <- 15
 
 # Calculate slopes for each organism
 orgs <- unique(a$variable)
