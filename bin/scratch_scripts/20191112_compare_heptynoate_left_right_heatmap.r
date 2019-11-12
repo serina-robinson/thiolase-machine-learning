@@ -1,43 +1,81 @@
 # Install packages
-pacman::p_load("tidyverse", "maditr", "readxl", "randomcoloR", 
-               "RColorBrewer", "ggplot2", "pheatmap", "viridis", "scales")
+pacman::p_load("tidyverse", "readxl", "randomcoloR", "RColorBrewer", 
+               "ggplot2", "data.table", "maditr", "broom")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
+
+### 2019-11-08
+date <- "2019-11-08"
+cmpnd <- "heptynoate"
+
+# Read in the heptynoate slopes biorep 1
+hept1 <- read_csv("output/2019-10-25/2019-10-25_heptynoate_all_data_calculated_slopes.csv")
+
+# Read in the heptynoate slopes biorep 2 
+hept2 <- read_csv('output/2019-11-08/2019-11-08_heptynoate_biorep2_all_data_calculated_slopes.csv')
 
 # Read in the data
 fils <- list.files("output/", recursive=TRUE, full.names = T)
 suffix <- "calculated_slopes"
 fils
 
-# Select the files of interst
+# Select the files of interest
 ll0 <- fils[grepl(suffix, fils)]
-ll <- ll0[grepl("hexanoate|C6", ll0)]
+ll <- ll0[grepl("heptynoate", ll0)]
+ll <- ll[!grepl("_only_", ll)]
+
+# Read in the data
 rawdat <- tibble(filename = ll) %>%
   mutate(file_contents = map(filename,          # read files into
                              ~ read_csv(file.path(.))) # a new data column
   ) %>%
   unnest(.) %>%
-  dplyr::mutate(date_run = substr(word(filename, 1, sep = "_"), nchar("output//2019-11-08/") + 1, nchar("output//2019-11-08/") + 10)) %>%
-  dplyr::mutate(cmpnd = case_when(grepl("round1", filename) ~ "hexanoate round 1",
-                                  grepl("round2", filename) ~ "hexanoate round 2",
-                                  TRUE ~ "hexanoate round 3"))
+  dplyr::mutate(cmpnd = case_when(TRUE ~ paste0(word(word(filename, 2, sep = "_"), 1, sep = "_"), "_", word(filename, 3, sep = "_"))))
+rawdat$cmpnd <- gsub("_all", "_biorep1", rawdat$cmpnd)
 
-# Write to file
+# Calculate log slope
 maprdat_long <- rawdat %>%
   dplyr::mutate(hr_slope = max_slope * 10 * 60) %>%
-  dplyr::mutate(log_slope = log10(hr_slope))
-summary(maprdat_long$log_slope)
+  dplyr::mutate(log_slope = log10(hr_slope)) %>%
+  dplyr::select(cmpnd, org, log_slope)
+# summary(maprdat_long$log_slope)
+maprdat_long
+
+# Now combine with all organisms not present/active at all
+orgkey <- read_csv("data/72_OleA_masterwell_org_key.csv")
+orgkey$orgs <- gsub("_", " ", orgkey$orgs)
+orgkey$orgs
+inactives <- orgkey$orgs[!orgkey$orgs %in% maprdat_long$org[maprdat_long$cmpnd == "heptynoate_biorep1"]]
+inactives
+inactive_df1 <- data.frame(cmpnd = rep("heptynoate_biorep1", length(inactives)), inactives, rep(0, length(inactives)), stringsAsFactors = F)
+colnames(inactive_df1) <- c("cmpnd", "org", "log_slope")
+
+inactives <- orgkey$orgs[!orgkey$orgs %in% maprdat_long$org[maprdat_long$cmpnd == "heptynoate_biorep2"]]
+inactive_df2 <- data.frame(cmpnd = rep("heptynoate_biorep2", length(inactives)), inactives, rep(0, length(inactives)), stringsAsFactors = F)
+colnames(inactive_df2) <- c("cmpnd", "org", "log_slope")
+
+ #colnames = colnames(maprdat_mat))
 
 # Find the average
 maprdat_avg <- maprdat_long %>%
+  bind_rows(inactive_df1) %>%
+  bind_rows(inactive_df2) %>%
   dplyr::group_by(org) %>%
-  dplyr::summarise_each(funs(mean), log_slope)
-summary(maprdat_avg$log_slope)
+  dplyr::summarise_each(funs(mean), log_slope) %>%
+  dplyr::mutate(cmpnd = "heptynoate_average") %>%
+  dplyr::select(cmpnd, org, log_slope)
 
-write_csv(maprdat_avg, "output/C6_control/20191112_hexanoate_final_avged_log_slopes.csv")
+# To write to file
+maprdat_write <- maprdat_avg %>%
+  dplyr::filter(log_slope != 0) %>%
+  write_csv(., "output/scratch_output/heptynoate_averaged_calculated_slopes.csv")
 
-maprdat_merg <- as.data.frame(maprdat_long, stringsAsFactors = F)
+maprdat_join <- maprdat_long %>%
+  bind_rows(maprdat_avg)
+ #  dplyr::left_join(., maprdat_avg, by = "org")
+
+maprdat_merg <- as.data.frame(maprdat_join, stringsAsFactors = F)
 
 # Convert to wide format
 maprdat_wide <- reshape2::dcast(maprdat_merg, org ~ cmpnd, value.var = "log_slope") 
@@ -81,9 +119,9 @@ dedup <- dedup[rownames(dedup) != "Lysobacter tolerans",]
 dedup_sort <- dedup[order(rowSums(dedup), decreasing = T),]
 head(dedup_sort)
 
-pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_log10_scale_per_hr_no_cutoff_sorted.pdf", width = 3.5, height = 9)
+pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_heptynoate_only_log10_scale_per_hr_no_cutoff_sorted.pdf", width = 3.5, height = 9)
 pheatmap(
-  cluster_cols = T,
+  cluster_cols = F,
   cluster_rows = F,
   border_color = NA,
   mat = dedup_sort, 
@@ -95,11 +133,12 @@ pheatmap(
 dev.off()
 
 
-pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_transposed_log10_scale_per_hr_no_cutoff.pdf", width = 10, height = 4)
+pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_heptynoate_only_transposed_log10_scale_per_hr_no_cutoff.pdf", width = 10, height = 3)
 pheatmap(
-  cluster_cols = T,
+  cluster_cols = F,
+  cluster_rows = F,
   border_color = NA,
-  mat = t(dedup), 
+  mat = t(dedup_sort), 
   #  breaks = mat_breaks,
   color = pal2,
   annotation_names_row = T, 
@@ -107,6 +146,4 @@ pheatmap(
   fontsize_row = 10, 
   annotation_names_col =  T)
 dev.off()
-
-
 

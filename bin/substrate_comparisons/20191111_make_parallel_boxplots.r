@@ -11,8 +11,11 @@ suffix <- "calculated_slopes"
 fils
 
 ll <- fils[grepl(suffix, fils)]
+scratch <- read_csv(file.path(ll[grepl("heptynoate_average", ll)]))
+scratch
 ll <- ll[!grepl("BocPhe|C6|furf|rep1|rep2|scratch|reps", ll)]
-ll
+# ll2 <- c(scratch, ll)
+# ll2
 
 rawdat <- tibble(filename = ll) %>%
   # purrr::map(read_excel) %>%   
@@ -26,8 +29,8 @@ rawdat <- tibble(filename = ll) %>%
 # Write to file
 maprdat_long <- rawdat %>%
   dplyr::mutate(hr_slope = max_slope * 10 * 60) %>%
-  dplyr::mutate(log_slope = log10(hr_slope))
-summary(maprdat_long$log_slope)
+  dplyr::mutate(log_slope = log10(hr_slope)) %>%
+  bind_rows(scratch)
 
 # Find the average
 maprdat_avg <- maprdat_long %>%
@@ -42,22 +45,29 @@ maprdat_count <- maprdat_long %>%
   # dplyr::filter(is_active) %>%
   group_by(cmpnd, is_active) %>%
   add_count() %>%
-  dplyr::select(filename, org, cmpnd, log_slope, is_active, n)
+  dplyr::select(org, cmpnd, log_slope, is_active, n)
 
+maprdat_true <- maprdat_count %>%
+  dplyr::filter(is_active == T)
+table(maprdat_true$cmpnd)
 
 maprdat_uniq <- maprdat_count %>%
+  dplyr::filter(cmpnd %in% c("heptynoate", "Butoxy", "Azido")) %>%
   dplyr::arrange(desc(log_slope)) %>%
   dplyr::group_by(cmpnd, is_active) %>%
-  slice(1)
-maprdat_uniq
+  dplyr::slice(1)
 
+maprdat_uniq
 sum(maprdat_uniq$n)
+
 # There are 245 positive hits, which is less than 3 plates
 sum(maprdat_uniq$n[maprdat_uniq$is_active == "TRUE"])
 # There are 181 'positive' hits using our cut-off
 # That is less than two plates!!
 
+pdf("output/scratch_output/boxplots_with_avgs.pdf", width = 10)
 ggplot(aes(x = cmpnd, y = log_slope), data = maprdat_long) +
+  # geom_violin() +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(data = subset(maprdat_long, is_active), color = "blue",
               position=position_jitter(width=.1, height=0)) +
@@ -65,5 +75,6 @@ ggplot(aes(x = cmpnd, y = log_slope), data = maprdat_long) +
               position=position_jitter(width=.1, height=0)) +
  # geom_jitter(position=position_jitter(width=.1, height=0)) +
   geom_abline(intercept = 1.5, slope = 0, color = "red") +
-  theme_bw() 
-
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45))
+dev.off()
