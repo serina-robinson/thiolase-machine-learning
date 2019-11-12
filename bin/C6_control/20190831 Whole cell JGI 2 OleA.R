@@ -1,11 +1,11 @@
 # Install packages
-pacman::p_load("tidyverse", "ChemmineR")
+pacman::p_load("tidyverse")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
 
 # Read in the data
-fils <- list.files("data/C6_control/", pattern = "20190831", full.names = T)
+fils <- list.files("data/C6_control/", pattern = "20190909", full.names = T)
 fils
 Datab <- read_csv(fils, col_names = T)
 
@@ -170,7 +170,7 @@ chain_table = data.frame(Time, A6.2,A7.2,A8.2,A9.2,A10.2,B5.2,B6.2,B7.2,B8.2,B9.
 chain.melt=melt(chain_table, id.vars="Time")
 head(chain.melt)
 
-write_csv(chain.melt, "data/C6_control/2019-08-31_whole_cell_JGI_2_melted.csv")
+write_csv(chain.melt, "data/C6_control/2019-09-09_whole_cell_JGI_2_melted_rep_2.csv")
 
 # chain_SD=data.frame(Time,D2.sd)
 chain_SD.melt=melt(chain_SD, id.vars="Time")

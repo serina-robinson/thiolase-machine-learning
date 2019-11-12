@@ -266,7 +266,7 @@ merg_all <- slope_merg %>%
   dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
                                     TRUE ~ org))
 
-pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_test_assessment.pdf"),  width = 16, height = 14)
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_test_assessment.pdf"),  width = 20, height = 14)
 pl <- ggplot(merg_all,  aes(x = minutes, y = mean, color = winners)) + 
   geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
   geom_abline(slope = unique(merg_all$max_slope), intercept = unique(merg_all$intercept), color = pal2[1:length(unique(merg_all$max_slope))]) +
@@ -304,7 +304,7 @@ merg_all_final <- slope_final %>%
   dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
                                     TRUE ~ org))
 
-pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final.pdf"), width = 10, height = 14)
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final.pdf"), width = 20, height = 14)
 pl <- ggplot(merg_all_final,  aes(x = minutes, y = mean, color = winners)) + 
   geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
   geom_abline(slope = unique(merg_all_final$max_slope), intercept = unique(merg_all_final$intercept), color = pal2[1:length(unique(merg_all_final$max_slope))]) +

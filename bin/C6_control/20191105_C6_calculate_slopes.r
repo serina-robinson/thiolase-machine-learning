@@ -5,29 +5,26 @@ pacman::p_load("tidyverse", "readxl", "randomcoloR", "RColorBrewer", "ggplot2", 
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
 
 ### Fill in your parameters of interest ###
-
 ### 2019-11-05 re-analysis of Megan's C6 data
 cmpnd <- "C6"
-date <- "2019-11-05"
+date <- "2019-11-11"
 
 # Read in Megan's data
-set1 <- read_csv("data/C6_control/2019-09-21_whole_cell_JGI_1_melted.csv")
+set1 <- read_csv("data/C6_control/2019-11-08_whole_cell_JGI_1_melted_bio_rep_2.csv")
 unique(set1$variable)
-set2 <- read_csv("data/C6_control/2019-08-31_whole_cell_JGI_2_melted.csv")
+set2 <- read_csv("data/C6_control/2019-09-09_whole_cell_JGI_2_melted_rep_2.csv")
 unique(set2$variable)
 
-rawdat <- read_csv("data/C6_control/2019-09-21_whole_cell_JGI_1_melted.csv") %>%
-   bind_rows(., read_csv("data/C6_control/2019-08-31_whole_cell_JGI_2_melted.csv"))
+rawdat <- read_csv("data/C6_control/2019-11-08_whole_cell_JGI_1_melted_bio_rep_2.csv") %>%
+   bind_rows(., read_csv("data/C6_control/2019-09-09_whole_cell_JGI_2_melted_rep_2.csv"))
 table(rawdat$variable)
-
-# 
+ 
 oleA <- read_csv("data/72_OleA_masterwell_org_key_updated_for_Megan.csv") %>%
   dplyr::mutate(nam_match = case_when(master_well == "OleA" ~ master_well,
                                       TRUE ~ paste0(word(master_well, sep = "-", 2), ".", word(master_well, sep = "-", 1)))) 
 
 oleA$orgs <- gsub("Lysobacter", "Luteimonas", oleA$orgs)
 oleA$orgs <- gsub("_", " ", oleA$orgs)
-
 
 dat5 <- left_join(data.frame(rawdat, stringsAsFactors = F), oleA, 
                      by = c("variable" = "nam_match")) %>%
@@ -105,7 +102,7 @@ merg_all <- slope_merg %>%
 pal <- colorRampPalette(brewer.pal(8,"Set1"))(8)
 pal2 <- c("gray80", "dodgerblue", "goldenrod", "chartreuse", pal[c(1, 3:5, 8)], "blue", "gold1", "black", distinctColorPalette(60))
 
-pdf(paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment.pdf"),  width = 16, height = 14)
+pdf(paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_round2.pdf"),  width = 16, height = 14)
 pl <- ggplot(merg_all,  aes(x = minutes, y = mean, color = winners)) + 
   geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
   geom_abline(slope = unique(merg_all$max_slope), intercept = unique(merg_all$intercept), color = pal2[1:length(unique(merg_all$max_slope))]) +
@@ -124,4 +121,4 @@ pl <- ggplot(merg_all,  aes(x = minutes, y = mean, color = winners)) +
 pl
 dev.off() 
 
-write_csv(slope_merg, paste0("output/C6_control/", date, "_", cmpnd, "_all_data_calculated_slopes.csv"))
+write_csv(slope_merg, paste0("output/C6_control/", date, "_", cmpnd, "_all_data_calculated_slopes_round2.csv"))
