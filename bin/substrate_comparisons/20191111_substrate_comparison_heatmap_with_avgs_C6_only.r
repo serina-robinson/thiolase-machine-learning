@@ -8,11 +8,12 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analys
 # Read in the data
 fils <- list.files("output/", recursive=TRUE, full.names = T)
 suffix <- "calculated_slopes"
-fils
 
 # Select the files of interst
 ll0 <- fils[grepl(suffix, fils)]
 ll <- ll0[grepl("hexanoate|C6", ll0)]
+ll <- ll[!grepl("avged", ll)]
+ll
 rawdat <- tibble(filename = ll) %>%
   mutate(file_contents = map(filename,          # read files into
                              ~ read_csv(file.path(.))) # a new data column
@@ -24,20 +25,22 @@ rawdat <- tibble(filename = ll) %>%
                                   TRUE ~ "hexanoate round 3"))
 
 # Write to file
-maprdat_long <- rawdat %>%
+maprdat_log <- rawdat %>%
   dplyr::mutate(hr_slope = max_slope * 10 * 60) %>%
-  dplyr::mutate(log_slope = log10(hr_slope))
+  dplyr::mutate(log_slope = log10(hr_slope)) 
 summary(maprdat_long$log_slope)
 
-
 # Find the average
-maprdat_avg <- maprdat_long %>%
+maprdat_avg <- maprdat_log %>%
   dplyr::group_by(org) %>%
-  dplyr::summarise_each(funs(mean), log_slope)
-summary(maprdat_avg$log_slope)
+  dplyr::summarise_each(funs(mean), log_slope) #
+maprdat_avg$cmpnd <- "hexanote averaged"
 
 # write_csv(maprdat_avg, "output/C6_avg_log_slopes.csv")
-
+# Combine with original
+maprdat_long <- maprdat_log %>%
+ bind_rows(., maprdat_avg)
+ 
 maprdat_merg <- as.data.frame(maprdat_long, stringsAsFactors = F)
 
 # Convert to wide format
@@ -79,15 +82,16 @@ dedup <- full_mat[!duplicated(rownames(full_mat)),]
 dedup <- dedup[rownames(dedup) != "Pseudoxanthomonas NA",]
 dedup <- dedup[rownames(dedup) != "Lysobacter tolerans",]
 
-dedup_sort <- dedup[order(rowSums(dedup), decreasing = T),]
+# dedup_sort <- dedup[order(dedup[,4], decreasing = T),]
 head(dedup_sort)
+dedup_sort <- dedup[order(rowSums(dedup), decreasing = T),]
 
 pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_log10_scale_per_hr_no_cutoff_sorted.pdf", width = 3.5, height = 9)
 pheatmap(
-  cluster_cols = T,
+  cluster_cols = F,
   cluster_rows = F,
   border_color = NA,
-  mat = dedup_sort, 
+  mat = dedup_sort[,1:3], 
   color = pal2,
   annotation_names_row = T, 
   fontsize_col = 10, 
@@ -96,11 +100,12 @@ pheatmap(
 dev.off()
 
 
-pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_transposed_log10_scale_per_hr_no_cutoff.pdf", width = 10, height = 4)
+pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_transposed_log10_scale_per_hr_no_cutoff.pdf", width = 10, height = 3)
 pheatmap(
-  cluster_cols = T,
+  cluster_cols = F,
+  cluster_rows = F,
   border_color = NA,
-  mat = t(dedup), 
+  mat = t(dedup_sort[,1:3]), 
   #  breaks = mat_breaks,
   color = pal2,
   annotation_names_row = T, 

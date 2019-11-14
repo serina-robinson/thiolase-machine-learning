@@ -266,10 +266,12 @@ merg_all <- slope_merg %>%
   dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
                                     TRUE ~ org))
 
-pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_test_assessment.pdf"),  width = 16, height = 14)
-pl <- ggplot(merg_all,  aes(x = minutes, y = mean, color = winners)) + 
-  geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
-  geom_abline(slope = unique(merg_all$max_slope), intercept = unique(merg_all$intercept), color = pal2[1:length(unique(merg_all$max_slope))]) +
+halo <- merg_all[grep("Halobacteriovorax", merg_all$org),]
+halo
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_test_assessment_Halobacteriovorax_only.pdf"),  width = 16, height = 14)
+pl <- ggplot(halo,  aes(x = minutes, y = mean, color = winners)) + 
+  geom_point(alpha = ifelse(halo$winners == " inactive", 0.2, 1)) +
+  geom_abline(slope = unique(halo$max_slope), intercept = unique(halo$intercept), color = pal2[1:length(unique(halo$max_slope))]) +
   labs(y = "nmol pNP", x = "Time (minutes)") +
   theme(legend.title=element_blank(), axis.line=element_line(color="black"),
         panel.grid.major=element_blank(),
@@ -308,7 +310,6 @@ merg_all_final <- slope_final %>%
   #left_join(., a, by = c("org" = "variable")) %>% # to exclude inactive ones
   dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
                                     TRUE ~ org))
-
 
 pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final_", cutoff, "_cutoff.pdf"), width = 20, height = 14)
 pl <- ggplot(merg_all_final,  aes(x = minutes, y = mean, color = winners)) + 

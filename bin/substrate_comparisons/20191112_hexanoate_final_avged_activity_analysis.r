@@ -1,3 +1,11 @@
+# Big circle
+big <- pi * (1.5 ^ 2)
+little <- pi * (0.437 ^ 2)
+
+big <- pi * (1.25 ^ 2)
+little <- pi * (1 ^ 2)
+little/big
+
 # Install packages
 pacman::p_load("tidyverse", "maditr", "readxl", "randomcoloR", 
                "RColorBrewer", "ggplot2", "pheatmap", "viridis", "scales")
@@ -13,6 +21,8 @@ fils
 # Select the files of interst
 ll0 <- fils[grepl(suffix, fils)]
 ll <- ll0[grepl("hexanoate|C6", ll0)]
+ll <- ll[!grepl("avged", ll)]
+ll
 rawdat <- tibble(filename = ll) %>%
   mutate(file_contents = map(filename,          # read files into
                              ~ read_csv(file.path(.))) # a new data column
@@ -32,10 +42,11 @@ summary(maprdat_long$log_slope)
 # Find the average
 maprdat_avg <- maprdat_long %>%
   dplyr::group_by(org) %>%
-  dplyr::summarise_each(funs(mean), log_slope)
+  dplyr::summarise_each(funs(mean), log_slope) #%>%
+  #dplyr::rename(max_slope = log_slope)
 summary(maprdat_avg$log_slope)
-
-write_csv(maprdat_avg, "output/C6_control/20191112_hexanoate_final_avged_log_slopes.csv")
+maprdat_avg
+# write_csv(maprdat_avg, "output/C6_control/20191112_hexanoate_final_avged_log_calculated_slopes.csv")
 
 maprdat_merg <- as.data.frame(maprdat_long, stringsAsFactors = F)
 
