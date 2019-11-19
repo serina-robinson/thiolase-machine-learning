@@ -11,7 +11,7 @@ suffix <- "calculated_slopes.csv"
 fils
 
 ll <- fils[grepl(suffix, fils)]
-ll <- ll[!grepl("BocPhe|furf|rep1|rep2|reps|round|scratch|heptynoate_all", ll)]
+ll <- ll[!grepl("BocPhe|furf|rep1|rep2|reps|round|scratch|averaged", ll)]
 ll
 
 rawdat <- tibble(filename = ll) %>%
@@ -23,21 +23,24 @@ rawdat <- tibble(filename = ll) %>%
   dplyr::mutate(cmpnd = case_when(grepl("C6", filename) ~ "hexanoate",
                                   grepl("heptynoate", filename) ~ "heptynoate", 
                                   TRUE ~ word(word(filename, 2, sep = "_"), 1, sep = "_")))
+rawdat
 
 avged_ctrls <- rawdat %>%
-  dplyr::filter(cmpnd %in% c("hexanoate", "heptynoate"))
+ dplyr::filter(cmpnd %in% c("hexanoate"))
 newdat <- rawdat %>%
-  dplyr::filter(!cmpnd %in% c("hexanoate", "heptynoate"))
+ dplyr::filter(!cmpnd %in% c("hexanoate"))
 
 # Write to file
 maprdat_log <- newdat %>%
   dplyr::mutate(hr_slope = max_slope * 10 * 60) %>%
   dplyr::mutate(log_slope = log10(hr_slope)) 
+maprdat_log
 
 # Combine with c6
 maprdat_comb <- maprdat_log %>%
   bind_rows(., avged_ctrls) %>%
   dplyr::select(cmpnd, org, log_slope)
+maprdat_comb
 
 # Calculate outliers 
 outl <- maprdat_comb %>%
@@ -49,10 +52,10 @@ outl <- maprdat_comb %>%
   mutate(is_outlier = case_when(log_slope > (third_quartile + outlier_thresh) ~ TRUE,
                                 log_slope < (first_quartile - outlier_thresh) ~ TRUE,
                                 TRUE ~ FALSE))
-
+outl
 # Find the average
 maprdat_avg <- outl %>%
-  dplyr::filter(is_outlier == FALSE) %>% # remove outliers in calculations
+  #dplyr::filter(is_outlier == FALSE) %>% # remove outliers in calculations
   dplyr::group_by(cmpnd) %>% # this would necessarily be (org, cmpnd) once we have biological replicates!!!!
   dplyr::summarise_each(funs(mean), log_slope) %>%
   dplyr::rename(mean_slope = log_slope)
@@ -89,15 +92,15 @@ ggplot(aes(x = cmpnd, y = log_slope), data = maprdat_long) + #fill = "gray80") +
         axis.title.x = element_text(margin = margin(t = 10, r = 0, b = 0, l = 0)))
 dev.off()
 
-hex_which <- maprdat_long %>%
-  dplyr::filter(cmpnd == "hexanoate") %>%
-  # dplyr::filter(log_slope >= mean_slope) %>%
-  dplyr::arrange(desc(log_slope)) %>%
-  dplyr::mutate(log_slope = round(log_slope, 2)) %>%
-  dplyr::mutate(mean_slope = round(mean_slope, 2)) %>%
-  dplyr::select(cmpnd, org, log_slope, mean_slope) %>%
-  write_csv(., "output/C6_control/hexanoate_final_log_slope_rates_for_mBIO_paper.csv")
-hex_which
+# hex_which <- maprdat_long %>%
+#   dplyr::filter(cmpnd == "hexanoate") %>%
+#   # dplyr::filter(log_slope >= mean_slope) %>%
+#   dplyr::arrange(desc(log_slope)) %>%
+#   dplyr::mutate(log_slope = round(log_slope, 2)) %>%
+#   dplyr::mutate(mean_slope = round(mean_slope, 2)) %>%
+#   dplyr::select(cmpnd, org, log_slope, mean_slope) %>%
+#   write_csv(., "output/C6_control/hexanoate_final_log_slope_rates_for_mBIO_paper.csv")
+# hex_which
 
 hept_which <- maprdat_long %>%
   dplyr::filter(cmpnd == "heptynoate") %>%

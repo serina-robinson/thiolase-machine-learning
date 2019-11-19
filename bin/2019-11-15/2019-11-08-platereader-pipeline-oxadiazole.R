@@ -1,6 +1,5 @@
 # Pipeline for files with # Install packages
-pacman::p_load("tidyverse", "readxl", "randomcoloR", "RColorBrewer", 
-               "ggplot2", "broom", "maditr")
+pacman::p_load("tidyverse", "readxl", "randomcoloR", "RColorBrewer", "ggplot2", "broom", "maditr")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
@@ -9,7 +8,7 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analys
 
 ### 2019-10-24
 # cmpnd <- "Butoxy"
-cmpnd <- "hexanoate"
+cmpnd <- "decanoate"
 date <- "2019-11-08"
 
 
@@ -85,7 +84,7 @@ normalize_all <- function(x) {
 res <- lapply(tmafils, normalize_all)
 
 resbind <- res[[1]] %>%
-  bind_rows(res[[2]]) %>%
+  #bind_rows(res[[2]]) %>%
   dplyr::filter(!grepl("Nothing_", variable))
 
 resbind <- resbind[complete.cases(resbind),] # Removes the "NOTHING's"
@@ -157,47 +156,44 @@ dat5 <- dat3 %>%
 # Set random number seed for random color palette
 set.seed(1234)
 pal <- colorRampPalette(brewer.pal(8,"Set1"))(8)
-pal2 <- c("dodgerblue", "goldenrod", "chartreuse", pal[c(1, 3:5, 8)], "blue", "gold1", "black", "#FF0000", "#0066CC","#008080", 
-          "#CC99FF", "#FFCC00", 
-          "#666699", "#FFB6C1", "#DB7093", "#333333", "#00FFFF", 
-          "#CCCCFF", "#800080", "#99CC00", "#FF6600","#7FFFD4", "#0000FF", "#A52A2A", "#7FFF00", "gray80")
+pal2 <- c("gray80", "dodgerblue", "goldenrod", "chartreuse", pal[c(1, 3:5, 8)], "blue", "gold1", "black", distinctColorPalette(60))
 
 
-# pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_without_errorbars_normalized.pdf"), width = 16, height = 14)
-# pl <- ggplot(dat5, aes(x=time, y=mean, color=winners)) +
-#   geom_point() +
-#   labs(y = "nmol pNP", x = "Time (minutes)") +
-#   #geom_errorbar(aes(ymax=mean + sd, ymin = mean - sd), width=0.3,size=0.6)+
-#   theme(legend.title=element_blank(), axis.line=element_line(color="black"),
-#         panel.grid.major=element_blank(),
-#         panel.grid.minor=element_blank(),
-#         panel.border=element_blank(),
-#         panel.background=element_blank(),
-#         text = element_text(size = 20),
-#         legend.key= element_rect(fill=NA, color=NA),
-#         legend.position="top") + 
-#   guides(shape = guide_legend(override.aes = list(size = 10))) +
-#   scale_color_manual(values=pal2) 
-# pl
-# dev.off()
-# 
-# pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_with_errorbars_normalized.pdf"), width = 16, height = 14)
-# pl <- ggplot(dat5, aes(x=time, y=mean, color=winners)) +
-#   geom_point() +
-#   labs(y = "nmol pNP", x = "Time (minutes)") +
-#   geom_errorbar(aes(ymax=mean + sd, ymin = mean - sd), width=0.3,size=0.6)+
-#   theme(legend.title=element_blank(), axis.line=element_line(color="black"),
-#         panel.grid.major=element_blank(),
-#         panel.grid.minor=element_blank(),
-#         panel.border=element_blank(),
-#         panel.background=element_blank(),
-#         text = element_text(size = 20),
-#         legend.key= element_rect(fill=NA, color=NA),
-#         legend.position="top") + 
-#   guides(shape = guide_legend(override.aes = list(size = 10))) +
-#   scale_color_manual(values=pal2) 
-# pl
-# dev.off()
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_without_errorbars_normalized.pdf"), width = 16, height = 14)
+pl <- ggplot(dat5, aes(x=time, y=mean, color=winners)) +
+  geom_point() +
+  labs(y = "nmol pNP", x = "Time (minutes)") +
+  #geom_errorbar(aes(ymax=mean + sd, ymin = mean - sd), width=0.3,size=0.6)+
+  theme(legend.title=element_blank(), axis.line=element_line(color="black"),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.border=element_blank(),
+        panel.background=element_blank(),
+        text = element_text(size = 20),
+        legend.key= element_rect(fill=NA, color=NA),
+        legend.position="top") + 
+  guides(shape = guide_legend(override.aes = list(size = 10))) +
+  scale_color_manual(values=pal2) 
+pl
+dev.off()
+
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_with_errorbars_normalized.pdf"), width = 16, height = 14)
+pl <- ggplot(dat5, aes(x=time, y=mean, color=winners)) +
+  geom_point() +
+  labs(y = "nmol pNP", x = "Time (minutes)") +
+  geom_errorbar(aes(ymax=mean + sd, ymin = mean - sd), width=0.3,size=0.6)+
+  theme(legend.title=element_blank(), axis.line=element_line(color="black"),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.border=element_blank(),
+        panel.background=element_blank(),
+        text = element_text(size = 20),
+        legend.key= element_rect(fill=NA, color=NA),
+        legend.position="top") + 
+  guides(shape = guide_legend(override.aes = list(size = 10))) +
+  scale_color_manual(values=pal2) 
+pl
+dev.off()
 
 # Write to file
 # write_csv(dat5, paste0("output/", date, "/", date, "_", cmpnd, "_JGI_normalized_data.csv"))
@@ -215,7 +211,6 @@ a <- dat5 %>%
   dplyr::ungroup() %>%
   dplyr::select(variable, minutes, mean)
 
-# write_csv(a, "output/C6_control/2019-11-08_whole_cell_hexanoate_melted_bio_rep_3.csv")
 
 ## Function that calculates slopes
 slopes <- function(d) { 
@@ -244,7 +239,7 @@ res[[1]]$org
 names(res) <- orgs
 resl <- plyr::ldply(res, data.frame)
 resll <- do.call(rbind.data.frame, res)
-
+resll$org
 
 # Find max slope for each organism
 resmax <- resl %>%
@@ -270,22 +265,10 @@ merg_all <- slope_merg %>%
   dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
                                     TRUE ~ org))
 
-# Read in the active slopes
-actives <- read_csv("output/C6_control/hexanoate_final_log_slope_rates_for_mBIO_paper.csv") %>%
-  dplyr::filter(log_slope >= mean_slope) %>%
-  dplyr::mutate(active = org) %>%
-  dplyr::mutate(colr = pal2[1:length(org)])
-head(actives)
-
-#halo <-# merg_all[grep(paste0(org, collapse = "|"), merg_all$org),]
-keep <- merg_all %>%
-  inner_join(., actives, by = "org")
-head(keep)
-
-pdf(paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep3.pdf"),  width = 10, height = 10)
-pl <- ggplot(keep,  aes(x = minutes, y = mean)) + 
-  geom_point(color = keep$colr) +
-  geom_abline(slope = unique(keep$max_slope), intercept = unique(keep$intercept), color = unique(keep$colr)) +
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_test_assessment.pdf"),  width = 16, height = 14)
+pl <- ggplot(merg_all,  aes(x = minutes, y = mean, color = winners)) + 
+  geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
+  geom_abline(slope = unique(merg_all$max_slope), intercept = unique(merg_all$intercept), color = pal2[1:length(unique(merg_all$max_slope))]) +
   labs(y = "nmol pNP", x = "Time (minutes)") +
   theme(legend.title=element_blank(), axis.line=element_line(color="black"),
         panel.grid.major=element_blank(),
@@ -296,35 +279,10 @@ pl <- ggplot(keep,  aes(x = minutes, y = mean)) +
         legend.position = "top",
         legend.key= element_rect(fill=NA, color=NA)) +
   guides(shape = guide_legend(override.aes = list(size = 10))) +
-  scale_color_manual(values = unique(keep$colr))
+  scale_color_manual(values=pal2) 
+# legend.position = "none")
 pl
 dev.off() 
-
-
-legend_txt <- unique(keep$org)[order(unique(keep$max_slope), decreasing = T)]
-color_legend <-  unique(keep$colr)[order(unique(keep$max_slope), decreasing = T)]
-legend_txt
-
-pdf(paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep3_legend.pdf"), width = 15, height = 10)
-plot.new()
-legend("bottomright", pch=19,
-       legend = legend_txt, border = NULL, ncol = 4,
-       col = color_legend, bty = "n", text.col="black")
-dev.off()
-
-tow <- keep %>%
-  group_by(org) %>%
-  dplyr::slice(1) %>%
-  dplyr::select(org, max_slope, cmpnd) %>%
-  dplyr::mutate(hr_slope = max_slope * 10 * 60) %>%
-  dplyr::mutate(log_slope = log10(hr_slope)) %>%
-  dplyr::select(org, log_slope) %>%
-  dplyr::arrange(desc(log_slope)) %>%
-  dplyr::mutate(log_slope = round(log_slope, 2)) 
-
-colnames(tow) <- c("Source organism", "Enzyme activity")
-write_csv(tow, paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep3_slopes.csv"), col_names = T)
-# write_csv(slope_merg, paste0("output/C6_control/", date, "_", cmpnd, "_all_data_calculated_slopes_round2.csv"))
 
 # slope_sort <- slope_merg[order(slope_merg$max_slope, decreasing = T),]
 
@@ -333,15 +291,11 @@ pet_ind
 
 # Visually assess results and remove any that look strange
 # For dodecanoate, Microlunatus phosphovorus does not look active
-cutoff <- 0
-slope_final <- slope_merg[slope_merg$max_slope >= cutoff,]
-if(length(pet_ind) > 0){
-  slope_final <- slope_final[1:pet_ind,]
-}
+slope_final <- slope_merg[1:pet_ind,]
 # slope_final <- slope_merg
 # slope_final
 
-# write_csv(slope_merg, paste0("output/", date, "/", date, "_", cmpnd, "_all_data_calculated_slopes_round3.csv"))
+write_csv(slope_merg, paste0("output/", date, "/", date, "_", cmpnd, "_all_data_calculated_slopes.csv"))
 
 # Plot updated winners on graph
 merg_all_final <- slope_final %>% 
@@ -350,22 +304,23 @@ merg_all_final <- slope_final %>%
   dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
                                     TRUE ~ org))
 
-# pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final_", cutoff, "_cutoff.pdf"), width = 20, height = 14)
-# pl <- ggplot(merg_all_final,  aes(x = minutes, y = mean, color = winners)) + 
-#   geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
-#   geom_abline(slope = unique(merg_all_final$max_slope), intercept = unique(merg_all_final$intercept), color = pal2[1:length(unique(merg_all_final$max_slope))]) +
-#   labs(y = "nmol pNP", x = "Time (minutes)") +
-#   theme(legend.title=element_blank(), axis.line=element_line(color="black"),
-#         panel.grid.major=element_blank(),
-#         panel.grid.minor=element_blank(),
-#         panel.border=element_blank(),
-#         panel.background=element_blank(),
-#         text = element_text(size = 16),
-#         legend.position = "top",
-#         legend.key= element_rect(fill=NA, color=NA)) +
-#   guides(shape = guide_legend(override.aes = list(size = 10))) +
-#   scale_color_manual(values=pal2) 
-# # 
-# pl
-# dev.off()
+
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final.pdf"), width = 16, height = 14)
+pl <- ggplot(merg_all_final,  aes(x = minutes, y = mean, color = winners)) + 
+  geom_point(alpha = ifelse(merg_all$winners == " inactive", 0.2, 1)) +
+  geom_abline(slope = unique(merg_all_final$max_slope), intercept = unique(merg_all_final$intercept), color = pal2[1:length(unique(merg_all_final$max_slope))]) +
+  labs(y = "nmol pNP", x = "Time (minutes)") +
+  theme(legend.title=element_blank(), axis.line=element_line(color="black"),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.border=element_blank(),
+        panel.background=element_blank(),
+        text = element_text(size = 16),
+        legend.position = "top",
+        legend.key= element_rect(fill=NA, color=NA)) +
+  guides(shape = guide_legend(override.aes = list(size = 10))) +
+  scale_color_manual(values=pal2) 
+# 
+pl
+dev.off()
 
