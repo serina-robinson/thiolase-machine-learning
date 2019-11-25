@@ -1,6 +1,6 @@
 # Install packages
-pacman::p_load("tidyverse", "maditr", "readxl", "randomcoloR", 
-               "RColorBrewer", "ggplot2", "pheatmap", "viridis", "scales")
+pacman::p_load("tidyverse", "maditr", "readxl", "randomcoloR", "RColorBrewer", 
+               "ggplot2", "pheatmap", "viridis", "scales")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
@@ -81,12 +81,16 @@ dedup <- full_mat[!duplicated(rownames(full_mat)),]
 # dedup_df <- data.frame(dedup, stringsAsFactors = F)
 dedup <- dedup[rownames(dedup) != "Pseudoxanthomonas NA",]
 dedup <- dedup[rownames(dedup) != "Lysobacter tolerans",]
-
+rownames(dedup) <- gsub("Mycolicibacterium", "Mycobacterium", rownames(dedup))
 # dedup_sort <- dedup[order(dedup[,4], decreasing = T),]
-head(dedup_sort)
 dedup_sort <- dedup[order(rowSums(dedup), decreasing = T),]
 
-pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_log10_scale_per_hr_no_cutoff_sorted.pdf", width = 3.5, height = 9)
+newnames <- lapply(
+  rownames(dedup_sort),
+  function(x) bquote(italic(.(x))))
+
+
+pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_log10_scale_per_hr_no_cutoff_sorted_Mycobacterium.pdf", width = 3.5, height = 9)
 pheatmap(
   cluster_cols = F,
   cluster_rows = F,
@@ -96,11 +100,15 @@ pheatmap(
   annotation_names_row = T, 
   fontsize_col = 10, 
   fontsize_row = 8, 
-  annotation_names_col =  T)
+  annotation_names_col =  T,
+  labels_row = as.expression(newnames))
 dev.off()
 
 
-pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_transposed_log10_scale_per_hr_no_cutoff.pdf", width = 10, height = 3)
+maprdat_long$cmpnd <- gsub("_", " ", maprdat_long$cmpnd) 
+maprdat_long$cmpnd[grep("C6", maprdat_long$cmpnd)] <- c("hexanoate averaged")
+
+pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_C6_only_transposed_log10_scale_per_hr_no_cutoff_Mycobacterium.pdf", width = 10, height = 3)
 pheatmap(
   cluster_cols = F,
   cluster_rows = F,

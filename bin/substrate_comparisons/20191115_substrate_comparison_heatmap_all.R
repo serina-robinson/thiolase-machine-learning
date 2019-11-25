@@ -11,7 +11,7 @@ suffix <- "calculated_slopes"
 fils
 
 ll <- fils[grepl(suffix, fils)]
-ll <- ll[!grepl("BocPhe|C6|furf|rep1|rep2|scratch|reps|averaged", ll)]
+ll <- ll[!grepl("BocPhe|furf|scratch|only|averaged|benzoate|round", ll)] # rep1|rep2|reps|round|
 ll
 
 rawdat <- tibble(filename = ll) %>%
@@ -85,7 +85,7 @@ dedup <- dedup[rownames(dedup) != "Pseudoxanthomonas NA",]
 dedup <- dedup[rownames(dedup) != "Lysobacter tolerans",]
 
 dedup_sort <- dedup[order(rowSums(dedup), decreasing = T),]
-head(dedup_sort)
+rownames(dedup_sort)[grep("Mycolici", rownames(dedup_sort))]
 
 pdf("output/substrate_comparisons/substrate_comparison_heatmap_unclustered_log10_scale_per_hr_no_cutoff_sorted.pdf", width = 3.5, height = 9)
 pheatmap(

@@ -115,14 +115,13 @@ actives <- read_csv("output/C6_control/hexanoate_final_log_slope_rates_for_mBIO_
   dplyr::mutate(colr = pal2[1:length(org)])
 head(actives)
 
-#halo <-# merg_all[grep(paste0(org, collapse = "|"), merg_all$org),]
 keep <- merg_all %>%
   inner_join(., actives, by = "org") %>%
   drop_na()
 unique(keep$org)
 unique(keep$colr)
 
-pdf(paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep1.pdf"),  width = 10, height = 10)
+pdf(paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep1_20191124.pdf"),  width = 10, height = 10)
 pl <- ggplot(keep,  aes(x = minutes, y = mean)) + 
   geom_point(color = keep$colr) +
   geom_abline(slope = unique(keep$max_slope), intercept = unique(keep$intercept), color = unique(keep$colr)) +
@@ -142,12 +141,16 @@ dev.off()
 
 legend_txt <- unique(keep$org)[order(unique(keep$max_slope), decreasing = T)]
 color_legend <-  unique(keep$colr)[order(unique(keep$max_slope), decreasing = T)]
+legend_txt[legend_txt == "XC"] <- "Xanthomonas campestris"
 legend_txt
+legend_txt[legend_txt == "Mycolicibacterium obuense"] <- "Mycobacterium obuense"
+#legend_ital <- expression(italic(legend_txt))
+#legend_ital
 
-pdf(paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep1_legend.pdf"), width = 15, height = 10)
+pdf(paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep1_legend_20191124.pdf"), width = 15, height = 10)
 plot.new()
 legend("bottomright", pch=19,
-       legend = legend_txt, border = NULL, ncol = 4,
+       legend = legend_txt, border = NULL, ncol = 4, text.font = 3,
        col = color_legend, bty = "n", text.col="black")
 dev.off()
 
@@ -162,6 +165,6 @@ tow <- keep %>%
   dplyr::mutate(log_slope = round(log_slope, 2)) 
 
 colnames(tow) <- c("Source organism", "Enzyme activity")
-write_csv(tow, paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep1_slopes.csv"), col_names = T)
+# write_csv(tow, paste0("output/C6_control/", date, "_", cmpnd, "_JGI_genes_test_assessment_26_active_only_rep1_slopes.csv"), col_names = T)
 
 # write_csv(slope_merg, paste0("output/C6_control/", date, "_", cmpnd, "_all_data_calculated_slopes_rep1.csv"))

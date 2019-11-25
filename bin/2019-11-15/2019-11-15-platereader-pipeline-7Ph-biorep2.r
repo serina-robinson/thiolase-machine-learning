@@ -73,7 +73,7 @@ normalize_all <- function(x) {
   
   dat <- dat1 %>%
     group_by(variable) %>%
-    # mutate_at(c("value"), norm_pet) %>%
+    mutate_at(c("value"), norm_pet) %>%
     bind_rows(pnp_rem)
   
   return(dat)
@@ -294,7 +294,7 @@ slope_final <- slope_merg[1:pet_ind,]
 # slope_final <- slope_merg
 # slope_final
 
-write_csv(slope_merg, paste0("output/", date, "/", date, "_", cmpnd, "_all_data_calculated_slopes.csv"))
+write_csv(slope_final, paste0("output/", date, "/", date, "_", cmpnd, "_all_data_calculated_slopes.csv"))
 
 # Plot updated winners on graph
 merg_all_final <- slope_final %>% 

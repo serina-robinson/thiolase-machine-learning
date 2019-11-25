@@ -1,5 +1,6 @@
 # Install packages
-pacman::p_load("tidyverse", "readxl", "randomcoloR", "RColorBrewer", "ggplot2", "data.table", "maditr", "broom")
+pacman::p_load("tidyverse", "readxl", "randomcoloR", "RColorBrewer", "ggplot2", 
+               "data.table", "maditr", "broom")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
