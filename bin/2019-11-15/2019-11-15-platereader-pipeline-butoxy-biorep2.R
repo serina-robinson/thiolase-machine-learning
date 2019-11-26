@@ -56,7 +56,7 @@ normalize_all <- function(x) {
   
   ## TODO: average 3 Pet28s
   pet28 <- dat0 %>%
-    dplyr::filter(grepl("Pet28", variable)) %>% # TODO change this to Pet28
+    dplyr::filter(grepl("Pet28_2|Pet28_3", variable)) %>% # TODO change this to Pet28
     group_by(time) %>%
     summarise_each(funs(mean, sd), value) %>%
     dplyr::pull(mean)
@@ -147,6 +147,7 @@ dat4 <- dat3 %>%
 dat4$winners
 tofind <- unique(dat4$winners)[unique(dat4$winners) != " inactive"] # 9 winners
 tofind
+# tofind <- c("Pet28_1", "Pet28_2", "Pet28_3")
 
 dat5 <- dat3 %>%
   dplyr::mutate(winners = case_when(variable %in% tofind ~ as.character(variable),
@@ -155,10 +156,10 @@ dat5 <- dat3 %>%
 # Set random number seed for random color palette
 set.seed(1234)
 pal <- colorRampPalette(brewer.pal(8,"Set1"))(8)
-pal2 <- c("gray80", "dodgerblue", "goldenrod", "chartreuse", pal[c(1, 3:5, 8)], "blue", "gold1", "black", distinctColorPalette(60))
+pal2 <- c("gray80", "dodgerblue", "goldenrod", "chartreuse", pal[c(1, 3:5, 8)], "blue", "gold1", "black", distinctColorPalette(70))
 
 
-pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_without_errorbars_normalized.pdf"), width = 20, height = 14)
+pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_without_errorbars_normalized.pdf"), width = 15, height = 10)
 pl <- ggplot(dat5, aes(x=time, y=mean, color=winners)) +
   geom_point() +
   labs(y = "nmol pNP", x = "Time (minutes)") +
@@ -206,7 +207,7 @@ a <- dat5 %>%
   dplyr::mutate(minutes = case_when(grepl(max(time), time) ~ 60,
                                     TRUE ~ minutes)) %>%
   dplyr::group_by(variable) %>%
-  dplyr::slice(0:30) %>% # note changed to 30!
+  dplyr::slice(0:10) %>% # note changed to 30!
   dplyr::ungroup() %>%
   dplyr::select(variable, minutes, mean)
 
@@ -238,7 +239,7 @@ res[[1]]$org
 names(res) <- orgs
 resl <- plyr::ldply(res, data.frame)
 resll <- do.call(rbind.data.frame, res)
-resll$org
+
 
 # Find max slope for each organism
 resmax <- resl %>%
@@ -290,19 +291,21 @@ pet_ind
 
 # Visually assess results and remove any that look strange
 # For dodecanoate, Microlunatus phosphovorus does not look active
-slope_final <- slope_merg[1:pet_ind,]
+slope_final <- slope_merg[1:pet_ind[1],]
+slope_final
 # slope_final <- slope_merg
 # slope_final
 
 write_csv(slope_final, paste0("output/", date, "/", date, "_", cmpnd, "_all_data_calculated_slopes.csv"))
 
 # Plot updated winners on graph
+
 merg_all_final <- slope_final %>% 
   right_join(., a, by = c("org" = "variable")) %>%
   #left_join(., a, by = c("org" = "variable")) %>% # to exclude inactive ones
   dplyr::mutate(winners = case_when(is.na(max_slope) ~ " inactive",
-                                    TRUE ~ org))
-
+                                 #grepl("Pet", org) ~ org,
+                                 TRUE ~ org))
 
 pdf(paste0("output/", date, "/", date, "_", cmpnd, "_JGI_genes_linear_slopes_normalized_final.pdf"), width = 20, height = 14)
 pl <- ggplot(merg_all_final,  aes(x = minutes, y = mean, color = winners)) + 
