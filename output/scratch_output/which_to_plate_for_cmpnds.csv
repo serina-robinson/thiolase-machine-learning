@@ -1,0 +1,213 @@
+org,cmpnd,log_slope,n,master_well
+Arenimonas oryziterrae,2019-10-18 dodecanoate,1.8309722914770563,10,2-H5
+Brachybacterium paraconglomeratum,2019-10-18 dodecanoate,1.639611902926009,10,2-H9
+Chromatocurvus halotolerans,2019-10-18 dodecanoate,1.7737039300362771,10,2-F5
+Humibacillus sp. DSM 29435,2019-10-18 dodecanoate,1.7383954419927334,10,2-A8
+Kytococcus sedentarius,2019-10-18 dodecanoate,1.7190749753832015,10,2-A7
+Micromonospora peucetia,2019-10-18 dodecanoate,1.6826162146235542,10,2-B7
+Mobilicoccus massiliensis,2019-10-18 dodecanoate,1.7867431115207988,10,1-B4
+Pseudoxanthomonas,2019-10-18 dodecanoate,1.628171728133958,10,2-E5
+Thermomonas haemolytica,2019-10-18 dodecanoate,1.9640857129102294,10,2-A6
+XC,2019-10-18 dodecanoate,1.6706366582892624,10,OleA
+Actinoplanes atraurantiacus,2019-10-18 TMA,1.935562473881014,8,1-F2
+Chromatocurvus halotolerans,2019-10-18 TMA,0.9941820685701992,8,2-F5
+Granulosicoccus antarcticus,2019-10-18 TMA,1.4490700598053106,8,1-C5
+Halobacteriovorax marinus,2019-10-18 TMA,1.0815397390380697,8,2-G9
+Kytococcus sedentarius,2019-10-18 TMA,1.6596116937812713,8,2-A7
+Mobilicoccus massiliensis,2019-10-18 TMA,1.7518524849650416,8,1-B4
+Thermomonas haemolytica,2019-10-18 TMA,0.8093993086474703,8,2-A6
+XC,2019-10-18 TMA,1.2648237086452496,8,OleA
+Actinoplanes atraurantiacus,2019-10-25 ClPh propionate,1.7206295566968401,11,1-F2
+Cellulomonas cellasea,2019-10-25 ClPh propionate,1.5522739672719343,11,2-G6
+Granulosicoccus antarcticus,2019-10-25 ClPh propionate,1.9087904339537398,11,1-C5
+Humibacillus sp. DSM 29435,2019-10-25 ClPh propionate,1.7418970344501827,11,2-A8
+Kocuria varians,2019-10-25 ClPh propionate,1.6110497486209587,11,2-D8
+Kytococcus sedentarius,2019-10-25 ClPh propionate,1.8434273649809398,11,2-A7
+Mobilicoccus massiliensis,2019-10-25 ClPh propionate,1.8881739429849496,11,1-B4
+Mycolicibacterium obuense,2019-10-25 ClPh propionate,1.6565958745957714,11,1-G4
+Nesterenkonia alba,2019-10-25 ClPh propionate,1.6943660510936054,11,2-B8
+Plantibacter sp. VKM Ac-1784,2019-10-25 ClPh propionate,1.5720484126292744,11,2-B9
+XC,2019-10-25 ClPh propionate,1.8306694054601282,11,OleA
+Granulosicoccus antarcticus,2019-11-01 Biotin,1.7162314099078209,10,1-C5
+Kytococcus sedentarius,2019-11-01 Biotin,1.5893343683784322,10,2-A7
+Actinoplanes atraurantiacus,2019-11-01 Biotin,1.251859254807923,10,1-F2
+Kocuria flava,2019-11-01 Biotin,1.1467376960090334,10,2-F8
+Halobacteriovorax marinus,2019-11-01 Biotin,1.1458583697116005,10,2-G9
+Subtercola sp. Z020,2019-11-01 Biotin,1.0443726878908184,10,2-G8
+Kocuria varians,2019-11-01 Biotin,0.9280673991936703,10,2-D8
+Intrasporangiaceae bacterium URHB0013,2019-11-01 Biotin,0.855468051339578,10,1-D4
+Isoptericola variabilis,2019-11-01 Biotin,0.8138447541307154,10,1-E4
+Dermabacter hominis,2019-11-01 Biotin,0.8000452349372857,10,2-C9
+Kytococcus sedentarius,2019-11-08 decanoate,2.182984967003582,11,2-A7
+Granulosicoccus antarcticus,2019-11-08 decanoate,1.9334872878487055,11,1-C5
+Dermabacter hominis,2019-11-08 decanoate,1.8887409606828927,11,2-C9
+Kocuria varians,2019-11-08 decanoate,1.7993405494535817,11,2-D8
+Thermomonas haemolytica,2019-11-08 decanoate,1.675778341674085,11,2-A6
+Arthrobacter globiformis,2019-11-08 decanoate,1.658964842664435,11,2-D10
+Mobilicoccus massiliensis,2019-11-08 decanoate,1.6354837468149122,11,1-B4
+XC,2019-11-08 decanoate,1.541579243946581,11,OleA
+Chromatocurvus halotolerans,2019-11-08 decanoate,1.3463529744506386,11,2-F5
+Actinoplanes atraurantiacus,2019-11-08 decanoate,1.2253092817258628,11,1-F2
+Isoptericola variabilis,2019-11-08 decanoate,1.1205739312058498,11,1-E4
+Actinoplanes atraurantiacus,2019-11-08 dimethyl,1.4874952708635851,5,1-F2
+Kocuria varians,2019-11-08 dimethyl,1.642703263023132,5,2-D8
+Granulosicoccus antarcticus,2019-11-08 dimethyl,1.6000280441399042,5,1-C5
+Mobilicoccus massiliensis,2019-11-08 dimethyl,1.7859462499092975,5,1-B4
+Kytococcus sedentarius,2019-11-08 dimethyl,1.713590961136086,5,2-A7
+Granulosicoccus antarcticus,2019-11-22 biotin,1.6268824151593497,4,1-C5
+Kytococcus sedentarius,2019-11-22 biotin,1.52511977514056,4,2-A7
+Halobacteriovorax marinus,2019-11-22 biotin,1.012032955184932,4,2-G9
+Actinoplanes atraurantiacus,2019-11-22 biotin,0.7375033190001742,4,1-F2
+Granulosicoccus antarcticus,2019-11-22 ClPh,1.8341703171936474,4,1-C5
+Mobilicoccus massiliensis,2019-11-22 ClPh,1.7728647685033747,4,1-B4
+Mycolicibacterium obuense,2019-11-22 ClPh,1.6859924431782596,4,1-G4
+Halobacteriovorax marinus,2019-11-22 ClPh,1.203889802274109,4,2-G9
+Arthrobacter globiformis,2019-11-22 decanoate rep-1,1.2163793661125633,16,2-D10
+Brachybacterium alimentarium,2019-11-22 decanoate rep-1,1.5512487505783426,16,1-D5
+Brachybacterium paraconglomeratum,2019-11-22 decanoate rep-1,1.4346003435761274,16,2-H9
+Chromatocurvus halotolerans,2019-11-22 decanoate rep-1,1.7858065669921528,16,2-F5
+Dermabacter hominis,2019-11-22 decanoate rep-1,1.3329971369545184,16,2-C9
+Granulosicoccus antarcticus,2019-11-22 decanoate rep-1,2.0868258513692606,16,1-C5
+Halobacteriovorax marinus,2019-11-22 decanoate rep-1,1.260374647011366,16,2-G9
+Kytococcus sedentarius,2019-11-22 decanoate rep-1,2.308123148520189,16,2-A7
+Luteimonas tolerans,2019-11-22 decanoate rep-1,1.3865954280652784,16,1-A4
+Mobilicoccus massiliensis,2019-11-22 decanoate rep-1,1.581004820048117,16,1-B4
+Mycolicibacterium obuense,2019-11-22 decanoate rep-1,1.2924028181567366,16,1-G4
+Okibacterium fritillariae,2019-11-22 decanoate rep-1,1.3067261139740396,16,2-D7
+Streptococcus pneumoniae,2019-11-22 decanoate rep-1,1.2416046125643165,16,2-G10
+Virgibacillus salinus,2019-11-22 decanoate rep-1,1.3298256433028672,16,1-D2
+Xanthomonas translucens,2019-11-22 decanoate rep-1,1.3737443721054072,16,2-D6
+XC,2019-11-22 decanoate rep-1,1.4726002572878316,16,OleA
+Granulosicoccus antarcticus,2019-11-22 decanoate rep-2,2.249044402331307,16,1-C5
+Kytococcus sedentarius,2019-11-22 decanoate rep-2,2.189398449433559,16,2-A7
+Chromatocurvus halotolerans,2019-11-22 decanoate rep-2,1.9244742464272442,16,2-F5
+Dermabacter hominis,2019-11-22 decanoate rep-2,1.918847767348327,16,2-C9
+Thermomonas haemolytica,2019-11-22 decanoate rep-2,1.8062759227309422,16,2-A6
+Mobilicoccus massiliensis,2019-11-22 decanoate rep-2,1.7806754732274608,16,1-B4
+Kocuria varians,2019-11-22 decanoate rep-2,1.7070471237990796,16,2-D8
+Xanthomonas translucens,2019-11-22 decanoate rep-2,1.6718820007903497,16,2-D6
+Agreia bicolorata,2019-11-22 decanoate rep-2,1.4802187906463369,16,2-F6
+Subtercola sp. Z020,2019-11-22 decanoate rep-2,1.4754412002229973,16,2-G8
+XC,2019-11-22 decanoate rep-2,1.46443659663469,16,OleA
+Mycolicibacterium obuense,2019-11-22 decanoate rep-2,1.4269384889027747,16,1-G4
+Arthrobacter globiformis,2019-11-22 decanoate rep-2,1.3034157191274292,16,2-D10
+Cellulomonas cellasea,2019-11-22 decanoate rep-2,1.287837975174095,16,2-G6
+Actinoplanes atraurantiacus,2019-11-22 decanoate rep-2,1.2727012862388256,16,1-F2
+Kocuria flava,2019-11-22 decanoate rep-2,1.2517675760602787,16,2-F8
+Granulosicoccus antarcticus,2019-11-22 dimethyl,1.6734235584525403,3,1-C5
+Mobilicoccus massiliensis,2019-11-22 dimethyl,1.5371867352407036,3,1-B4
+Kytococcus sedentarius,2019-11-22 dimethyl,1.215693526663822,3,2-A7
+Granulosicoccus antarcticus,2019-11-22 dodecanoate,2.0177817905197224,22,1-C5
+Kytococcus sedentarius,2019-11-22 dodecanoate,1.9954769146804554,22,2-A7
+Mycolicibacterium obuense,2019-11-22 dodecanoate,1.9714574908224691,22,1-G4
+Kocuria varians,2019-11-22 dodecanoate,1.876816593505429,22,2-D8
+Luteimonas tolerans,2019-11-22 dodecanoate,1.8757593587099939,22,1-A4
+Thermomonas haemolytica,2019-11-22 dodecanoate,1.8265678772903189,22,2-A6
+Brachybacterium alimentarium,2019-11-22 dodecanoate,1.8254428761675943,22,1-D5
+Arenimonas oryziterrae,2019-11-22 dodecanoate,1.7543922334783901,22,2-H5
+Streptococcus pneumoniae,2019-11-22 dodecanoate,1.647266661734435,22,2-G10
+Plantibacter sp. VKM Ac-1784,2019-11-22 dodecanoate,1.6314407047054018,22,2-B9
+XC,2019-11-22 dodecanoate,1.6271702118072062,22,OleA
+Arthrobacter globiformis,2019-11-22 dodecanoate,1.6187296314783173,22,2-D10
+Okibacterium fritillariae,2019-11-22 dodecanoate,1.5932858322572196,22,2-D7
+Pseudoxanthomonas,2019-11-22 dodecanoate,1.5352354918717064,22,2-E5
+Cellulomonas cellasea,2019-11-22 dodecanoate,1.5122933356271222,22,2-G6
+Subtercola sp. Z020,2019-11-22 dodecanoate,1.4811597755019863,22,2-G8
+Nesterenkonia alba,2019-11-22 dodecanoate,1.4719801188010206,22,2-B8
+Kocuria flava,2019-11-22 dodecanoate,1.4540198565808646,22,2-F8
+Xanthomonas translucens,2019-11-22 dodecanoate,1.4248359854513803,22,2-D6
+Cephaloticoccus capnophilus,2019-11-22 dodecanoate,1.420733761795898,22,1-B6
+Agreia bicolorata,2019-11-22 dodecanoate,1.2921498575659105,22,2-F6
+Leifsonia sp. Leaf325,2019-11-22 dodecanoate,1.2223216530033951,22,2-A9
+Actinoplanes atraurantiacus,2019-11-22 TMA,1.8964414799110996,24,1-F2
+Granulosicoccus antarcticus,2019-11-22 TMA,1.8901399300013904,24,1-C5
+Kytococcus sedentarius,2019-11-22 TMA,1.7241666713753017,24,2-A7
+Kocuria varians,2019-11-22 TMA,1.5943006951901362,24,2-D8
+Chromatocurvus halotolerans,2019-11-22 TMA,1.5725286835748948,24,2-F5
+Mobilicoccus massiliensis,2019-11-22 TMA,1.5523547300975744,24,1-B4
+XC,2019-11-22 TMA,1.4032538130354468,24,OleA
+Rothia mucilaginosa,2019-11-22 TMA,1.236297839119283,24,2-F10
+Thermomonas haemolytica,2019-11-22 TMA,1.234609776190421,24,2-A6
+Cellulomonas cellasea,2019-11-22 TMA,1.1507329345027804,24,2-G6
+Plantibacter sp. VKM Ac-1784,2019-11-22 TMA,1.133266982578129,24,2-B9
+Dermabacter hominis,2019-11-22 TMA,1.0644789841191413,24,2-C9
+Xanthomonas translucens,2019-11-22 TMA,1.0215822333014566,24,2-D6
+Dermatophilus congolensis,2019-11-22 TMA,1.0159019739309554,24,2-F7
+Citricoccus muralis,2019-11-22 TMA,0.9910394452673779,24,2-E8
+Halobacteriovorax marinus,2019-11-22 TMA,0.9415804528097417,24,2-G9
+Silanimonas lenta,2019-11-22 TMA,0.9290091797014771,24,2-B6
+Okibacterium fritillariae,2019-11-22 TMA,0.9067231117533922,24,2-D7
+Sanguibacter keddieii,2019-11-22 TMA,0.8996231965372086,24,2-E7
+Geodermatophilus obscurus,2019-11-22 TMA,0.88838772506346,24,2-G7
+Luteimonas tolerans,2019-11-22 TMA,0.8006137337875071,24,1-A4
+Brachybacterium paraconglomeratum,2019-11-22 TMA,0.8003172195644033,24,2-H9
+Subtercola sp. Z020,2019-11-22 TMA,0.6460856578233437,24,2-G8
+Pseudoxanthomonas,2019-11-22 TMA,0.5535430944771103,24,2-E5
+Kytococcus sedentarius,2019-12-13 biotin,1.8321859329122252,2,2-A7
+Granulosicoccus antarcticus,2019-12-13 biotin,1.61671003204534,2,1-C5
+Granulosicoccus antarcticus,2019-12-13 ClPh,2.0897989672904003,9,1-C5
+Mobilicoccus massiliensis,2019-12-13 ClPh,1.908938326842672,9,1-B4
+Actinoplanes atraurantiacus,2019-12-13 ClPh,1.4865700211039374,9,1-F2
+Kytococcus sedentarius,2019-12-13 ClPh,1.4521282684177401,9,2-A7
+Brachybacterium paraconglomeratum,2019-12-13 ClPh,1.37980742733685,9,2-H9
+Mycolicibacterium obuense,2019-12-13 ClPh,1.2716196647676434,9,1-G4
+Halobacteriovorax marinus,2019-12-13 ClPh,1.2627617246450096,9,2-G9
+Brevibacterium antiquum,2019-12-13 ClPh,1.195712454701987,9,2-F9
+Chloroflexi bacterium RBG 13 51 36,2019-12-13 ClPh,1.1647830205078338,9,2-E10
+Kytococcus sedentarius,2019-12-13 decanoate ,2.4592637924550025,19,2-A7
+Granulosicoccus antarcticus,2019-12-13 decanoate ,2.3109390726627175,19,1-C5
+Actinoplanes atraurantiacus,2019-12-13 decanoate ,2.0644419452987686,19,1-F2
+Chromatocurvus halotolerans,2019-12-13 decanoate ,2.0091357046235263,19,2-F5
+Arthrobacter globiformis,2019-12-13 decanoate ,1.9597491831074882,19,2-D10
+Kocuria varians,2019-12-13 decanoate ,1.7854053535117689,19,2-D8
+Xanthomonas translucens,2019-12-13 decanoate ,1.7114449119269466,19,2-D6
+Dermabacter hominis,2019-12-13 decanoate ,1.6573477127764893,19,2-C9
+Legionella brunensis,2019-12-13 decanoate ,1.5979997258449206,19,2-A10
+XC,2019-12-13 decanoate ,1.5417201945497163,19,OleA
+Thermomonas haemolytica,2019-12-13 decanoate ,1.409500027813586,19,2-A6
+Kocuria flava,2019-12-13 decanoate ,1.3731922773958805,19,2-F8
+Agreia bicolorata,2019-12-13 decanoate ,1.3195425206195677,19,2-F6
+Subtercola sp. Z020,2019-12-13 decanoate ,1.2905632846153603,19,2-G8
+Plantibacter sp. VKM Ac-1784,2019-12-13 decanoate ,1.2354739686791376,19,2-B9
+Brachybacterium alimentarium,2019-12-13 decanoate ,1.2142963888392322,19,1-D5
+Okibacterium fritillariae,2019-12-13 decanoate ,1.2047306127132613,19,2-D7
+Wenzhouxiangella sediminis,2019-12-13 decanoate ,1.1838002719439573,19,2-C6
+Leifsonia sp. Leaf325,2019-12-13 decanoate ,1.1699009469719046,19,2-A9
+Actinoplanes atraurantiacus,2019-12-13 TMA,2.374629082647906,38,1-F2
+Kytococcus sedentarius,2019-12-13 TMA,2.084489255349774,38,2-A7
+Granulosicoccus antarcticus,2019-12-13 TMA,1.9056900995498984,38,1-C5
+Kocuria varians,2019-12-13 TMA,1.7115421848589976,38,2-D8
+Mobilicoccus massiliensis,2019-12-13 TMA,1.6909385744898593,38,1-B4
+Chromatocurvus halotolerans,2019-12-13 TMA,1.530652903766102,38,2-F5
+Xanthomonas translucens,2019-12-13 TMA,1.3843100800539696,38,2-D6
+Rothia mucilaginosa,2019-12-13 TMA,1.3313910968837834,38,2-F10
+Saccharothrix espanaensis,2019-12-13 TMA,1.3036184498834587,38,1-G2
+Thermomonas haemolytica,2019-12-13 TMA,1.2834220958463103,38,2-A6
+XC,2019-12-13 TMA,1.2636829608793037,38,OleA
+Brachybacterium paraconglomeratum,2019-12-13 TMA,1.2616331089842243,38,2-H9
+Silanimonas lenta,2019-12-13 TMA,1.2613076600287185,38,2-B6
+Citricoccus muralis,2019-12-13 TMA,1.2073142558732115,38,2-E8
+Arenimonas oryziterrae,2019-12-13 TMA,1.193805045171147,38,2-H5
+Geodermatophilus obscurus,2019-12-13 TMA,1.1812653683161032,38,2-G7
+Nesterenkonia alba,2019-12-13 TMA,1.1731443681684628,38,2-B8
+Auraticoccus monumenti,2019-12-13 TMA,1.1569771372346915,38,1-E5
+Intrasporangiaceae bacterium URHB0013,2019-12-13 TMA,1.1546285604589426,38,1-D4
+Okibacterium fritillariae,2019-12-13 TMA,1.1433100769501374,38,2-D7
+Luteimonas tolerans,2019-12-13 TMA,1.138857821740172,38,1-A4
+Cellulomonas cellasea,2019-12-13 TMA,1.1334863576063336,38,2-G6
+Sanguibacter keddieii,2019-12-13 TMA,1.1329109958705246,38,2-E7
+Pseudoxanthomonas,2019-12-13 TMA,1.131781070916725,38,2-E5
+Clavibacter michiganensis,2019-12-13 TMA,1.1266713918870757,38,2-H8
+Agreia bicolorata,2019-12-13 TMA,1.1256187830888196,38,2-F6
+Mycolicibacterium obuense,2019-12-13 TMA,1.1166866276549576,38,1-G4
+Sandaracinus amylolyticus,2019-12-13 TMA,1.109029254012891,38,2-C5
+Subtercola sp. Z020,2019-12-13 TMA,1.108042705091589,38,2-G8
+Kocuria flava,2019-12-13 TMA,1.1035937689801623,38,2-F8
+Halobacteriovorax marinus,2019-12-13 TMA,1.1004037766640964,38,2-G9
+Streptomyces ambofaciens,2019-12-13 TMA,1.0867899953981424,38,2-C8
+Nonomuraea candida,2019-12-13 TMA,1.0756619441376016,38,1-G3
+Frankiales bacterium YIM 75000,2019-12-13 TMA,1.0734096271201603,38,2-E9
+Leifsonia sp. Leaf325,2019-12-13 TMA,1.0627144830852733,38,2-A9
+Micromonospora peucetia,2019-12-13 TMA,1.0624978706018917,38,2-B7
+Bacteriovorax sp. BAL6 X,2019-12-13 TMA,1.0594948054766902,38,1-H4
+Dermatophilus congolensis,2019-12-13 TMA,1.0542131048888217,38,2-F7

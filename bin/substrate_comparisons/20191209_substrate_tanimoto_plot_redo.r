@@ -71,33 +71,33 @@ table(duplicated(dat$cmpnd))
 # write_delim(data.frame(final_df$cid), "data/CA_cids_output.txt", delim = "\t", col_names = F)
 
 # Now pull CIDs for substrates that have been tested already or will be
-sub_test <- read_excel("data/sigma_carboxylic_acid_scrape/20191209_final_substrates_tested.xlsx") %>%
-  dplyr::pull(1)
-sub_test
-all_cids <- get_cid(sub_test)
-nams <- names(all_cids)
-nams
-cids <- unlist(all_cids)
-cids
-
-cid_df <- data.frame(as.matrix(all_cids)) %>%
-  rename(cids = as.matrix.all_cids.) %>%
-  unlist() %>%
-  na.omit() %>%
-  as.data.frame()
-colnames(cid_df)
-
-cid_df$cmpnd <- rownames(cid_df)
-head(cid_df)
-colnames(cid_df)[1] <- "cid"
-final_df <- cid_df %>%
-  mutate(cid = as.numeric(cid))
-final_df
-# # 
-key <- final_df
-head(key)
-key$cmpnd <- gsub("cids\\.", "", key$cmpnd)
-key
+# sub_test <- read_excel("data/sigma_carboxylic_acid_scrape/20191209_final_substrates_tested.xlsx") %>%
+#   dplyr::pull(1)
+# sub_test
+# # all_cids <- get_cid(sub_test)
+# nams <- names(all_cids)
+# nams
+# cids <- unlist(all_cids)
+# cids
+# 
+# cid_df <- data.frame(as.matrix(all_cids)) %>%
+#   rename(cids = as.matrix.all_cids.) %>%
+#   unlist() %>%
+#   na.omit() %>%
+#   as.data.frame()
+# colnames(cid_df)
+# 
+# cid_df$cmpnd <- rownames(cid_df)
+# head(cid_df)
+# colnames(cid_df)[1] <- "cid"
+# final_df <- cid_df %>%
+#   mutate(cid = as.numeric(cid))
+# final_df
+# # # 
+# key <- final_df
+# head(key)
+# key$cmpnd <- gsub("cids\\.", "", key$cmpnd)
+# key
 # write_csv(key, "data/20191209_final_substrates_tested_CID_cmpnd_name_key.csv")
 
 # write_delim(data.frame(final_df$cid), "data/20191209_final_substrates_tested_CA_cids_output.txt", delim = "\t", col_names = F)
@@ -115,7 +115,7 @@ dim(merg_key)
 # 
 # final_df <- read_delim("data/20191209_final_1120_merged_CID_cmpnd_name_key.txt", delim = "\t", col_names = F)
 
-key <- read_csv("data/")
+key <- read_csv("data/20191209_final_substrates_tested_CID_cmpnd_name_key.csv")
 sdfset1 <- read.SDFset("data/20191209_final_substrates_tested_sdf")
 sdfset2 <- read.SDFset("data/merged_sigma_CAs.sdf")
 
@@ -143,14 +143,13 @@ key_jnd <- key %>%
   #                                  TRUE ~ status))
 
 dups <- key[duplicated(key$cid),]
-dups
+dups$cid
 newnams <- key[!duplicated(key$cid),]
 newnams
 newnamvec <- newnams
 
-
 length(apset)
-# clusters <- cmp.cluster(db=apset,  cutoff=0.7, save.distances = "data/distmat.rda")
+clusters <- cmp.cluster(db=apset,  cutoff=0.7, save.distances = "data/distmat.rda")
 # clusters <- cmp.cluster(db=apset,  cutoff = 1.0, save.distances = "data/distmat.rda")
 head(clusters)
 # write_csv(clusters, "output/sigma_CA_tanimoto_clusters.csv")
@@ -208,52 +207,29 @@ pal2
 
 
 
-pdf(paste0("output/", numseqs,"_PCoA_unlabeled_CA_Sigma.pdf"), width = 15, height = 15)
+pdf(paste0("output/", numseqs,"_PCoA_unlabeled_CA_Sigma.pdf"), width = 10, height = 10)
 par(mar=c(0.01, 0.01, 0.01, 0.01))
 ggplot(data = subgrp, aes(x = x, y = y, label = cmpnd_labeled)) + 
   scale_fill_manual(values = pal2) +
   scale_color_manual(values = pal2) +
-  # geom_text(label = trdat$nms) +
-  # geom_text(x = cdat$x, y = cdat$y, label = cdat$labl, check_overlap = T) +
-  #geom_point(fill = "gray80") +
-  geom_point(aes(fill = as.factor(status)), shape = 21, size = ifelse(is.na(subgrp$status), 4, 6)) +
-  # scale_shape(solid = TRUE) +
-  #geom_label_repel(force = 30, size = 4) +
-  # labs(x=xlab,y=ylab) +
+  xlab("PC 1") +
+  ylab("PC 2") +
+  geom_label_repel(label = ifelse(is.na(subgrp$status), "", subgrp$cmpnd), force = 25, size = 5) +
+  geom_point(aes(fill = as.factor(status)), alpha = 0.8,
+             shape = 21, size = ifelse(is.na(subgrp$status), 4, 6)) +
+  scale_shape(solid = TRUE) +
   theme_bw() + 
-  theme(axis.text = element_text(size = 14),
-        legend.key = element_rect(fill = "white"),
+  theme(axis.title = element_text(size = 20),
+        axis.text = element_text(size = 14),
+        legend.key = element_blank(),
         legend.background = element_rect(fill = "white"),
-        legend.position = "top",
+        legend.position = "none",
         legend.box = "horizontal",
-        legend.text = element_text(size = 20),
+        legend.text = element_blank(),
         legend.title = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         plot.title=element_text(size=14, face="bold", hjust=0))
 dev.off()
 
-pdf(paste0("output/", numseqs,"_PCoA_unlabeled_CA_Sigma.pdf"), width = 15, height = 15)
-par(mar=c(0.01, 0.01, 0.01, 0.01))
-ggplot(data = subgrp, aes(x = x, y = y, label = cmpnd_labeled)) + 
-  scale_fill_manual(values = pal2) +
-  scale_color_manual(values = pal2) +
-  # geom_text(label = trdat$nms) +
-  # geom_text(x = cdat$x, y = cdat$y, label = cdat$labl, check_overlap = T) +
-  #geom_point(fill = "gray80") +
-  geom_point(aes(fill = as.factor(status)), shape = 21, size = ifelse(is.na(subgrp$status), 4, 6)) +
-  # scale_shape(solid = TRUE) +
- #  geom_label_repel(force = 30, size = 4) +
-  # labs(x=xlab,y=ylab) +
-  theme_bw() + 
-  theme(axis.text = element_text(size = 14),
-        legend.key = element_rect(fill = "white"),
-        legend.background = element_rect(fill = "white"),
-        legend.position = "top",
-        legend.box = "horizontal",
-        legend.text = element_text(size = 20),
-        legend.title = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        plot.title=element_text(size=14, face="bold", hjust=0))
-dev.off()
+
