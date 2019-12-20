@@ -68,7 +68,7 @@ normalize_all_txt <- function(x) {
   
   ## TODO: average 3 Pet28s
   pet28 <- dat0 %>%
-    dplyr::filter(grepl("Pet28", variable)) %>% # TODO Pet28 in triplicate
+    dplyr::filter(grepl("Pet28_1|Pet28_3", variable)) %>% # TODO Pet28 in triplicate
     group_by(time) %>%
     summarise_each(funs(mean, sd), value) %>%
     dplyr::pull(mean)

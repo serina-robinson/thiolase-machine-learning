@@ -11,7 +11,7 @@ suffix <- "calculated_slopes"
 fils
 
 ll <- fils[grepl(suffix, fils)]
-ll <- ll[!grepl("BocPhe|furf|scratch|only|averaged|benzoate|round|C6|dodecanoate_1|dodecanoate_3|2019-11-15_7Ph", ll)] # rep1|rep2|reps|round|
+ll <- ll[!grepl("BocPhe|furf|scratch|only|averaged|benzoate|round|C6|2019-11-15_7Ph", ll)] # rep1|rep2|reps|round|
 ll
 
 rawdat <- tibble(filename = ll) %>%

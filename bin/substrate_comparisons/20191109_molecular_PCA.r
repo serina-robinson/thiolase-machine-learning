@@ -37,7 +37,7 @@ res <- lapply(1:ncol(pca_dat$rotation), function(x) { rownames(pca_abs)[order(pc
 names(res) <- paste0("PC", 1:15)
 
 res_df <- bind_rows(res)
-write_csv(res_df, 'output/PC_loadings_molecular_descriptors_new.csv')
+# write_csv(res_df, 'output/PC_loadings_molecular_descriptors_new.csv')
 # for(i in 1:ncol(pca_dat$rotation)) {
 #   res[[i]] <- names(pca_dat$rotation[order(pca_dat$rotation[,x], decreasing = T)]
 # }

@@ -89,7 +89,6 @@ normalize_all_txt <- function(x) {
 # Normalize
 # Read in the raw data 
 tmafils <- list.files(paste0("data/", date, "/"), pattern = cmpnd, full.names = T)
-tmafils
 tmafils <- tmafils[!grepl("~|7Ph|Plate|FIX", tmafils)] # remove any temporary files
 tmafils
 
@@ -98,7 +97,7 @@ rep1
 resbind <- normalize_all_txt(rep1)
 
 resbind <- resbind[complete.cases(resbind),] %>%
-  dplyr::filter(!grepl("Nothing_", variable))
+  dplyr::filter(!grepl("dodecanoate|Nothing_", variable))
 alph <- resbind[order(resbind$variable),]
 
 # Now normalize to the pNP standard curve

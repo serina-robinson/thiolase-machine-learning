@@ -30,7 +30,7 @@ propdf
 sdffil <- "data/17_pNPs.sdf"
 mol <- readMolFromSDF(sdffil)
 # aliphat <- extractDrugLongestAliphaticChain(mol)
-all_props <- extractDrugAIO(mol) # calculates all properties at once
+# all_props <- extractDrugAIO(mol) # calculates all properties at once
 
 
 

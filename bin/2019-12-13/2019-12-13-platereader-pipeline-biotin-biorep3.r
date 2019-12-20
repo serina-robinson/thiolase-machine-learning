@@ -247,7 +247,7 @@ resmax <- resl %>%
 # Merge with the original dataset
 slope_merg <- resmax %>%
   inner_join(., resl, by = "org") %>%
-  dplyr::filter(r2 >= 0.9) %>%
+  dplyr::filter(r2 >= 0.9) %>% # Just see what happens with 0.9
   group_by(org) %>%
   dplyr::filter(slope == max(slope)) %>%
   dplyr::select(org, max_slope, r2, intercept) %>%

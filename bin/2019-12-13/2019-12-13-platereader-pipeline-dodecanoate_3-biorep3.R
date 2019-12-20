@@ -35,7 +35,6 @@ temp
 ## Need to apply to both plates
 #### Apply normalize_all to the complete file names
 normalize_all_dodecanoate <- function(x) { 
-  x <- tmafils
   tma1 <- read_excel(x) %>%
     janitor::clean_names() %>%
     dplyr::select(-temperature_c) %>%

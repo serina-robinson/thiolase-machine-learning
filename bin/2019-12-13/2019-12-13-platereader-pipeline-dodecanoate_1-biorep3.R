@@ -24,6 +24,9 @@ temp <- read_excel(templ, skip = 4) %>%
   as.vector()
 temp
 
+temp[!grepl("Pet28_", temp)] <- gsub("dodecanoate_", "", temp[!grepl("Pet28_", temp)])
+temp
+
 # Read in the raw data 
 tmafils <- list.files(paste0("data/", date, "/"), pattern = cmpnd, full.names = T)
 tmafils <- tmafils[!grepl("~|7Ph|Plate", tmafils)] # remove any temporary files

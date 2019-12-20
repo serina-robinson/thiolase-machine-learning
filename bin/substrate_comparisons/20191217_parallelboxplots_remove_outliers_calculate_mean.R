@@ -11,7 +11,8 @@ suffix <- "calculated_slopes.csv"
 
 
 ll <- fils[grepl(suffix, fils)]
-ll <- ll[!grepl("BocPhe|furf|scratch|only|averaged|benzoate|round|dodecanoate_1|dodecanoate_3|2019-11-15_7Ph", ll)] # rep1|rep2|reps|round|
+ll <- ll[!grepl("BocPhe|furf|scratch|only|averaged|benzoate|round|2019-11-15_7Ph", ll)] # rep1|rep2|reps|round|
+ll
 # Remove the 7Ph that was from the bad run (non-normalized)
 
 rawdat <- tibble(filename = ll) %>%
@@ -24,6 +25,7 @@ rawdat <- tibble(filename = ll) %>%
     word(word(filename, 2, sep = "_"), 1, sep = "_")))
                   #word(word(sep = "output//", 2, filename), 1, sep = "\\/"))
   
+rawdat$cmpnd
 # dplyr::mutate(cmpnd = case_when(grepl("C6", filename) ~ "hexanoate",
   #                                 grepl("heptynoate", filename) ~ "heptynoate", 
   #                                 TRUE ~ word(word(filename, 2, sep = "_"), 1, sep = "_")))

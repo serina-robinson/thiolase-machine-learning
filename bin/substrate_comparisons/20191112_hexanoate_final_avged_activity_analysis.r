@@ -1,11 +1,3 @@
-# Big circle
-big <- pi * (1.5 ^ 2)
-little <- pi * (0.437 ^ 2)
-
-big <- pi * (1.25 ^ 2)
-little <- pi * (1 ^ 2)
-little/big
-
 # Install packages
 pacman::p_load("tidyverse", "maditr", "readxl", "randomcoloR", 
                "RColorBrewer", "ggplot2", "pheatmap", "viridis", "scales")

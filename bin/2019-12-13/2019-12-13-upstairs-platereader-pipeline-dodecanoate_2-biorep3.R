@@ -7,7 +7,7 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analys
 
 ### Fill in parameters ###
 date <- "2019-12-13"
-cmpnd <- "dodecanoate"
+cmpnd <- "dodecanoate_2"
 
 # Read in the plate template
 fildir <- list.files(paste0("data/", date, "/plate_templates/"), full.names = T) #Plate Set up SynBio Paper heptanoate biotin.xlsx"

@@ -59,7 +59,7 @@ normalize_all <- function(x) {
   
   ## TODO: average 3 Pet28s
   pet28 <- dat0 %>%
-    dplyr::filter(grepl("Pet28", variable)) %>% # TODO change this to Pet28
+    dplyr::filter(grepl("Pet28_1|Pet28_3", variable)) %>% # TODO change this to Pet28
     group_by(time) %>%
     summarise_each(funs(mean, sd), value) %>%
     dplyr::pull(mean)
