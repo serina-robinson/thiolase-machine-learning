@@ -9,7 +9,7 @@ extract_channel_aas <- function(query_fil) {
   names(ref) <- "4KU5"
   
   # Align the query and the reference
-  alned <- AlignSeqs(c(query, ref), verbose = TRUE)
+  alned <- AlignSeqs(c(ref, query), verbose = TRUE)
   # alned <- AAStringSet(muscle(c(ref, query), in1 = "data/A_domains_muscle.fasta", in2 = query_fil, profile = T)) # If you want to align with a profile
   query_aln <- alned[length(alned)]
   ref_aln <- alned["4KU5"]
@@ -40,7 +40,7 @@ extract_channel_aas <- function(query_fil) {
   # Get 34 aa code
   query_pos <- as.character(unlist(lapply(1:length(new_34inds), function(x) {
     substr(query_aln, new_34inds[x], new_34inds[x]) })))
-  paste0(query_pos, collapse = "")
+  writeLines(paste0(query_pos, collapse = ""))
   
   feats <- convert_seq_15aap(query_pos)
   feats

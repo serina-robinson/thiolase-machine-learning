@@ -38,6 +38,6 @@ comb[is.na(comb$PC2),]
 
 # Now remove duplicate rows (hopefully there aren't any)
 dedup <- comb[complete.cases(comb),] # no duplicates
-
-# Now remove rows with zero variance...actually, will bake into a recipe
+dim(dedup)
+write_csv(dedup, "data/machine_learning/20191222_1095_training_examples_pass1.csv")
 

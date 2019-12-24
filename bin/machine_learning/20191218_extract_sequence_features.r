@@ -7,12 +7,12 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analys
 # Read in the reference
 sqs <- readAAStringSet("data/alignments/73_OleA_JGI_unaligned.fasta")
 query_fils <- sapply(1:length(sqs), function(x) {tempfile(pattern = "", fileext = ".fasta")})
-query_fils
+
 
 sapply(1:length(sqs), function(x) {writeXStringSet(sqs[x], query_fils[x])})
 source("lib/extract_channel_aas.r")
 
-extract_34_list <- lapply(1:length(sqs), function(x) { extract_channel_aas(query_fils[x]) })
+# extract_34_list <- lapply(1:length(sqs), function(x) { extract_channel_aas(query_fils[x]) })
 extract_34_df <- data.frame(matrix(unlist(extract_34_list), nrow = length(extract_34_list), byrow=T), 
                             stringsAsFactors=FALSE)
 
