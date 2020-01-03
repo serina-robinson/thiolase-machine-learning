@@ -61,8 +61,6 @@ ggplot(pca_test, aes(x = PC1, y = PC2)) +
 # Training a MARS model
 mars_grid <- expand.grid(degree = 1:2, nprune = seq(2, 26, by = 2))
 
-
-
 basic_rec <- recipe(activity ~ ., data = training_dat) %>%
   step_zv(all_predictors()) %>%
   step_center(all_predictors()) %>%
