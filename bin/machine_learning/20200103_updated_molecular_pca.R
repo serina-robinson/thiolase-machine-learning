@@ -8,7 +8,6 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analys
 
 # Read in the raw data
 rawdat <- read_csv("data/substrate_comparisons/15pNPs_159_selected_molecular_properties.csv") 
-head(rawdat)
 
 trimdat <- rawdat %>%
   dplyr::select(-cmpnd_abbrev, -IUPAC, -SMILES) # %>%
@@ -29,19 +28,16 @@ pca_dat <- prcomp(findat, center = TRUE, scale. = TRUE)
 pca_abs <- abs(pca_dat$rotation) #Pull the absolute values of the rotations
 head(pca_dat$rotation)
 
-summary(pca_dat) # First 7 PCs explain over 91.5% of the total variances
+screeplot(pca_dat, npcs = 15, type = "lines")
 
-res <- lapply(1:ncol(pca_dat$rotation), function(x) { rownames(pca_abs)[order(pca_abs[,x], decreasing = T)] })
-res_load <- lapply(1:ncol(pca_dat$rotation), function(x) { pca_abs[order(pca_abs[,x], decreasing = T)] })
-names(res) <- paste0("PC", 1:15)
-names(res_load) <- paste0("PC_loading", 1:15)
+pdf("output/substrate_comparisons/molecular_descriptor_PC_screeplot_variances.pdf")
+screeplot(pca_dat, npcs = 15, type = "lines")
+dev.off()
 
-res_df <- bind_rows(res)
-res_load_df <- bind_rows(res_load)
-# write_csv(res_df, "output/substrate_comparisons/20191218_relative_PC_loadings.csv")
+imp <- summary(pca_dat)[6][[1]] 
+sum(imp[2,1:7]) # First 7 PCs explain over 92% of the total variances
 
-
-## Try just the first 7
+## Try grab the first 7 PCs
 # pca_abs[,4][order(pca_abs[,4])]
 # pca_abs[order(pca_abs[,3], decreasing = T)]
 
@@ -57,15 +53,12 @@ res_load_df <- bind_rows(res_load)
 
 findf <- bind_cols(res_df, res_load_df) %>%
   select(ends_with("1"), ends_with("2"), ends_with("3"), ends_with("4"), ends_with("5"), ends_with("6"), ends_with("7"))
+findf
 write_csv(findf, "data/machine_learning/PC7_loadings.csv")
 
 
 write_csv(data.frame(cbind(rownames(pca_dat$x), pca_dat$x[,1:7]), stringsAsFactors = F), 
           "data/machine_learning/PC7_molecular_descriptors.csv")
-
-pdf("output/substrate_comparisons/molecular_descriptor_PC_screeplot_variances.pdf")
-screeplot(pca_dat, npcs = 15, type = "lines")
-dev.off()
 
 
 dat <- data.frame(pca_dat$x[,1:2], stringsAsFactors = F)

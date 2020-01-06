@@ -40,5 +40,7 @@ for(i in 1:nrow(comb)) {
 }
 
 # Read in the new homology models
-newls <- list.files("data/13_homology_models_X_oryzae_template/")
+seventytwo <- list.files("data/caver_models/homology_models/")
+write_csv(data.frame(seventytwo, stringsAsFactors = F), "data/caver_models/CastP_submission_log.csv")
+# newls <- list.files("data/13_homology_models_X_oryzae_template/")
 

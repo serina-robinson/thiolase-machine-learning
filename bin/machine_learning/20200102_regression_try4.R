@@ -2,7 +2,7 @@
 pacman::p_load("tidyverse", "DECIPHER", "Biostrings", "skimr", "caret",
                "cowplot", "tidymodels", "ranger", "tree", "rsample", 
                "randomForest","gbm","nnet","e1071","svmpath","lars",
-               "glmnet","svmpath", "Metrics")
+               "glmnet","svmpath", "Metrics", "ggpubr", "ggpmisc")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
@@ -57,6 +57,36 @@ dat <- rawdat %>%
   dplyr::select(-which_rem, -org, -substrate) %>%
   dplyr::select(id, contains("_"),  contains("PC"), activity)
 dim(dat) #338 variables remaining with non-zero variance
+
+acts <- dat %>%
+  dplyr::filter(grepl("Actinoplanes", id)) %>%
+  dplyr::select(id, activity) %>%
+  dplyr::arrange(desc(activity))
+
+
+halo <- dat %>%
+  dplyr::filter(grepl("Halobacteriovorax", id)) %>%
+  dplyr::select(id, activity) %>%
+  dplyr::arrange(desc(activity))
+halo
+
+thermo <- dat %>%
+  dplyr::filter(grepl("Thermomonas", id)) %>%
+  dplyr::select(id, activity) %>%
+  dplyr::arrange(desc(activity))
+thermo
+
+tma <- dat %>%
+  dplyr::filter(grepl("TMA", id)) %>%
+  dplyr::select(id, activity) %>%
+  dplyr::arrange(desc(activity))
+tma
+
+dimethyl <- dat %>%
+  dplyr::filter(grepl("dimethyl", id)) %>%
+  dplyr::select(id, activity) %>%
+  dplyr::arrange(desc(activity))
+dimethyl
 
 # Set random seed 
 set.seed(20201002)
@@ -126,8 +156,11 @@ imps <- as.numeric(imps[!grepl("PC", imps)])
 imps[imps %in% channel_a] # almost all of channel A!
 imps[imps %in% channel_b]
 
+getTrainPerf(enet_mod)
 enet_pred <- predict(enet_mod, newdata = form_test)
 sqrt(mse(y_test, enet_pred)) #0.2556
+enet_mod$bestTune
+saveRDS(enet_mod, "data/machine_learning/models/20200104_enet_mod_10foldcv.rds")
 
 ## Next test MARS
 mars_grid <- expand.grid(degree = 1:2, nprune = seq(2, 26, by = 2))
@@ -146,9 +179,11 @@ mars_mod <- train(
 # Training and test performance
 getTrainPerf(mars_mod) # RMSE is 0.284
 mars_mod$finalModel
+mars_mod$bestTune
 summary(mars_mod$finalModel)
+saveRDS(mars_mod, "data/machine_learning/models/20200104_mars_mod_10foldcv.rds")
 mars_pred <- predict(mars_mod, newdata = form_test)
-
+rmse(y_test, mars_pred)
 
 # Variable importance
 mars_imp <- varImp(mars_mod)
@@ -259,7 +294,7 @@ rf_mod <- train(
 getTrainPerf(rf_mod) # RMSE is 25%
 rf_imp <- varImp(rf_mod)
 ggplot(rf_imp, top = 10) + xlab("")
-
+rf_mod$bestTune
 channel_a <- c(253, 258, 261, 284, 291, 292, 295, 343, 345, 349, 351, 353)
 channel_b <- c(176, 173, 172, 242, 243, 112, 111, 171, 117, 316, 203, 246)
 channels <- c(channel_a, channel_b)
@@ -271,10 +306,30 @@ imps[imps %in% channel_b]
 
 rf_pred <- predict(rf_mod, newdata = form_test)
 y_test
-
+saveRDS(rf_mod, "data/machine_learning/models/20200104_rf_mod_10foldcv.rds")
 Metrics::rmse(y_test, rf_pred) # 0.21455
 # sqrt(mse(y_test, rf_pred))
 
+rf_df <- data.frame(cbind(rf_pred, y_test))
+# df2 <- rf_pred %>%
+#   bind_cols(., y_test)
+colnames(rf_df)
+
+my.formula <- y ~ x
+pdf("output/machine_learning/random_forest_regression_results_observed_predicted.pdf", width = 5, height = 5)
+ggplot(rf_df, aes(x = y_test, y = rf_pred)) +
+ # geom_abline(col = "green", alpha = .5) + 
+  geom_point(alpha = .3) + 
+  geom_smooth(se = FALSE, col = "red", method = "lm",
+              lty = 2, lwd = 1, alpha = .5) +
+  theme_pubr() +
+  xlab("Observed enzyme activity") +
+  ylab("Predicted enzyme activity") +
+  stat_poly_eq(formula = my.formula, 
+               aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), 
+               parse = TRUE) 
+  
+dev.off()
 
 ###Neural networks using nnet
 # Currently throws an error

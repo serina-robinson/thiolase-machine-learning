@@ -36,4 +36,8 @@ pdb <- read.pdb("data/caver_models/3fk5.pdb")
 pdb_nohet <- atom.select(pdb, "notprotein", inverse=TRUE, value = TRUE)
 write.pdb(pdb_nohet, "data/caver_models/3fk5_chainB_no_heteroatoms.pdb")
 
-
+### Also remove heteroatoms from 4KTI
+pdb <- read.pdb("data/caver_models/4kti.pdb")
+b.inds <- atom.select(pdb, chain="A", value = TRUE)
+pdb_nohet <- atom.select(b.inds, "notprotein", inverse=TRUE, value = TRUE)
+write.pdb(pdb_nohet, "data/caver_models/4kti_chainA_no_heteroatoms.pdb")

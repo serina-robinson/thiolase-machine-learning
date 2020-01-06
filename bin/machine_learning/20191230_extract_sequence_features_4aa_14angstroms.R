@@ -24,4 +24,5 @@ colnames(extract_84_df) <- ftnams
 rownames(extract_84_df) <- names(sqs)
 towrite <- data.frame(cbind(rownames(extract_84_df), extract_84_df), stringsAsFactors = F)
 colnames(towrite)[1] <- "enzyme"
+colnames(extract_84_df)
 write_csv(towrite, "data/machine_learning/73_14angstrom_4aa_features.csv")
