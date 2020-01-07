@@ -177,7 +177,7 @@ sink("output/machine_learning/20200105_nb_activity_binary_classification_results
 cm_nb
 sink()
 
-2
+
 ## Make a heatmap of confusion matrix results
 cm_list <- list(cm_nb$table)
 names(cm_list) <- c("nb_aa")
