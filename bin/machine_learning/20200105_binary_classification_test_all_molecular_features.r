@@ -115,8 +115,10 @@ rf_1 <- train(
   preProcess = c("center", "scale"),
   importance = "permutation") 
 
+saveRDS(rf_1, "data/machine_learning/models/20200106_rf_all_chem_descr.rds")
+
 # Confusion matrix
-getTrainPerf(rf_1)
+getTrainPerf(rf_1) # 80.6% test set accuracy
 
 # Try prediction
 rf_1$bestTune$splitrule

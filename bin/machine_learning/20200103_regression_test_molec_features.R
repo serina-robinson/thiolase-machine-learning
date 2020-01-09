@@ -16,7 +16,7 @@ molec_fts$substrate[molec_fts$substrate == "oxidazole"] <- "oxadiazole"
 
 # Read in the raw molecular features
 chem_descr <- read_csv("data/substrate_comparisons/15pNPs_159_selected_molecular_properties.csv") %>%
-  dplyr::select(cmpnd_abbrev, nB, MW, AROMATIC, O, N, Cl, MLogP, nRotB, VABC, nAtomLAC) %>%
+  #dplyr::select(cmpnd_abbrev, nB, MW, AROMATIC, O, N, Cl, MLogP, nRotB, VABC, nAtomLAC) %>%
   dplyr::mutate(substrate = gsub(" ", "\\.", cmpnd_abbrev)) %>%
   dplyr::select(-cmpnd_abbrev)
 chem_descr$substrate[chem_descr$substrate == "oxidazole"] <- "oxadiazole"
@@ -128,7 +128,7 @@ rf_1 <- train(
 
 # Confusion matrix
 getTrainPerf(rf_1) # RMSE is 0.257
-rmse
+
 # Try prediction
 rf_ml_1 <- ranger(y_train ~., data = form_train, num.trees = 1000, splitrule = as.character(rf_1$bestTune$splitrule),
                    mtry = rf_1$bestTune$mtry, min.node.size = rf_1$bestTune$min.node.size,
@@ -352,7 +352,7 @@ vp3 <- ggplot(data = vimp_3,
   ylab("Variable Importance")+
   xlab("")+
   guides(fill=F)+
-  scale_fill_gradient(low="red", high="blue")
+  scale_fill_gradient(low="red", high="blue") 
 vp3 
 dev.off()
 

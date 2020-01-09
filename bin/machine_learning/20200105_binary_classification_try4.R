@@ -106,6 +106,7 @@ rf <- train(
 
 # Confusion matrix
 getTrainPerf(rf) # Training set accuracy is 82% for random forest
+saveRDS(rf, "data/machine_learning/models/20200105_rf_10foldcv.rds")
 
 # Try prediction
 rf$bestTune$splitrule
@@ -177,6 +178,8 @@ sink("output/machine_learning/20200105_nb_activity_binary_classification_results
 cm_nb
 sink()
 
+saveRDS(nb, "data/machine_learning/models/20200105_nb_10foldcv.rds")
+
 
 ## Make a heatmap of confusion matrix results
 cm_list <- list(cm_nb$table)
@@ -227,6 +230,7 @@ vimp <- data.frame(cbind(sort(nnet_mod$variable.importance, decreasing = T),
   mutate(importance = as.numeric(importance)) %>%
   dplyr::slice(1:15)
 vimp
+saveRDS(nnet_mod, "data/machine_learning/models/20200105_nnet_10foldcv.rds")
 
 
 # size decay

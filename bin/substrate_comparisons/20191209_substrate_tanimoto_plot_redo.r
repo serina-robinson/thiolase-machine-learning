@@ -116,7 +116,7 @@ dim(merg_key)
 # final_df <- read_delim("data/20191209_final_1120_merged_CID_cmpnd_name_key.txt", delim = "\t", col_names = F)
 
 key <- read_csv("data/20191209_final_substrates_tested_CID_cmpnd_name_key.csv")
-sdfset1 <- read.SDFset("data/20191209_final_substrates_tested_sdf")
+sdfset1 <- read.SDFset("data/substrate_comparisons/20191209_final_substrates_tested_sdf")
 sdfset2 <- read.SDFset("data/merged_sigma_CAs.sdf")
 
 sdfset <- c(sdfset1, sdfset2)
@@ -156,9 +156,9 @@ head(clusters)
 cluster.sizestat(clusters) # 56, 25 ,2
 
 
-clusviz <- cluster.visualize(apset, clusters, size.cutoff = 1, quiet = TRUE)
-x <- clusviz[,1]
-y <- clusviz[,2]
+moclusviz <- cluster.visualize(apset, clusters, size.cutoff = 1, quiet = TRUE)
+x <- moclusviz[,1]
+y <- moclusviz[,2]
 trdat <- data.frame(cbind(x,y))
 
 
