@@ -3,7 +3,7 @@
 pacman::p_load("tidyverse", "DECIPHER", "Biostrings", "skimr", "caret",
                "cowplot", "tidymodels", "ranger", "tree", "rsample", 
                "randomForest", "gbm","nnet","e1071","svmpath","lars",
-               "glmnet", "svmpath", "readxl", "ggpubr", "ggpmisc")
+               "glmnet", "svmpath", "readxl", "ggpubr")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
@@ -48,13 +48,13 @@ nozdat <- nearZeroVar(dedup, saveMetrics = TRUE)
 which_rem <- rownames(nozdat)[nozdat[,"nzv"] == TRUE]
 
 p1 <- ggplot(dedup) +
-  geom_histogram(stat = "identity", aes( x = activity, y = ..density..), alpha = 0.7,
+  geom_histogram(aes( x = activity, y = ..density..), alpha = 0.7,
                  binwidth = 0.075, fill = "gray80", color = "black") +
   theme_pubr(base_size = 17) +
   xlab("Enzyme activity") +
   ylab("Density")
 
-pdf("output/machine_learning/full_activity_distribution.pdf")
+pdf("output/machine_learning/full_activity_distribution.pdf", width = 5, height = 4)
 p1
 dev.off()
 
@@ -164,25 +164,16 @@ which.min(mean_testing_vec)
 rf_test_pred <- predict(rf_models[[which.min(mean_testing_vec)]]$models, form_test)
 rf_test_pred$predictions
 
-# 
-# df2 <- rf_test_pred$predictions %>%
-#   bind_cols(., y_test)
-# 
 
-df2 <- data.frame(cbind(rf_test_pred$predictions, y_test))
-colnames(df2) <- c("Predicted", "Truth")
+df2 <- rf_test_pred$predictions %>%
+  bind_cols(., y_test)
 
-my.formula = y ~ x
-pdf("output/machine_learning/obs_pred_regression_plot_for_fig3_test_only.pdf", width = 4, height = 4)
-ggplot(df2, aes(x = Truth, y = Predicted)) +
+
+ggplot(rf_test_pred, aes(x = obs, y = pred)) +
+  geom_abline(col = "green", alpha = .5) + 
   geom_point(alpha = .3) + 
-  geom_smooth(se = FALSE, col = "firebrick", method = "lm", 
-              lty = 2, lwd = 1, alpha = .5) +
-  theme_pubr(base_size = 14) +
-  stat_poly_eq(formula = my.formula,
-               aes(label = paste(..rr.label..)),
-               parse = TRUE)
-dev.off()
+  geom_smooth(se = FALSE, col = "red", 
+              lty = 2, lwd = 1, alpha = .5)
 
 # comp_df <- data.frame(cbind(dat_test$id, rf_test_pred$predictions, y_test)) %>%
 #   dplyr::mutate(y_pred = as.numeric(V2)) %>%
@@ -204,32 +195,27 @@ vimp_combined <- lapply(1:length(rf_models), function(x) { rf_models[[x]]$vimp }
   arrange(desc(importance)) %>%
   dplyr::mutate(var_fix = case_when(grepl("PC3", variable) ~ "Aromaticity (PC3)",
                                     grepl("PC1", variable) ~ "Molecular weight (PC1)",
-                                    grepl("PC2", variable) ~ "Molecular connectivity (PC2)",
+                                    grepl("PC2", variable) ~ "Molecular topology (PC2)",
                                     grepl("PC4", variable) ~ "Solubility (PC4)",
                                     grepl("PC5", variable) ~ "Oxygen content (PC5)",
                                     grepl("PC6", variable) ~ "Nitrogen content (PC6)",
                                     grepl("PC7", variable) ~ "Chlorine content (PC7)",
-                                    grepl("elechrg", variable) ~ paste0("Electrostatic charge (aa ", word(variable, -1, sep = "_"), ")"),
-                                    grepl("molsz", variable) ~ paste0("Amino acid volume (aa ", word(variable, -1, sep = "_"), ")"),
-                                    grepl("polrty", variable) ~ paste0("Polarity (aa ", word(variable, -1, sep = "_"), ")"),
-                                    grepl("secstr", variable) ~ paste0("Secondary structure (aa ", word(variable, -1, sep = "_"), ")")))
+                                    TRUE ~ paste0(word(variable, -1, sep = "_"), " ", word(variable, 1, sep = "_"))))
 vimp_combined
 
 
 vpavg <- ggplot(data = vimp_combined[1:30,],
-                aes(x = reorder(var_fix, importance), y=importance)) +
-  geom_bar(stat="identity", position="dodge", fill = "firebrick", colour = "gray30",
-           aes(alpha = ifelse(grepl("PC", var_fix), 1, 0.7))) +
-           coord_flip()+
+                aes(x=reorder(var_fix, importance), y=importance, fill=importance))+
+  geom_bar(stat="identity", position="dodge") + coord_flip()+
   ylab("Variable Importance")+
   xlab("")+
   guides(fill=F) +
-  theme_pubr(base_size = 16) +
-  theme(legend.position = "none")
+  scale_fill_gradient(low = "maroon", high = "red") +
+  theme_pubr()
 vpavg
 dev.off()
 
-pdf("output/machine_learning/20190104_rf_regression_10_iterations_varimp_avged.pdf", height = 8, width = 7)
+pdf("output/machine_learning/20190104_rf_regression_10_iterations_varimp_avged.pdf", height = 6, width = 5)
 vpavg
 dev.off()
 
