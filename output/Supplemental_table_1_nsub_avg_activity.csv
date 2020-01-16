@@ -1,0 +1,74 @@
+NCBI Accession,Organism,Average activity,Total number of substrates accepted
+WP_012802190,Kytococcus sedentarius,2.072,14
+WP_088919872,Granulosicoccus antarcticus,2.011,14
+WP_040156198,Mobilicoccus massiliensis,1.781,13
+WP_068469535,Kocuria varians strain G6,1.66,14
+WP_097326105,Actinoplanes atraurantiacus,1.511,13
+WP_114959563,Thermomonas haemolytica,1.402,11
+WP_117315975,Chromatocurvus halotolerans,1.358,11
+WP_003480168,Xanthomonas translucens ﻿pv. graminis,1.355,11
+WP_101686474,Dermabacter hominis,1.3,11
+WP_076585679,Luteimonas tolerans,1.29,11
+WP_096909276,Halobacteriovorax marinus ﻿strain BE01,1.282,13
+NP_635607,Xanthomonas campestris OleA,1.245,10
+WP_003805730,Arthrobacter globiformis,1.241,10
+WP_126985334,Brachybacterium paraconglomeratum,1.232,12
+WP_079726385,Okibacterium fritillariae,1.218,11
+WP_082133371,Mycolicibacterium obuense,1.218,12
+WP_022969495,Arenimonas oryziterrae,1.161,10
+WP_104244666,Subtercola sp. Z020,1.158,11
+WP_086472704,Plantibacter sp. VKM Ac-1784,1.132,11
+WP_058859095,Kocuria flava,1.122,11
+WP_034630949,Cellulomonas cellasea,1.111,11
+WP_130552392,Pseudoxanthomonas ﻿sp. NML171200,1.075,9
+WP_091632192,Micromonospora peucetia,1.067,9
+WP_026862459,Intrasporangiaceae bacterium URHB0013,1.046,10
+WP_096166078,Brachybacterium alimentarium,1.005,9
+WP_070193933,Humibacillus sp. DSM 29435,0.945,8
+WP_044441590,Agreia bicolorata,0.928,9
+WP_033420292,Nesterenkonia alba,0.912,9
+WP_028771085,Silanimonas lenta,0.878,8
+WP_053234550,Sandaracinus amylolyticus,0.866,8
+WP_056164922,Leifsonia ﻿sp. Leaf325,0.862,8
+WP_021267235,Bacteriovorax sp. BAL6 X,0.799,8
+WP_090596165,Auraticoccus monumenti,0.75,7
+WP_090922125,Paenibacillus polysaccharolyticus,0.725,8
+WP_100422947,Sediminihabitans luteus,0.709,6
+WP_028865527,Psychromonas aquimarina,0.678,7
+WP_013837355,Isoptericola variabilis,0.668,8
+WP_028327376,Dermatophilus congolensis,0.659,6
+OGN97459,Chloroflexi bacterium RBG 13 51 36,0.648,7
+WP_015749354,Nakamurella multipartita,0.64,6
+WP_012948569,Geodermatophilus obscurus,0.64,6
+WP_106091803,Enhygromyxa salina strain SWB007,0.638,6
+WP_101620581,Brevibacterium antiquum,0.627,6
+WP_005508112,Rothia mucilaginosa,0.623,7
+WP_026204600,Actinomycetospora chiangmaiensis,0.601,6
+WP_015101236,Saccharothrix espanaensis,0.572,6
+WP_116651321,Wenzhouxiangella sediminis,0.568,5
+WP_092493676,Virgibacillus salinus,0.559,6
+WP_015490789,Clavibacter michiganensis,0.543,5
+WP_053141838,Streptomyces ambofaciens,0.542,5
+WP_076469753,Micromonospora avicenniae,0.511,5
+WP_006592558,Kineosphaera limosa,0.502,5
+WP_012868615,Sanguibacter keddieii,0.498,5
+WP_119951226,Frankiales bacterium YIM 75000,0.482,5
+WP_095301808,Bacillus sp. 7586-K,0.482,4
+CVN04163,Streptococcus pneumoniae,0.477,5
+WP_051554118,Desulfobulbus elongatus,0.466,5
+WP_115933252,Citricoccus muralis,0.465,4
+WP_010983715,Streptomyces avermitilis,0.462,4
+WP_020589018,Desulfobacter curvatus,0.457,5
+WP_086990725,Agrococcus casei,0.456,5
+WP_068712879,Cephaloticoccus capnophilus,0.448,5
+WP_088206054,Chlamydiales bacterium SCGC AG-110-P3,0.44,4
+WP_013865923,Microlunatus phosphovorus,0.435,4
+WP_099839552,Clostridium combesii,0.39,4
+WP_005885358,Brevibacterium mcbrellneri,0.37,4
+WP_061782733,Shewanella putrefaciens,0.368,4
+WP_084558798,Anaerocolumna xylanovorans,0.365,4
+ABL00697,Pelobacter propionicus DSM 2379,0.362,4
+WP_073399371,Bacteroides luti,0.358,4
+WP_063765283,Nonomuraea candida,0.329,3
+WP_058441655,Legionella brunensis,0.327,3
+WP_030433686,Allokutzneria albata,0.243,2

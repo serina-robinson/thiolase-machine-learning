@@ -31,7 +31,7 @@ propdf
 sdffil <- "data/substrate_comparisons/15_pNPs_openbabel_sdf_2D.sdf"
 mol <- readMolFromSDF(sdffil)
 
-all_props <- extractDrugAIO(mol) # calculates all properties at once
+#all_props <- extractDrugAIO(mol) # calculates all properties at once
 raw_df <- all_props
 
 write_csv(raw_df, "data/substrate_comparisons/15pNPs_293_molecular_properties.csv")

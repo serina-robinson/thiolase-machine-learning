@@ -1,0 +1,73 @@
+NEED TO ADD XANTHOMONAS,,,,,,,,
+nam,resi292,resi203,resi151,acc,Organism,Average activity,Total number of substrates accepted,
+WP_012802190.1_Kytococcus_sedentarius_broad_broad,T,L,Q,WP_012802190,Kytococcus sedentarius,2.072,14,
+WP_088919872.1_Granulosicoccus_antarcticus_broad_broad,V,L,Q,WP_088919872,Granulosicoccus antarcticus,2.011,14,
+WP_068469535.1_Kocuria_varians_strain_G6_broad_broad,T,L,D,WP_068469535,Kocuria varians strain G6,1.66,14,
+WP_040156198.1_Mobilicoccus_massiliensis_broad_broad,L,L,Q,WP_040156198,Mobilicoccus massiliensis,1.781,13,
+WP_097326105.1_Actinoplanes_atraurantiacus_broad_broad,T,L,D,WP_097326105,Actinoplanes atraurantiacus,1.511,13,
+WP_096909276.1_Halobacteriovorax_marinus_﻿strain_BE01_broad_broad,T,L,T,WP_096909276,Halobacteriovorax marinus ﻿strain BE01,1.282,13,
+WP_126985334.1_Brachybacterium_paraconglomeratum_broad_broad,T,L,T,WP_126985334,Brachybacterium paraconglomeratum,1.232,12,
+WP_082133371.1_Mycolicibacterium_obuense_broad_broad,T,L,T,WP_082133371,Mycolicibacterium obuense,1.218,12,
+WP_114959563.1_Thermomonas_haemolytica_broad_broad,T,L,D,WP_114959563,Thermomonas haemolytica,1.402,11,
+WP_117315975.1_Chromatocurvus_halotolerans_broad_broad,T,L,D,WP_117315975,Chromatocurvus halotolerans,1.358,11,
+WP_101686474.1_Dermabacter_hominis_broad_broad,T,L,T,WP_101686474,Dermabacter hominis,1.3,11,
+WP_076585679.1_Luteimonas_tolerans_broad_broad,I,L,Q,WP_076585679,Luteimonas tolerans,1.29,11,
+WP_079726385.1_Okibacterium_fritillariae_broad_broad,T,L,T,WP_079726385,Okibacterium fritillariae,1.218,11,
+WP_104244666.1_Subtercola_sp._Z020_broad_broad,T,L,D,WP_104244666,Subtercola sp. Z020,1.158,11,
+WP_086472704.1_Plantibacter_sp._VKM_Ac-1784_broad_broad,E,I,A,WP_086472704,Plantibacter sp. VKM Ac-1784,1.132,11,
+WP_058859095.1_Kocuria_flava_broad_broad,T,L,T,WP_058859095,Kocuria flava,1.122,11,
+WP_034630949.1_Cellulomonas_cellasea_broad_broad,T,L,Q,WP_034630949,Cellulomonas cellasea,1.111,11,
+WP_003805730.1_Arthrobacter_globiformis_broad_broad,T,L,N,WP_003805730,Frankiales bacterium YIM 75000,1.241,10,
+WP_022969495.1_Arenimonas_oryziterrae_broad_broad,T,L,D,WP_022969495,Arenimonas oryziterrae,1.161,10,
+WP_026862459.1_Intrasporangiaceae_bacterium_URHB0013_broad_broad,T,L,D,WP_026862459,Intrasporangiaceae bacterium URHB0013,1.046,10,
+WP_130552392.1_Pseudoxanthomonas_﻿sp._NML171200_broad_broad,T,L,D,WP_130552392,Pseudoxanthomonas ﻿sp. NML171200,1.075,9,
+WP_091632192.1_Micromonospora_peucetia_broad_broad,T,L,S,WP_091632192,Micromonospora peucetia,1.067,9,
+WP_096166078.1_Brachybacterium_alimentarium_broad_broad,T,L,H,WP_096166078,Brachybacterium alimentarium,1.005,9,
+WP_044441590.1_Agreia_bicolorata,T,L,A,WP_044441590,Agreia bicolorata,0.928,9,
+WP_033420292.1_Nesterenkonia_alba,T,L,T,WP_033420292,Nesterenkonia alba,0.912,9,
+WP_070193933.1_Humibacillus_sp._DSM_29435,T,L,Q,WP_070193933,Humibacillus sp. DSM 29435,0.945,8,
+WP_028771085.1_Silanimonas_lenta,T,L,D,WP_028771085,Silanimonas lenta,0.878,8,
+WP_053234550.1_Sandaracinus_amylolyticus,T,L,E,WP_053234550,Sandaracinus amylolyticus,0.866,8,
+WP_056164922.1_Leifsonia_﻿sp._Leaf325,T,L,T,WP_056164922,Leifsonia ﻿sp. Leaf325,0.862,8,
+WP_021267235.1_Bacteriovorax_sp._BAL6_X,K,I,E,WP_021267235,Bacteriovorax sp. BAL6 X,0.799,8,
+WP_090922125.1_Paenibacillus_polysaccharolyticus,M,F,D,WP_090922125,Paenibacillus polysaccharolyticus,0.725,8,
+WP_013837355.1_Isoptericola_variabilis,T,L,S,WP_013837355,Isoptericola variabilis,0.668,8,
+WP_090596165.1_Auraticoccus_monumenti,I,L,Q,WP_090596165,Auraticoccus monumenti,0.75,7,
+WP_028865527.1_Psychromonas_aquimarina,Q,G,L,WP_028865527,Psychromonas aquimarina,0.678,7,
+OGN97459.1_Chloroflexi_bacterium_RBG_13_51_36,S,L,V,OGN97459,Chloroflexi bacterium RBG 13 51 36,0.648,7,
+WP_005508112.1_Rothia_mucilaginosa,T,L,T,WP_005508112,Rothia mucilaginosa,0.623,7,
+WP_100422947.1_Sediminihabitans_luteus,T,L,T,WP_100422947,Sediminihabitans luteus,0.709,6,
+WP_028327376.1_Dermatophilus_congolensis,I,L,Q,WP_028327376,Dermatophilus congolensis,0.659,6,
+WP_012948569.1_Geodermatophilus_obscurus,T,L,E,WP_012948569,Geodermatophilus obscurus,0.64,6,
+WP_015749354.1_Nakamurella_multipartita,T,L,H,WP_015749354,Nakamurella multipartita,0.64,6,
+WP_106091803.1_Enhygromyxa_salina_strain_SWB007,T,L,E,WP_106091803,Enhygromyxa salina strain SWB007,0.638,6,
+WP_101620581.1_Brevibacterium_antiquum,V,L,T,WP_101620581,Brevibacterium antiquum,0.627,6,
+WP_026204600.1_Actinomycetospora_chiangmaiensis,T,V,N,WP_026204600,Actinomycetospora chiangmaiensis,0.601,6,
+WP_015101236.1_Saccharothrix_espanaensis,L,L,E,WP_015101236,Saccharothrix espanaensis,0.572,6,
+WP_092493676.1_Virgibacillus_salinus,M,F,V,WP_092493676,Virgibacillus salinus,0.559,6,
+WP_116651321.1_Wenzhouxiangella_sediminis,T,L,N,WP_116651321,Wenzhouxiangella sediminis,0.568,5,1
+WP_015490789.1_Clavibacter_michiganensis_narrow_narrow,T,L,T,WP_015490789,Clavibacter michiganensis,0.543,5,2
+WP_053141838.1_Streptomyces_ambofaciens_narrow_narrow,Y,A,E,WP_053141838,Streptomyces ambofaciens,0.542,5,3
+WP_076469753.1_Micromonospora_avicenniae_narrow_narrow,L,F,D,WP_076469753,Micromonospora avicenniae,0.511,5,4
+WP_006592558.1_Kineosphaera_limosa_narrow_narrow,I,L,H,WP_006592558,Kineosphaera limosa,0.502,5,5
+WP_012868615.1_Sanguibacter_keddieii_narrow_narrow,T,L,N,WP_012868615,Sanguibacter keddieii,0.498,5,6
+WP_119951226.1_Frankiales_bacterium_YIM_75000_narrow_narrow,T,L,N,WP_119951226,Frankiales bacterium YIM 75000,0.482,5,7
+CVN04163.1_Streptococcus_pneumoniae_narrow_narrow,T,L,M,CVN04163,Streptococcus pneumoniae,0.477,5,8
+WP_051554118.1_Desulfobulbus_elongatus_narrow_narrow,A,I,V,WP_051554118,Desulfobulbus elongatus,0.466,5,9
+WP_020589018.1_Desulfobacter_curvatus_narrow_narrow,H,G,V,WP_020589018,Desulfobacter curvatus,0.457,5,10
+WP_086990725.1_Agrococcus_casei_narrow_narrow,V,L,T,WP_086990725,Agrococcus casei,0.456,5,11
+WP_068712879.1_Cephaloticoccus_capnophilus_narrow_narrow,R,V,T,WP_068712879,Cephaloticoccus capnophilus,0.448,5,12
+WP_095301808.1_Bacillus_sp._7586-K_narrow_narrow,M,F,D,WP_095301808,Bacillus sp. 7586-K,0.482,4,13
+WP_115933252.1_Citricoccus_muralis_narrow_narrow,T,L,T,WP_115933252,Citricoccus muralis,0.465,4,14
+WP_010983715.1_Streptomyces_avermitilis_narrow_narrow,W,-,C,WP_010983715,Streptomyces avermitilis,0.462,4,15
+WP_088206054.1_Chlamydiales_bacterium_SCGC_AG-110-P3_narrow_narrow,T,L,G,WP_088206054,Chlamydiales bacterium SCGC AG-110-P3,0.44,4,16
+WP_013865923.1_Microlunatus_phosphovorus_narrow_narrow,L,I,Q,WP_013865923,Microlunatus phosphovorus,0.435,4,17
+WP_099839552.1_Clostridium_combesii_narrow_narrow,N,I,D,WP_099839552,Clostridium combesii,0.39,4,18
+WP_005885358.1_Brevibacterium_mcbrellneri_narrow_narrow,T,L,T,WP_005885358,Brevibacterium mcbrellneri,0.37,4,19
+WP_061782733.1_Shewanella_putrefaciens_narrow_narrow,R,G,L,WP_061782733,Shewanella putrefaciens,0.368,4,20
+WP_084558798.1_Anaerocolumna_xylanovorans_narrow_narrow,I,V,E,WP_084558798,Anaerocolumna xylanovorans,0.365,4,21
+ABL00697.1_Pelobacter_propionicus_DSM_2379_narrow_narrow,Q,G,L,ABL00697,Pelobacter propionicus DSM 2379,0.362,4,22
+WP_073399371.1_Bacteroides_luti_narrow_narrow,D,M,S,WP_073399371,Bacteroides luti,0.358,4,23
+WP_063765283.1_Nonomuraea_candida_narrow_narrow,L,V,E,WP_063765283,Nonomuraea candida,0.329,3,24
+WP_058441655.1_Legionella_brunensis_narrow_narrow,Q,G,I,WP_058441655,Legionella brunensis,0.327,3,25
+WP_030433686.1_Allokutzneria_albata_narrow_narrow,V,V,E,WP_030433686,Allokutzneria albata,0.243,2,26

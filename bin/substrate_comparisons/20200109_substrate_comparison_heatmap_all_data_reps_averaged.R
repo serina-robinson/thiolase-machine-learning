@@ -165,8 +165,6 @@ newnames <- lapply(
   function(x) bquote(italic(.(x))))
 
 
-
-
 respht <- pheatmap(
   cluster_cols = T,
   cluster_rows = F,
@@ -234,16 +232,105 @@ ggt <- ggtree(ggtree_phylo) +
 
 #pdf("output/ggtree_with_heatmap.pdf", height = 20, width = 50)
 
-pdf("output/ggtree_heatmap_combo.pdf",width = 12, height = 20)
-gheatmap(ggt, test_ord, offset = 6.5, width = 3, font.size = 1, color = NULL) +
-  scale_fill_viridis(option = "inferno")
-dev.off()
-#dev.off()
 
-pdf("output/ggtree_to_align.pdf",width = 10, height = 20)
-ggt
+# Try ggtree and barplot
+avg_act <- test_ord %>%
+  rowMeans(.) %>%
+  data.frame(., stringsAsFactors = F) %>%
+  rownames_to_column(., var = "org")
+
+colnames(avg_act) <- c("org", "avg_activity")
+
+# Merge with taxonomy
+mergtax <- avg_act %>%
+  left_join(., merg, by = c("org" = "labs"))
+head(mergtax)
+
+
+# Read in the custom palette
+clustkey <- read_csv("data/OleA_palette_key.csv")
+clustkey$levs[clustkey$levs == "Green non-sulfur bacteria"] <- "Chloroflexi"
+
+clustkey
+levels(as.factor(ggdf$data$class))
+
+
+mergtax$class[grepl("Opit", mergtax$class)] <- "Opitutae"
+mergord <- mergtax[rev(match(ggt$data$label[ggt$data$isTip], mergtax$org)),] %>%
+  dplyr::select(-label) %>%
+  dplyr::mutate(label = org) %>%
+  dplyr::left_join(., clustkey, by = c("class" = "levs")) %>%
+  dplyr::select(label, org, avg_activity, acc, organism, genus, family, order, class, phylum, pal2)
+
+mergord[is.na(mergord$pal2),]
+
+ggt$panel <- 'Tree'
+mergord$panel <- 'Stats'
+ggt$panel <- factor(ggt$panel, levels=c("Tree", "Stats"))
+mergord$panel <- factor(mergord$panel, levels=c("Tree", "Stats"))
+
+
+pdf("output/heatmap_combo_barplot.pdf", width = 30, height = 20)
+p <- ggplot(mapping=aes(x = org, 
+                                        y = avg_activity,
+                                        color = class,
+                                        fill = class)) +
+  facet_grid(.~panel, scale="free_y") + theme_tree2()
+g2 <- p + geom_bar(data = mergord, stat= "identity") + 
+  coord_flip() + 
+  ggt
+gheatmap(g2, test_ord, offset = 6.5, width = 2.5, font.size = 1, color = NULL) +
+scale_fill_viridis(option = "inferno")
 dev.off()
 
+
+
+ggplot(data = mergord, mapping=aes(x = org, 
+                                   y = avg_activity,
+                                   color = class,
+                                   fill = class)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  ggt +
+  facet_grid(.~panel, scale="free_x")
+
+
+
+pdf("output/ggtree_with_barplot.pdf",width = 10, height = 20)
+ggplot(data = avg_act, mapping=aes(x=x, y=y)) + facet_grid(.~panel, scale="free_x")
+dev.off()
+
+mergord$label
+
+
+ggdf <- ggt %<+% mergord
+ggdf$data$class
+
+clustord <- clustkey[match(levels(as.factor(ggdf$data$class)), clustkey$levs),]
+
+pdf("output/ggtree_with_circsize.pdf",width = 10, height = 20)
+gsz <- ggdf +
+  geom_tippoint(aes(size = avg_activity, color = class, fill = class, alpha = avg_activity), x = 20) +
+  scale_fill_manual(values = clustord$pal2) +
+  scale_color_manual(values = clustord$pal2)
+gsz
+dev.off()
+
+ggdf$data$pal2
+gsz <- ggdf +
+  geom_tippoint(aes(size = avg_activity, alpha = avg_activity), color = ggdf$data$pal2[ggdf$data$isTip], 
+                fill = ggdf$data$pal2[ggdf$data$isTip], x = 12.5)
+gsz  
+# scale_fill_manual(values = clustord$pal2) +
+  # scale_color_manual(values = clustord$pal2)
+
+
+
+pdf("output/ggtree_heatmap_combo_no_legend.pdf", width = 11, height = 13.75)
+gheatmap(gsz, test_ord, offset = 8, width = 2.4, font.size = 1, color = NULL) +
+  scale_fill_viridis(option = "inferno") +
+  theme(legend.title = element_blank(), legend.position = "none")
+dev.off()
 
 # gheatmap(ggt, testr, low = pal2[1], high = pal2[70])
 

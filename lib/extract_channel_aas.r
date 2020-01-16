@@ -15,8 +15,9 @@ extract_channel_aas <- function(query_fil) {
   ref_aln <- alned["4KU5"]
   
   # Read in the 34 indices
-  channel_a <- c(253, 258, 261, 284, 291, 292, 295, 343, 345, 349, 351, 353)
-  channel_b <- c(176, 173, 172, 242, 243, 112, 111, 171, 117, 316, 203, 246)
+  #channel_a <- c(253, 258, 261, 284, 291, 292, 295, 343, 345, 349, 351, 353)
+  #channel_b <- c(176, 173, 172, 242, 243, 112, 111, 171, 117, 316, 203, 246)
+  ind <- 151
   aa34_inds <- c(channel_a, channel_b)
   aa34_inds_adj <- aa34_inds # - 65 or something like that depending on ref
 
