@@ -129,7 +129,7 @@ pdf("output/machine_learning/rocPlot.pdf",
     width=4, height=4)
 par(bty = "L")
 plot(rfRoc, type = "s", 
-     col = "#529DCF", xaxs = "i",yaxs="i",
+     col = "#529DCF", xaxs = "i", yaxs="i",
      print.auc = TRUE, print.auc.x = 0.8, print.auc.y = 0.6)
 dev.off()
 

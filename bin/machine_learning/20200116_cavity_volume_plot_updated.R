@@ -72,7 +72,7 @@ combdat
 my.formula = y ~ x
 pdf("output/machine_learning/solvent_pocket_volume_surface_area_plot_dimethyl.pdf", width = 7, height = 6)
 pl2 <- ggplot(data = combdat, aes(x = area_sa, y = avg_activity)) +
-  geom_smooth(data = combdat, aes(x = area_sa, y = avg_activity), method = "lm", se = FALSE, color="gray90", formula = my.formula, linetype = 2) +
+  geom_smooth(data = combdat, aes(x = area_sa, y = avg_activity), method = "lm", se = FALSE, color="gray70", formula = my.formula, linetype = 2) +
   geom_point(data = combdat, aes(x = area_sa, y = avg_activity, size = volume_sa),
              color = "#008080", 
              alpha = ifelse(grepl("atraur|Halobacter|paraconglomeratum", combdat$org), 1, 0.3)) +
@@ -80,20 +80,20 @@ pl2 <- ggplot(data = combdat, aes(x = area_sa, y = avg_activity)) +
   theme(legend.position = "none") +
   # scale_color_viridis(option = "plasma") +
   # ggrepel::geom_text_repel(data = subset(combdat, avg_activity > 1.85 | area_sa > 580 | area_sa < 275), segment.size = 0.2,
-  #                          # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+  #                          # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
   #                          segment.color = "grey50", #direction = "x",
   #                          aes(label = spec), fontface = "italic") +
   ggrepel::geom_text_repel(data = subset(combdat, grepl("Kytococcus|campestris|combesii|avermitilis", org)),
-                           segment.size = 0.2, nudge_x = 2, #force = 50, 
-                           segment.color = "gray40", size = 4,
-                           # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
-                           color = "gray40",
+                           segment.size = 0.2, nudge_x = 1, force = 50, 
+                           segment.color = "gray30", size = 4, point.padding = 0.2,
+                           # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+                           color = "gray30",
                            #direction = "x",
                            aes(label = spec), fontface = "italic") +
   ggrepel::geom_text_repel(data = subset(combdat, grepl("atraur|Halobacter|paraconglomeratum", org)),
-                           segment.size = 0.2, size = 4, nudge_x = 2, #force = 50,
-                           segment.color = "black", 
-                           # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+                           segment.size = 0.2, size = 4, nudge_x = 1, force = 50,
+                           segment.color = "black", point.padding = 0.2, 
+                           # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
                            color = "black",
                            #direction = "x",
                            aes(label = spec), fontface = "italic") +
@@ -165,7 +165,7 @@ my.formula = y ~ x
 set.seed(1234)
 pdf("output/machine_learning/solvent_pocket_volume_surface_area_plot_all_substrates_compared.pdf", width = 7, height = 6)
 pl1 <- ggplot(data = combdat2, aes(x = area_sa, y = avg_activity)) +
-  geom_smooth(data = combdat2, aes(x = area_sa, y = avg_activity), method = "lm", se = FALSE, color="gray90", formula = my.formula, linetype = 2) +
+  geom_smooth(data = combdat2, aes(x = area_sa, y = avg_activity), method = "lm", se = FALSE, color="gray70", formula = my.formula, linetype = 2) +
   geom_point(data = combdat2, aes(x = area_sa, y = avg_activity, size = volume_sa),
              color = "gray30", 
              alpha = ifelse(grepl("atraur|Halobacter|paraconglomeratum", combdat2$org), 1, 0.3)) +
@@ -174,20 +174,20 @@ pl1 <- ggplot(data = combdat2, aes(x = area_sa, y = avg_activity)) +
         legend.title = element_blank()) +
  # scale_color_viridis(option = "plasma") +
   # ggrepel::geom_text_repel(data = subset(combdat, avg_activity > 1.85 | area_sa > 580 | area_sa < 275), segment.size = 0.2,
-  #                          # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+  #                          # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
   #                          segment.color = "grey50", #direction = "x",
   #                          aes(label = spec), fontface = "italic") +
   ggrepel::geom_text_repel(data = subset(combdat2, grepl("Kytococcus|campestris|combesii|avermitilis", org)),
-                           segment.size = 0.2, size = 4, #force = 30, 
-                           segment.color = "gray40", nudge_x = 2,
-                           # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
-                           color = "gray40",
+                           segment.size = 0.2, size = 4, force = 50, point.padding = 0.35,
+                           segment.color = "gray30", nudge_x = 1, 
+                           # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+                           color = "gray30",
                            #direction = "x",
                            aes(label = spec), fontface = "italic") +
   ggrepel::geom_text_repel(data = subset(combdat2, grepl("atraur|Halobacter|paraconglomeratum", org)),
-                           segment.size = 0.2, size = 4, #force = 30,
-                           segment.color = "black", nudge_x = 2,
-                           # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+                           segment.size = 0.2, size = 4, force = 50, point.padding = 0.35,
+                           segment.color = "black", nudge_x = 1, 
+                           # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
                            color = "black",
                            #direction = "x",
                            aes(label = spec), fontface = "italic") +
@@ -208,7 +208,7 @@ dev.off()
 
 pdf("output/machine_learning/solvent_pocket_volume_surface_area_plot_all_substrates_compared.pdf", width = 7, height = 6)
 ggplot(data = combdat2, aes(x = area_sa, y = avg_activity)) +
-  geom_smooth(data = combdat2, aes(x = area_sa, y = avg_activity), method = "lm", se = FALSE, color="gray90", formula = my.formula, linetype = 2) +
+  geom_smooth(data = combdat2, aes(x = area_sa, y = avg_activity), method = "lm", se = FALSE, color="gray70", formula = my.formula, linetype = 2) +
   geom_point(data = combdat2, aes(x = area_sa, y = avg_activity, size = volume_sa),
              color = "gray30", 
              alpha = ifelse(grepl("atraur|Halobacter|paraconglomeratum", combdat2$org), 1, 0.15)) +
@@ -216,20 +216,20 @@ ggplot(data = combdat2, aes(x = area_sa, y = avg_activity)) +
   theme(legend.title = element_blank()) +
   # scale_color_viridis(option = "plasma") +
   # ggrepel::geom_text_repel(data = subset(combdat, avg_activity > 1.85 | area_sa > 580 | area_sa < 275), segment.size = 0.2,
-  #                          # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+  #                          # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
   #                          segment.color = "grey50", #direction = "x",
   #                          aes(label = spec), fontface = "italic") +
   ggrepel::geom_text_repel(data = subset(combdat2, grepl("Kytococcus|campestris|combesii|avermitilis", org)),
                            segment.size = 0.2, size = 4,
-                           segment.color = "gray40", 
-                           # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
-                           color = "gray40",
+                           segment.color = "gray30", 
+                           # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+                           color = "gray30",
                            #direction = "x",
                            aes(label = spec), fontface = "italic") +
   ggrepel::geom_text_repel(data = subset(combdat2, grepl("atraur|Halobacter|paraconglomeratum", org)),
                            segment.size = 0.2, size = 4,
                            segment.color = "black", 
-                           # nudge_y = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
+                           # nudge_x = 20, #subset(combdat, avg_activity > 1.25)$volume_sa,
                            color = "black",
                            #direction = "x",
                            aes(label = spec), fontface = "italic") +

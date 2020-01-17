@@ -1,7 +1,7 @@
 # Install packages
 pacman::p_load("tidyverse", "ChemmineR", "readxl", "webchem", "Rcpi", 
                "recipes", "ggthemes", "caret", "earth", "factoextra", 
-               "FactoMineR", "ggpubr")
+               "FactoMineR", "ggpubr", "ggrepel")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
@@ -29,8 +29,11 @@ head(pca_dat$rotation)
 
 screeplot(pca_dat, npcs = 15, type = "lines")
 
-pdf("output/substrate_comparisons/molecular_descriptor_10_PC_screeplot_variances.pdf", height = 6, width  = 4)
-screeplot(pca_dat, npcs = 10, type = "lines")
+pdf("output/substrate_comparisons/molecular_descriptor_10_PC_screeplot_variances.pdf", height = 6, width  = 5)
+# par(mar=c(0.01,0.01,0.01,0.01))
+screeplot(pca_dat, npcs = 10, type = "bar",
+         xaxs = "i", 
+         yaxs="i", ylim = c(0, 60))
 dev.off()
 
 imp <- summary(pca_dat)[6][[1]] # extract importance
@@ -73,7 +76,9 @@ pc2_var <- round(imp[2,1:7][2] * 100, 1)
 pdf(paste0("output/substrate_comparisons/molecular_descriptor_pca_dat.pdf"), width = 5, height = 5)
 par(mar=c(0.01,0.01,0.01,0.01))
 ggplot(data = dat, aes(x = PC1, y = PC2)) + 
-  geom_text(size = 2, aes(label = rownames(dat))) +
+  geom_point(size = 2, alpha = 0.5, color = "gray40") +
+  geom_text_repel(size = 3, force = 30, segment.color = "gray50", 
+                  point.padding = 0.3, aes(label = rownames(dat))) +
   scale_shape(solid = TRUE) +
   theme_pubr()+
   #geom_text(aes(x = rownames(dat)))+
