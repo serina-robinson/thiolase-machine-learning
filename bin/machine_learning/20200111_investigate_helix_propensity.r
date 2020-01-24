@@ -1,18 +1,14 @@
 # Install packages
-pacman::p_load("tidyverse", "DECIPHER", "Biostrings", "skimr", "caret", "PerformanceAnalytics",
-               "cowplot", "tidymodels", "ranger", "tree", "rsample", "corrr", "plyr",
-               "randomForest", "gbm","nnet","e1071","svmpath","lars", "ggpmisc",
-               "glmnet", "svmpath", "readxl", "ggpubr", "doMC", "doParallel")
+pacman::p_load("tidyverse", "readxl", )
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
-
 
 # Read in the principal componenets of molecular features
 molec_fts <- read_csv("data/machine_learning/PC7_molecular_descriptors.csv") %>%
   dplyr::rename(substrate = V1)
 molec_fts$substrate <- gsub(" ", "\\.", molec_fts$substrate)
-molec_fts$substrate[molec_fts$substrate == "oxidazole"] <- "oxadiazole"
+molec_fts$substrate[molec_fts$substrate == "oxidazole"] <- "oxadiazole"  # fix typo
 
 # Read in the sequence features 
 seq_fts <- read_csv("data/machine_learning/73_12angstrom_4aa_features.csv") %>%
@@ -26,12 +22,11 @@ seq_fts <- seq_fts %>%
 
 # Read in the protein features
 prot_fts <- read_csv("data/machine_learning/73_overall_calculated_protein_properties.csv")
-# grep(paste0(prot_fts$acc, collapse = "|"), seq_fts$enzyme)
 
 # Read in the activity data
 activity <- read_csv("data/machine_learning/20191218_all_cmpnds_avg_log_slopes_for_modeling.csv")
 
-# Fix discrepancies in merging names
+# Fix discrepancies when merging names
 pseudo1 <- seq_fts$org[grep("Pseudoxanthomonas", seq_fts$org)]
 pseudo2 <- activity$org[grep("Pseudoxanthomonas", activity$org)][1]
 seq_fts$org[grep("Pseudoxanthomonas", seq_fts$org)] <- pseudo2
@@ -46,9 +41,9 @@ comb <- activity %>%
   dplyr::left_join(., seq_fts, by = "org") %>%
   dplyr::left_join(., prot_fts, by = "acc")
 
-# Now remove duplicate rows (hopefully there aren't any)
-dedup <- comb[complete.cases(comb),] # no duplicates
-dedup <- dedup[!duplicated(dedup),]
+# Now remove duplicate rows
+dedup <- comb[complete.cases(comb),] # no missing data
+dedup <- dedup[!duplicated(dedup),]  # no duplicates
 
 # Only keep variables with nonzero variance
 nozdat <- nearZeroVar(dedup, saveMetrics = TRUE)
@@ -60,7 +55,7 @@ dat <- dedup %>%
   dplyr::mutate(is_active = as.factor(case_when(activity == 0 ~ "N",
                                                 TRUE ~ "Y"))) %>%
   dplyr::filter(is_active == "Y") %>%
-  dplyr::select(-which_rem, -enzyme, -is_active, -sqs, -core, -acc, -nams) #-IUPAC, -SMILES, -cmpnd_abbrev, ) 
+  dplyr::select(-which_rem, -enzyme, -is_active, -sqs, -core, -acc, -nams) 
 
 # Center and scale everything except for id and is_active
 datscale <- dat %>%
@@ -90,8 +85,7 @@ ggplot(dat, aes(x = KF1, y = activity)) +
   geom_point() + 
   geom_smooth(method = "loess", colour = "red", fill = "red") + 
   geom_smooth(method = "lm", colour = "blue", fill = "blue") + 
-  facet_grid(as.factor(dat$substrate)) +
-  # (data=cors, aes(label=paste("r=", cor, sep="")), x=1, y=1) +
+  facet_grid(as.factor(dat$substrate)) 
   theme_pubr()
 
 
@@ -111,7 +105,6 @@ ggplot(dat, aes(x = hydrophob_core, y = activity)) +
   geom_smooth(method = "loess", colour = "red", fill = "red") + 
   geom_smooth(method = "lm", colour = "blue", fill = "blue") + 
   facet_grid(as.factor(dat$substrate)) +
-  # (data=cors, aes(label=paste("r=", cor, sep="")), x=1, y=1) +
   theme_pubr()
 dev.off()
 
@@ -119,9 +112,7 @@ p + facet_grid(vs ~ am) +
   geom_text(data=cors, aes(label=paste("r=", cor, sep="")), x=30, y=4)
 
 avg_dat <- dat %>%
-  # dplyr::select(org, substrate, KF1, activity) %>%
   group_by(org) %>%
-  # dplyr::select(-org, -substrate)
   dplyr::summarise_each(funs(mean), activity) %>%
   dplyr::rename(avg_activity = activity)
 
@@ -140,19 +131,13 @@ head(avg_dat)
 
 datavg_comb <- avg_dat %>%
   dplyr::left_join(., dat, by = "org") %>%
-  #dplyr::select(-contains("PC"), -contains("4KU5"), -id, -substrate, -org, -activity) %>%
   distinct() %>%
   dplyr::select(contains("PC"), activity)
-  #::select(KF1, F2, ST1, hmoment, mw_prot, lngth_prot, boman_interactions, hydrophob_core, avg_activity)
 datavg_comb
 chart.Correlation(datavg_comb)
 
-
 cor.test(avg_comb$avg_activity, avg_comb$KF1)
 
-
-
-# MOre alpha helix and bend properties
 pdf("output/substrate_comparisons/activity_with_structural_correleations.pdf")
 chart.Correlation(avg_comb, pch = 19, histogram = TRUE)
 dev.off()
