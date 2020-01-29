@@ -1,6 +1,5 @@
 # Install packages
-pacman::p_load("tidyverse", "maditr", "readxl", "randomcoloR", "dendextend", "phylogram", "patchwork",
-               "RColorBrewer", "ggplot2", "pheatmap", "viridis", "scales", "phytools", "ggtree")
+pacman::p_load("tidyverse", "maditr", "readxl", "RColorBrewer", "ggplot2", "viridis", "scales", "ggtree")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
@@ -44,7 +43,7 @@ maprdat_log <- newdat %>%
   dplyr::mutate(log_slope = log10(hr_slope)) 
 maprdat_log
 
-# Combine with c6
+# Combine averaged controls with C6 data
 maprdat_long <- maprdat_log %>%
   bind_rows(., avged_ctrls) %>%
   dplyr::select(cmpnd, org, log_slope)
@@ -78,7 +77,6 @@ rownames(maprdat_mat) <- gsub("XC", "Xanthomonas campestris OleA*", rownames(map
 rownames(maprdat_mat) <- gsub("Pseudoxanthomonas", "Pseudoxanthomonas sp.", rownames(maprdat_mat))
 rownames(maprdat_mat) <- paste0(word(rownames(maprdat_mat), 1, sep = " "), " ", word(rownames(maprdat_mat), 2, sep = " "))
 
-
 # Remove duplicates and exceptions
 dedup <- maprdat_mat[!duplicated(rownames(maprdat_mat)),]
 dedup_sort <- dedup[order(rowSums(dedup), decreasing = T),]
@@ -87,26 +85,18 @@ dedup_sort <- dedup[order(rowSums(dedup), decreasing = T),]
 testr <- cbind(dedup_sort, rep(0, nrow(dedup_sort)))
 colnames(testr)[ncol(testr)] <- "benzoate"
 
-testdf <- data.frame(testr, stringsAsFactors = F)
-testdf$org <- rownames(testdf)
-testdf_long <- gather(testdf, key = substrate, value = activity, X7Ph.heptanoate:benzoate, factor_key = TRUE)
-testdf_long$substrate <- gsub("X7", "7", testdf_long$substrate)
-head(testdf_long)
+testm <- testr
+testm[testm > 0] <- 1
+nsub <- data.frame(cbind(rownames(testm), rowSums(testm)))
+colnames(nsub) <- c("org", "nsub")
 
-# write_csv(testdf_long, "output/substrate_comparisons/20200109_all_cmpnds_avg_log_slopes_for_modeling.csv")
-
-# First convert to a hclust object
 tr <- "data/73_OleA_aligned_trimmed_fasttree_phylo.nwk"
 fastree <- treeio::read.tree(tr)
 ggtree_phylo <- treeio::as.phylo(fastree)
-ggt <- ggtree(ggtree_phylo, branch.length = F)
-
-pdf("output/ggtree_results.pdf")
-ggt
-dev.off()
 
 # Read in the taxonomy
 rawtax <- read_excel("data/OleA_taxonomic_classification.xlsx") 
+table(rawtax$phylum)
 xantho <- rawtax[grep("Xanthomonas", rawtax$organism),]
 xantho$organism <- c("Xanthomonas_campestris_OleA")
 xantho$genus <- "Xanthomonas_campestris"
@@ -124,7 +114,6 @@ for(i in 1:length(tax$organism)) {
   tax$acc[i] <- word(ptax[ind], sep = "\\.1", 1)
   ptax[ind] <- paste0(ptax[ind], "_", tax$class[i], "_", tax$phylum[i])
 }
-
 tax$acc[is.na(tax$acc)] <- "NP_635607"
 
 # Reorder the data frame to match
@@ -146,92 +135,16 @@ leif1 <- rownames(maprdat_mat)[grep("Leifsonia", rownames(maprdat_mat))]
 leif2 <- merg$labs[grep("Leifsonia", merg$labs)][1]
 merg$labs[grep("Leifsonia", merg$labs)] <- leif1
 
-rownames(maprdat_mat)[!rownames(maprdat_mat) %in% merg$labs] # everything matches
-
+# Create a phylogenetic tree
 ggtree_phylo$tip.label <- merg$labs
-ult <- phytools::force.ultrametric(ggtree_phylo, method=c("nnls","extend"))
-root_lab <- ult$tip.label[grep("Myco", ult$tip.label)]
-rtd_tree <- root(ult, root_lab)
-
-hcl2 <- ape::as.hclust.phylo(rtd_tree)
-
-
-
-resmat <- testr[match(ggtree_phylo$tip.label, rownames(testr)),]
-
-
-newnames <- lapply(
-  rownames(resmat),
-  function(x) bquote(italic(.(x))))
-
-
-respht <- pheatmap(
-  cluster_cols = T,
-  cluster_rows = F,
-  border_color = NA,
-  mat = resmat,
-  color = pal2,
-  annotation_names_row = T, 
-  # clustering_callback = cl_cb,
-  fontsize_col = 10, 
-  fontsize_row = 8, 
-  annotation_names_col =  T,
-  labels_row = as.expression(newnames))
-
-
-pdf("output/substrate_comparisons/20200109_substrate_comparison_heatmap_unclustered_log10_scale_per_hr_reps_avged_phylo.pdf", width = 6, height = 11)
-respht
-dev.off()
-
-
-# Now add the phylogenetic tree dendrogram
-wts <- as.numeric(match(ggtree_phylo$tip.label, rownames(testr)))
-wts
-
-cl_cb <- function(hcl, mat){
-  
-  wts <- match(ggtree_phylo$tip.label, rownames(mat))
-  hclust_olo <- reorder(hcl, wts)
-  return(hclust_olo)
-}
-
-wts <- match(ggtree_phylo$tip.label, rownames(testr))
-wts
-reorder(respht_clust$tree_row, wts, agglo.fun = "max")
-
-
-respht_clust <- pheatmap(
-  cluster_cols = T,
-  cluster_rows = T,
-  border_color = NA,
-  mat = testr,
-  color = pal2,
-  annotation_names_row = T, 
-  clustering_callback = cl_cb,
-  fontsize_col = 10, 
-  fontsize_row = 8, 
-  annotation_names_col =  T,
-  labels_row = as.expression(newnames))
-
-#rn <- factor(rownames(testr), levels = rownames(testr))
-#rn
-#gt <- factor(ggtree_phylo$tip.label, levels = ggtree_phylo$tip.label)
-# rn[order(rn, gt)]
-
-
-ord_cols <- respht$tree_col$labels[respht$tree_col$order]
-colnames(testr)
-
-test_ord <- testr[,match(ord_cols, colnames(testr))]
-colnames(test_ord)
+namord <- names(sort(colMeans(testr), decreasing = T))
+test_ord <- testr[,match(namord, colnames(testr))]
 
 ggt <- ggtree(ggtree_phylo) + 
   geom_tiplab(aes(fontface = "italic"),
               align = TRUE, linetype = 2, offset = 0.04) + 
-  xlim(NA, 25)
-
-#pdf("output/ggtree_with_heatmap.pdf", height = 20, width = 50)
-
+  xlim(NA, 20)
+ggt
 
 # Try ggtree and barplot
 avg_act <- test_ord %>%
@@ -246,14 +159,9 @@ mergtax <- avg_act %>%
   left_join(., merg, by = c("org" = "labs"))
 head(mergtax)
 
-
 # Read in the custom palette
 clustkey <- read_csv("data/OleA_palette_key.csv")
 clustkey$levs[clustkey$levs == "Green non-sulfur bacteria"] <- "Chloroflexi"
-
-clustkey
-levels(as.factor(ggdf$data$class))
-
 
 mergtax$class[grepl("Opit", mergtax$class)] <- "Opitutae"
 mergord <- mergtax[rev(match(ggt$data$label[ggt$data$isTip], mergtax$org)),] %>%
@@ -262,95 +170,47 @@ mergord <- mergtax[rev(match(ggt$data$label[ggt$data$isTip], mergtax$org)),] %>%
   dplyr::left_join(., clustkey, by = c("class" = "levs")) %>%
   dplyr::select(label, org, avg_activity, acc, organism, genus, family, order, class, phylum, pal2)
 
-mergord[is.na(mergord$pal2),]
 
-ggt$panel <- 'Tree'
-mergord$panel <- 'Stats'
-ggt$panel <- factor(ggt$panel, levels=c("Tree", "Stats"))
-mergord$panel <- factor(mergord$panel, levels=c("Tree", "Stats"))
+df2 <- data.frame(cbind(mergord$acc, mergord$organism, mergord$label, as.numeric(mergord$avg_activity)), stringsAsFactors = F)
+df2
 
-
-pdf("output/heatmap_combo_barplot.pdf", width = 30, height = 20)
-p <- ggplot(mapping=aes(x = org, 
-                                        y = avg_activity,
-                                        color = class,
-                                        fill = class)) +
-  facet_grid(.~panel, scale="free_y") + theme_tree2()
-g2 <- p + geom_bar(data = mergord, stat= "identity") + 
-  coord_flip() + 
-  ggt
-gheatmap(g2, test_ord, offset = 6.5, width = 2.5, font.size = 1, color = NULL) +
-scale_fill_viridis(option = "inferno")
-dev.off()
-
-
-
-ggplot(data = mergord, mapping=aes(x = org, 
-                                   y = avg_activity,
-                                   color = class,
-                                   fill = class)) +
-  geom_bar(stat = "identity") +
-  coord_flip() +
-  ggt +
-  facet_grid(.~panel, scale="free_x")
-
-
-
-pdf("output/ggtree_with_barplot.pdf",width = 10, height = 20)
-ggplot(data = avg_act, mapping=aes(x=x, y=y)) + facet_grid(.~panel, scale="free_x")
-dev.off()
-
-mergord$label
-
+df3 <- df2[order(df2$X2, decreasing = T),] %>%
+  dplyr::left_join(., nsub, by = c("X3" = "org")) %>%
+  dplyr::mutate(organism = gsub("_", " ", X2)) %>%
+  dplyr::mutate(activity = round(as.numeric(X4), 3)) %>%
+  dplyr::select(X1, organism, activity, nsub) %>%
+  arrange(desc(activity))
+colnames(df3) <- c('NCBI Accession', 'Organism', 'Average activity', 'Total number of substrates accepted')
 
 ggdf <- ggt %<+% mergord
-ggdf$data$class
 
 clustord <- clustkey[match(levels(as.factor(ggdf$data$class)), clustkey$levs),]
 
-pdf("output/ggtree_with_circsize.pdf",width = 10, height = 20)
+## Ggtree with circle alone
 gsz <- ggdf +
-  geom_tippoint(aes(size = avg_activity, color = class, fill = class, alpha = avg_activity), x = 20) +
+  geom_tippoint(aes(size = avg_activity, color = class, fill = class), x = 20) +
   scale_fill_manual(values = clustord$pal2) +
   scale_color_manual(values = clustord$pal2)
 gsz
-dev.off()
 
-ggdf$data$pal2
 gsz <- ggdf +
-  geom_tippoint(aes(size = avg_activity, alpha = avg_activity), color = ggdf$data$pal2[ggdf$data$isTip], 
-                fill = ggdf$data$pal2[ggdf$data$isTip], x = 12.5)
-gsz  
-# scale_fill_manual(values = clustord$pal2) +
-  # scale_color_manual(values = clustord$pal2)
-
-
+  geom_tippoint(aes(size = avg_activity), color = ggdf$data$pal2[ggdf$data$isTip], 
+                fill = ggdf$data$pal2[ggdf$data$isTip], x = 10.35)
 
 pdf("output/ggtree_heatmap_combo_no_legend.pdf", width = 11, height = 13.75)
-gheatmap(gsz, test_ord, offset = 8, width = 2.4, font.size = 1, color = NULL) +
+gheatmap(gsz, test_ord, offset = 5.75, width = 2, font.size = 1, color = NULL) +
   scale_fill_viridis(option = "inferno") +
   theme(legend.title = element_blank(), legend.position = "none")
 dev.off()
 
-# gheatmap(ggt, testr, low = pal2[1], high = pal2[70])
-
-
-pdf("output/substrate_comparisons/20200109_substrate_comparison_heatmap_unclustered_transposed_log10_scale_per_hr_reps_avged.pdf", width = 15, height = 8.5)
-pheatmap(
-  cluster_cols = T,
-  cluster_rows = T,
-  border_color = NA,
- #  mat = t(dedup_sort), 
-  mat = t(testr),
-  #  breaks = mat_breaks,
-  color = pal2,
-  angle_col = 315,
-  annotation_names_row = T, 
-  fontsize_col = 9, 
-  fontsize_row = 10, 
-  annotation_names_col = T,
-  labels_col = as.expression(newnames))
+pdf("output/ggtree_heatmap_combo_with_legend.pdf", width = 11, height = 13.75)
+gheatmap(gsz, test_ord, offset = 5.75, width = 1.75, font.size = 1, color = NULL) +
+  scale_fill_viridis(option = "inferno") +
+  theme(legend.title = element_blank())
 dev.off()
+
+
+
 
 
 
