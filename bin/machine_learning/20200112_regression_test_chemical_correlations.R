@@ -6,7 +6,7 @@ pacman::p_load("tidyverse", "DECIPHER", "Biostrings", "skimr", "caret",
                "glmnet", "svmpath", "readxl")
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
 
 # Read in the principal componenets of molecular features
 molec_fts <- read_csv("data/machine_learning/PC7_molecular_descriptors.csv") %>%

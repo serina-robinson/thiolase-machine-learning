@@ -5,8 +5,7 @@ pacman::p_load("tidyverse", "DECIPHER", "Biostrings", "skimr", "caret", "colorsp
                "glmnet", "svmpath", "readxl", "ggpubr", "doMC", "doParallel", "RColorBrewer")
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
-
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
 
 # Read in the principal componenets of molecular features
 molec_fts <- read_csv("data/machine_learning/PC7_molecular_descriptors.csv") %>%
@@ -46,7 +45,7 @@ comb <- activity %>%
   dplyr::left_join(., seq_fts, by = "org") %>%
   dplyr::left_join(., prot_fts, by = "acc")
 
-# Now remove duplicate rows (hopefully there aren't any)
+# Now remove duplicate rows
 dedup <- comb[complete.cases(comb),] # no duplicates
 dedup <- dedup[!duplicated(dedup),]
 
@@ -54,7 +53,7 @@ dedup <- dedup[!duplicated(dedup),]
 nozdat <- nearZeroVar(dedup, saveMetrics = TRUE)
 which_rem <- rownames(nozdat)[nozdat[,"nzv"] == TRUE]
 
-# write_csv(dedup, "data/machine_learning/20191228_1095_training_examples_12angstrom_features.csv")
+#write_csv(dedup, "data/machine_learning/20200111_1095_training_examples_12angstrom_features.csv")
 dat <- dedup %>%
   dplyr::mutate(id = paste0(org, "_", substrate)) %>%
   dplyr::mutate(is_active = as.factor(case_when(activity == 0 ~ "N",
@@ -81,7 +80,7 @@ rf_20200111$bestTune$splitrule
 rf_20200111$bestTune$min.node.size
 
 # Set random seed 
-set.seed(5678) # set.seed 5678 had a really interesting position 203, KF1, 2, 150, 203, 
+set.seed(5678)  
 
 rf_models <- vector(mode = "list",
                     length = 10)

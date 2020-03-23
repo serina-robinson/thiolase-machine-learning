@@ -1,5 +1,5 @@
 # Install packages
-pacman::p_load("tidyverse", "readxl", )
+pacman::p_load("tidyverse", "readxl")
 
 # Set working directory
 setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")

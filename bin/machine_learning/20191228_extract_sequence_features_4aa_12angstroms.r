@@ -2,7 +2,7 @@
 pacman::p_load("tidyverse", "DECIPHER", "Biostrings")
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
 
 # Read in the reference
 sqs <- readAAStringSet("data/alignments/73_OleA_JGI_unaligned.fasta")

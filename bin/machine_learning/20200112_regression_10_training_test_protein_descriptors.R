@@ -5,7 +5,7 @@ pacman::p_load("tidyverse", "DECIPHER", "Biostrings", "skimr", "caret",
                "glmnet", "svmpath", "readxl", "ggpubr", "doMC", "doParallel")
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
 
 
 # Read in the principal componenets of molecular features
