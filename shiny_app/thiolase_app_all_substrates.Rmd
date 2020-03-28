@@ -171,7 +171,7 @@ withProgress(message = 'Processing... Please wait', {
           colnames(pred_df) <- c("Query name", "Substrate", "Active?", "Prediction probability")
          # pred_df$Flag <- paste0("<","img src=/www/grp1.png",">")
          # pred_df$Flag <- '<img src = "/www/grp1.png">'
-          pred_df$Flat <- '<img src = "/www/heptynoate.jpeg" >'
+          pred_df$Flat <- '<img src = "https://github.com/serina-robinson/thiolase-machine-learning/blob/master/shiny_app/www/heptynoate.gif" >'
           ord_df <- pred_df[order(pred_df$`Query name`),]
           return(ord_df)
 },
