@@ -168,10 +168,10 @@ withProgress(message = 'Processing... Please wait', {
           # Create a data frame of returns
           pred_df <- data.frame(rep(names(sqs), 15), subs, res_fc, round(res_fc_prob, 2), stringsAsFactors = F) 
           
-          colnames(pred_df) <- c("Query name", "Substrate", "Active?", "Prediction probability")
+          colnames(pred_df) <- c("Query name", "Substrate abbrev", "is_active", "pred_prob")
          # pred_df$Flag <- paste0("<","img src=/www/grp1.png",">")
          # pred_df$Flag <- '<img src = "/www/grp1.png">'
-          pred_df$Flat <- '<img src = "https://github.com/serina-robinson/thiolase-machine-learning/blob/master/shiny_app/www/heptynoate.gif" >'
+          pred_df$Structure <- paste0('<img src = "https://serinarobinson.files.wordpress.com/2020/03/', pred_df$`Substrate abbrev`, '.jpeg" >')
           ord_df <- pred_df[order(pred_df$`Query name`),]
           return(ord_df)
 },
@@ -194,11 +194,24 @@ withProgress(message = 'Processing... Please wait', {
 # kable(dat)
 shiny::renderUI(
   HTML(
-    kable(mytab(), format = 'html', escape = F) %>%
+    mytab() %>%
+    mutate(`Active?` = cell_spec(is_active, color = "white",
+                               background = case_when(is_active == "Y" & pred_prob >= 0.75 ~ "green",
+                                                      is_active == "N" & pred_prob >= 0.75 ~ "red",
+                                                      pred_prob < 0.75 ~ "grey"))) %>%
+    mutate(`Prediction probability` = cell_spec(pred_prob, color = "white",
+                               background = case_when(is_active == "Y" & pred_prob >= 0.75 ~ "green",
+                                                      is_active == "N" & pred_prob >= 0.75 ~ "red",
+                                                      pred_prob < 0.75 ~ "grey"))) %>%
+    select(-pred_prob, -is_active) %>%
+    kable(., format = 'html', escape = F) %>%
+      row_spec(1:nrow(mytab()), background = "white") %>%
     kable_styling(
         font_size = 15,
         bootstrap_options = c("striped", "hover", "condensed")
+       
     )
+       
   )
 )
 
