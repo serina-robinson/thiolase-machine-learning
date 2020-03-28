@@ -172,7 +172,7 @@ withProgress(message = 'Processing... Please wait', {
          # pred_df$Flag <- paste0("<","img src=/www/grp1.png",">")
          # pred_df$Flag <- '<img src = "/www/grp1.png">'
           #pred_df$Structure <- paste0('<img src = "https://serinarobinson.files.wordpress.com/2020/03/', pred_df$`Substrate abbrev`, '.jpeg" >')
-          pred_df$Substrate <- paste0('<img src = "https://github.com/serina-robinson/thiolase-machine-learning/raw/master/shiny_app/www/', pred_df$subst, '.jpeg" >')
+          pred_df$Substrate <- paste0('<img src = "https://github.com/serina-robinson/thiolase-machine-learning/raw/master/shiny_app/www/', pred_df$subst, '.jpeg" style="width: 320px;  height: auto;" >')
           ord_df <- pred_df[order(pred_df$`Query name`),]
           return(ord_df)
 },
