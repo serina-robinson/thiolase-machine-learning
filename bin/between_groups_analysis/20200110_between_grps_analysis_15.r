@@ -2,7 +2,7 @@
 pacman::p_load(DECIPHER, tidyverse, seqinr, bgafun, RColorBrewer)
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
 
 ### Extract residues within 12 Angstroms
 sqs <- readAAStringSet("data/alignments/73_OleA_JGI_unaligned.fasta")
@@ -38,7 +38,6 @@ supp1 <- read_csv("output/Supplemental_table_1_nsub_avg_activity.csv")
 broad <- supp1$`NCBI Accession`[1:20]
 narrow <- supp1$`NCBI Accession`[54:73]
 
-
 brdnms <- dtf$column_label[grepl(paste0(c(broad, "4KU5"), collapse = "|"), dtf$column_label)]
 nrwnms <- dtf$column_label[grepl(paste0(narrow, collapse = "|"), dtf$column_label)]
 dtf$column_label[grepl(paste0(c(broad, "4KU5"), collapse = "|"), dtf$column_label)] <- paste0(brdnms, "_broad")
@@ -53,22 +52,23 @@ nrw <- fullaaset[grep("narrow", names(fullaaset))]
 comb <- AAStringSet(c(brd, nrw))
 
 # Write to file
-writeXStringSet(comb, "data/machine_learning/40_OleA_broad_narrow_sub_spec_12angstrom.faa")
+# writeXStringSet(comb, "data/machine_learning/40_OleA_broad_narrow_sub_spec_12angstrom.faa")
 
 # Read the alignment
 j2tr <- readAAStringSet("data/machine_learning/40_OleA_broad_narrow_sub_spec_12angstrom.faa")
+length(j2tr)
 rdaln <- read.alignment("data/machine_learning/40_OleA_broad_narrow_sub_spec_12angstrom.faa", format = "fasta")
 rdaln$seq <- toupper(rdaln$seq)
 
 # Convert alignemnt into a binary presence-abscence matrix 
 amino <- convert_aln_amino(rdaln)
+amino[1,]
 
 # Define groups: "positive" and "negative"
 grps <- rownames(amino)
 grps[grep("_broad", grps)] <- "broad"
 grps[grep("_narrow", grps)] <- "narrow"
 grps <- as.factor(grps)
-
 
 # Remove gaps
 amino.gapless <- remove_gaps_groups(x = amino, z = grps) 
@@ -106,6 +106,7 @@ channel_b <- c(176, 173, 172, 242, 243, 112, 111, 171, 117, 316, 203, 246)
 chana_df <- keepdf %>%
   dplyr::filter(ang12.resi %in% channel_a) # T292 is important (in 20 of the highly active ones)
 chana_df  
+
 table(substr(rdaln$seq, 55, 55))
 
 chanb_df <- keepdf %>%

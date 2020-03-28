@@ -9,7 +9,7 @@ setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-l
 set.seed(1234)
 
 # Read in the full dataset
-dat <- read_csv("data/machine_learning/20200111_1095_training_examples_12angstrom_prot_features.csv")
+dat <- read_csv("data/machine_learning/20200323_1095_training_examples_no_prot_feats_unscaled.csv")
 colnames(dat)
 
 # Data 
@@ -18,12 +18,13 @@ y_train <- dat$is_active
 form_train <- data.frame(cbind(x_train, y_train), stringsAsFactors = F, row.names = dat$id)
 
 # Random forest with one-hot encoding, tuning different mtrys
-mtrys <- c(round(log2(ncol(dat)), 0), round(sqrt(ncol(dat)), 0), round(ncol(dat)/2, 0))
+mtrys <- c(round(log2(ncol(dat)), 0), round(sqrt(ncol(dat)), 0), round(ncol(dat)/2, 0), 
+           round(ncol(dat) * (2/3), 0), round(ncol(dat) * (5/6), 0))
 mtrys # number of variables available for splitting at each tree node
 
 rf_grid <- expand.grid(mtry = mtrys,
-                       splitrule = "gini",
-                       min.node.size = 1)
+                       splitrule = c("gini", "extratrees"),
+                       min.node.size = c(1, 3, 5))
 rf <- train(
   x = x_train,
   y = y_train,
@@ -37,19 +38,24 @@ rf <- train(
   num.trees = 1000,
   verbose = TRUE,
   importance = "permutation") 
-rf # Accuracy is 80.6%
+rf # Accuracy is 81.4%
+# best mtry is 140
+rf$results # 81.5% accuracy
+getTrainPerf(rf) #82.7% accuracy
+rf$bestTune
+# mtry = 140, splitrule = extratrees, min.node.size = 5
+saveRDS(rf, "data/machine_learning/models/20200324_rf_model_all_data_unscaled_xval.rds")
 
-rf$results # 82.4% accuracy
-
-# Now train on the entire dataset for web app model
-rf_full_ss_noxval <- ranger(y_train ~., data = form_train, num.trees = 1000, splitrule = "gini",
-                            mtry = round(ncol(dat)/2, 0), min.node.size = 1,
+# Now train a simple model using best tuning parameters from 10fold_xval
+rf_bin_class_all <- ranger(y_train ~., data = form_train, num.trees = 1000, 
+                            splitrule = rf$bestTune$splitrule,
+                            mtry = rf$bestTune$mtry, min.node.size = rf$bestTune$min.node.size,
                             importance = "permutation", probability = TRUE)
-rf_full_ss_noxval # OOB error is 0.1218886, or about 87.8% prediction accruacy
+rf_bin_class_all # OOB error is 0.124, or about 87.6% prediction accruacy
 
 
-saveRDS(rf_full_ss_noxval, "data/20200323_rf_fullset_ss_noxval_scaled.rds")
- 
+saveRDS(rf_bin_class_all, "data/machine_learning/models/20200324_rf_bin_class_all_data_no_prot_unscaled_optimized.rds")
+# head(dat)
 #saveRDS(rf, "data/machine_learning/models/20200322_rf_with_one_hot_encoding_unscaled.rds")
 
    

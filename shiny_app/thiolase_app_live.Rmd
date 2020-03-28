@@ -1,0 +1,346 @@
+---
+title: "Thiolase substrate specificity prediction"
+resource_files:
+- www/grp1.png
+runtime: shiny
+output:
+  flexdashboard::flex_dashboard:
+    css: bootstrap.css
+    favicon: www/pNP_struct_white.png
+    logo: www/pNP_struct_white.png
+    social: menu
+    theme: united
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+# install.packages("BiocManager")
+# options(repos = BiocManager::repositories())
+# getOption("repos")
+library("flexdashboard")
+library("xtable")
+library("dplyr")
+library("data.table")
+library("shiny")
+library("Biostrings")
+library("tidyverse")
+library("knitr")
+library("kableExtra")
+library("readxl")
+library("DECIPHER")
+library("ranger")
+library("muscle")
+library("DT")
+```
+
+```{r global}
+## Read in the training set
+source("lib/extract_12angstrom_aas.R")
+subkey <- read_excel("data/pNP_substrate_key.xlsx")
+tab <- read_csv("data/20191218_all_cmpnds_avg_log_slopes_for_database.csv")
+molec_fts <- read_csv("data/PC7_molecular_descriptors_clean.csv")
+```
+
+Home
+=====================================
+Column {.sidebar}
+-----------------------------------------------------------------------
+**Welcome to pNPred**
+<br>
+<br>
+*Prediction tool for pNP substrate specificity of OleA-type thiolase enzymes*
+<br>
+<br>
+pNPred uses supervised machine learning approaches to predict pNP substrate specificity from thiolase amino acid sequences. 
+<br>
+<br>
+This tool is maintained by [Dr. Larry Wackett’s lab](https://cbs.umn.edu/wackett-lab/home) at the University of Minnesota.
+
+Column
+-----------------------------------------------------------------------
+Input a FASTA file containing nucleotide* or protein sequences (limit 100 sequences) to predict substrate specificity and functional class. 
+
+```{r}
+ # Input: Select a file ----
+fileInput("file1", "Choose a FASTA File:**", multiple = FALSE)
+
+splitLayout(
+  cellWidths = 155,
+  cellArgs = list(style = "padding: 5px"),
+  actionButton("run", "Run Analysis", icon("paper-plane")),
+  downloadButton("example", "Example FASTA", icon("file-download"))
+)
+
+# Horizontal line ----
+tags$hr()
+
+# Download button
+downloadButton("downloadData", "Download", class = "download_this", width = '30%')
+
+# Input: Select sequence type----
+radioButtons("seqtype", "Sequence type",
+             choices = c(Nucleotide = "nuc",
+                         Protein = "aa"),
+             selected = "aa")
+
+# Downloadable example FASTA file ----
+output$example <- downloadHandler(
+    filename = function() {
+      paste0("example.fasta", sep = "")
+    },
+    content = function(file) {
+      samp_fil <- readAAStringSet("data/4KU5.fasta")
+      writeXStringSet(samp_fil, file)
+    }
+  )
+
+# Downloadable csv of selected dataset ----
+downloadHandler(
+      filename = function() {
+        paste0("pNPred-", Sys.Date(), ".csv", sep = "")
+      },
+      content = function(file) {
+        write.csv(mytab(), file, row.names = FALSE)
+      }
+    )
+
+mytab <- eventReactive(input$run, {
+
+withProgress(message = 'Processing... Please wait', {
+
+    # Input file
+    req(input$file1)
+    observeEvent(input$example, {
+    })
+
+    tryCatch(
+      {
+         if(input$seqtype == "aa") {
+          sqs <- readAAStringSet(input$file1$datapath)
+
+         }
+           else {
+          sqs_dna <- readDNAStringSet(input$file1$datapath)
+          sqs <- translate(sqs_dna, if.fuzzy.codon = "error")
+          if(length(sqs) > 100) {
+            ret <- data.frame("Error: please input less than 100 sequences")
+            colnames(ret) <- ""
+          }
+        }
+          query_fils <- sapply(1:length(sqs), function(x) {tempfile(pattern = "", fileext = ".fasta")})
+          sapply(1:length(sqs), function(x) {writeXStringSet(sqs[x], query_fils[x])})
+
+          extract_84_list <- lapply(1:length(sqs), function(x) { extract_12angstrom_aas(query_fils[x]) })
+          extract_84_df <- data.frame(matrix(unlist(extract_84_list), nrow = length(extract_84_list), byrow=T), 
+                            stringsAsFactors = FALSE)
+          head(extract_84_df)
+          # Set column names
+          colnams84 <- read_csv("data/seqft_colnames.csv", col_names = F) %>%
+            pull()
+          colnames(extract_84_df) <- colnams84
+
+          # Remove variables with non-zero variance
+          which_rem <- read_csv("data/vars_to_remove.csv", col_names = T) %>%
+            pull()
+
+          # Combine with molecular features
+ 
+          hex <- molec_fts[13,2:8] 
+          hexn <- rep(hex, length(sqs))
+          hex_df <- data.frame(matrix(hexn, nrow = length(sqs), byrow = T), stringsAsFactors = F)
+          colnames(hex_df) <- paste0("PC", 1:7)
+          head(hex_df)
+          test_df <- bind_cols(hex_df, extract_84_df) %>%
+            dplyr::select(-all_of(which_rem))
+         # write_csv(test_df, "output/test_extracted.csv")
+          
+          # Predict functional class
+          rf_funct_class <- readRDS("data/models/20200324_rf_bin_class_all_data_no_prot_unscaled_optimized.rds")
+        #  newdat <- read_csv("output/test_extracted.csv")
+          rf_funct_class_pred <- predict(rf_funct_class, data = test_df, predict.all = F)
+          rf_fc_pred <- rf_funct_class_pred$predictions
+          res_fc_prob <- apply(rf_fc_pred, 1, max)
+          res_fc <- tibble(colnames(rf_fc_pred)[apply(rf_fc_pred, 1, which.max)])
+
+          # Create a data frame of returns
+          pred_df <- data.frame(names(sqs), res_fc, round(res_fc_prob, 2), stringsAsFactors = F)
+          colnames(pred_df) <- c("Query name", "Active with pNP hexanoate?", "Prediction probability")
+          return(pred_df)
+},
+  error = function(e) {
+    # return a safeError if a parsing error occurs
+    stop(safeError(e))
+    # "Please check input is a valid FASTA file ending in *.faa, *.fa, or *.fasta and beginning with '>'"
+  }
+  )
+})
+})
+
+
+renderTable({ mytab() }, align = 'c')
+```
+
+**Note:** pNPred will make predictions for ALL sequences submitted even if they are not OleA-type enzymes. To limit your input to only thiolases consider first extracting sequences matching the [3-oxoacyl-ACP synthase III (PF08545)](https://pfam.xfam.org/family/ACP_syn_III/) PFAM domain using [HMMscan](https://www.ebi.ac.uk/Tools/hmmer/search/hmmscan)
+<br>
+<br>
+&ast; For nucleotide inputs please ensure the sequence is in-frame with a valid start codon. 
+<br>
+** Please limit your analysis to 100 sequences or less. If you wish to analyze more sequences, please consider using source code available on [Github](http://github.com/serina-robinson/thiolase-machine-learning/)
+
+<div style="width:20px; height:20px">
+[![](www/github_logo.svg)](http://github.com/serina-robinson/thiolase-machine-learning/)
+</div>
+<br>
+<br>
+
+pNP substrates
+=====================================
+<!-- Column {.sidebar data-width=350} -->
+<!-- ----------------------------------------------------------------------- -->
+<!-- The following pNPs were tested in this study -->
+
+```{r}
+# my_list <- list()
+# my_list <- lapply(1:nrow(subkey), function(x) { my_list[[x]] <- x })
+# names(my_list) <- subkey$`Substrate group name`
+# 
+# radioButtons("radio_substrate_group", "Substrate group",
+#              choices = my_list)
+```
+
+Main
+-----------------------------------------------------------------------
+```{r}
+
+rv <- reactiveValues(data = data.frame(subkey), img = "www/grp1.png")
+
+observeEvent(input$radio_substrate_group, {
+    ind <- as.numeric(input$radio_substrate_group)
+    rv$data <- data.frame(subkey)[ind,]
+    rv$img <- paste0("www/grp", ind, ".png")
+})
+
+output$img <- renderImage({
+   list(src = rv$img)
+}, deleteFile = FALSE)
+
+# renderTable({
+#   rv$data
+# })
+
+imageOutput("img", width = "60%", height = "50%")
+```
+
+
+Resources
+===================================== 
+Column {.sidebar}
+-----------------------------------------------------------------------
+
+**Welcome to pNPred**
+<br>
+<br>
+*Prediction tool for functional classification and substrate specificity of class I adenylate-forming enzymes*
+<br>
+<br>
+This tool is maintained by [Dr. Larry Wackett’s lab](https://cbs.umn.edu/wackett-lab/home) at the University of Minnesota.
+
+
+Inputs
+-----------------------------------------------------------------------
+**Relevant publications on reactivity of p-nitrophenyl esters with OleA-type thiolases**:
+
+1. Smith, M.D., Robinson, S.L., Molomjamts, M.M., and Wackett, L.P. (2020) Rapid whole cell screen identifying microbial OleA thiolase enzymes involved in olefin and β-lactone biosynthesis. *mBio* 11(2). [doi: 10.1128/mBio.00111-20](https://dx.doi.org/10.1128/mBio.00111-20)
+
+2. Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., & Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. *Under review.*
+
+**Relevant publications on OleA structure, mechanism, and diversity**:
+  
+1. Goblirsch, B.R., Jensen, M.R., Mohamed, F.A., Wackett, L.P., and Wilmot, C.M. (2016) Substrate trapping in crystals of the thiolase OleA identifies three channels that enable long chain olefin biosynthesis. *J. Biol. Chem.* 291(52), 26698-26706. 
+
+2. Goblirsch, B.R., Frias, J.A., Wackett, L.P., and Wilmot, C.M. (2012) Crystal structures of Xanthomonas campestris OleA reveal features that promote head-to-head condensation of two long-chain fatty acids. *Biochemistry* 51(20), 4138-4146. 
+
+3. Frias, J.A., Richman, J.E., Erickson, J.S., and Wackett, L.P. (2011) Purification and characterization of OleA from Xanthomonas campestris and demonstration of a non-decarboxylative Claisen condensation reaction. *J. Biol. Chem.* 286(13), 10930-10938.
+
+4. Sukovich, D.J., Seffernick, J.L., Richman, J.E., Gralnick, J.A., and Wackett L.P. (2010) Widespread head-to-head hydrocarbon biosynthesis in bacteria and role of OleA. *Appl. Environ. Microbiol.* 76(12), 3850-3862.
+
+**Relevant publications on thiolase-family enzymes**:
+
+1. Bonk, B.M., Tarasova, Y., Hicks, M.A., Tidor, B., and Prather, K.L.J. (2018) Rational design of thiolase substrate specificity for metabolic engineering applications. *Biotechnol. Bioeng.*, 115(9), 2167-2182.  
+
+2. Nofiani, R., Philmus, B., Nindita, Y., and Mahmud, T. (2019) 3-Ketoacyl-ACP synthase (KAS) III homologues and their roles in natural product biosynthesis. *MedChemComm* 10(9), 1517-1530.
+
+3. Haapalainen, A.M., Merilainen, G., and Wierenga, R.K. (2006) The thiolase superfamily: condensing enzymes with diverse reaction specificities. *Trends Biochem. Sci.* 31(1), 64-71. 
+
+Database
+===================================== 
+
+Inputs {.sidebar}
+-----------------------------------------------------------------------
+<br>
+<br>
+Training set database of thiolase enzymes paired with pNP substrates and their activity. 
+```{r}
+
+      sliderInput("range", label = "Search by enzyme activity:",
+                    min = 0, max = 3,
+                    #value = 2.9,
+                    value = c(2.8,2.9),
+                    step = 0.05,
+      )
+
+       selectizeInput("substrate", "Search by substrate:",
+                    choices = tab$substrate,
+                    selected = NULL, multiple = TRUE
+      )
+      
+      selectizeInput("org", "Search by organism:",
+                   choices = tab$org,
+                   selected = NULL, multiple = TRUE
+      )
+```
+
+Outputs
+-----------------------------------------------------------------------
+```{r}   
+ DT::renderDataTable({
+      srch <- tab[tab$Substrate %in% input$substrate,]
+      tax <- tab[tab$Organism %in% input$org,]
+      minact <- tab[tab$Enzyme_Activity >= input$range[1],]
+      maxact <- tab[tab$Enzyme_Activity <= input$range[2],]
+      out <- data.frame(rbind(tax, srch, minact), stringsAsFactors = F)
+      dedup <- out[!duplicated(out),]
+
+      return(xtable(dedup))
+    })
+```   
+
+About
+=====================================
+Main
+-----------------------------------------------------------------------
+**Welcome to pNPred**
+<br>
+<br>
+pNPred uses supervised machine learning approaches to predict pNP substrate specificity from thiolase amino acid sequences.
+<br>
+<br>
+If you use pNPred in your work, please cite the following reference:
+<br>
+<br>
+Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., & Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. *Under review.*
+<br>
+<br>
+This tool is maintained by [Dr. Larry Wackett’s lab](https://cbs.umn.edu/wackett-lab/home) at the University of Minnesota.
+<br>
+<br>
+The DNA construct synthesis conducted by the U.S. Department of Energy Joint Genome Institute, a DOE Office of Science User Facility, is supported under Contract No. DE-AC02-05CH11231. S.L.R.supported by the National Science Foundation Graduate Research Fellowship under Grant No. 00039202. 
+<br>
+<br> 
+Disclaimer: Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation or the U.S. Department of Energy Joint Genome Institute.
+<br>
+<br>
+**Questions, Comments, or Suggestions?**
+Please [contact us](mailto:www.robinsonserinalee@gmail.com)!
+
+

@@ -23,6 +23,7 @@ seq_fts$org[seq_fts$enzyme == "4KU5_Xanthomonas_campestris"] <- "Xanthomonas cam
 seq_fts$enzyme[seq_fts$enzyme == "4KU5_Xanthomonas_campestris"] <- "NP_635607.1_4KU5_Xanthomonas_campestris"
 seq_fts <- seq_fts %>%
   dplyr::mutate(acc = word(enzyme, sep = "\\.1", 1))
+colnames(seq_fts)
 
 # Read in the protein features
 prot_fts <- read_csv("data/machine_learning/73_overall_calculated_protein_properties.csv")
