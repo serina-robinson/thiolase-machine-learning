@@ -54,7 +54,7 @@ rf # Accuracy is 80.5%
 #saveRDS(rf, "data/machine_learning/models/20200322_rf_with_one_hot_encoding_unscaled.rds")
 
 
-rf <- readRDS("data/machine_learning/models/20200322_rf_with_one_hot_encoding_unscaled.rds")
+rf <- readRDS("data/machine_learning/models/20200111_rf_10foldcv.rds")
 
 # Train model with best parameters
 rf_ml <- ranger(y_train ~., data = form_train, num.trees = 1000, 

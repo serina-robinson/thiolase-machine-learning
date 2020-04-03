@@ -1,0 +1,15 @@
+left-out compound,leave-one-compound-out RMSE,Testing set size,Training set size
+cyclopentyl,0.21,46,454
+dodecanoate,0.21,28,472
+7Ph.heptanoate,0.22,40,460
+ClPh.propionate,0.24,15,485
+heptynoate,0.25,69,431
+decanoate,0.29,24,476
+hexanoate,0.29,50,450
+oxadiazole,0.31,33,467
+azido,0.34,71,429
+heptanoate,0.41,30,470
+dimethyl,0.49,9,491
+TMA,0.52,54,446
+butoxy,0.61,71,429
+biotin,0.68,10,490

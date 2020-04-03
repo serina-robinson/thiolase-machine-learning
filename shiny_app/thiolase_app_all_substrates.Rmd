@@ -19,7 +19,7 @@ output:
 # options(repos = BiocManager::repositories())
 # getOption("repos")
 # setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/shiny_app/")
-library("flexdashboard")
+# library("flexdashboard")
 library("xtable")
 library("dplyr")
 library("data.table")
@@ -129,6 +129,8 @@ withProgress(message = 'Processing... Please wait', {
             colnames(ret) <- ""
           }
            }
+        
+         # sqs <- readAAStringSet("~/Documents/University_of_Minnesota/Wackett_Lab/manuscripts/JGI_PUFA_paper/psychrophiles_thermophiles_only.fasta")
           query_fils <- sapply(1:length(sqs), function(x) {tempfile(pattern = "", fileext = ".fasta")})
           sapply(1:length(sqs), function(x) {writeXStringSet(sqs[x], query_fils[x])})
 
@@ -140,6 +142,7 @@ withProgress(message = 'Processing... Please wait', {
           # Set column names
           colnams84 <- read_csv("data/seqft_colnames.csv", col_names = F) %>%
             pull()
+          
           colnames(extract_84_df) <- colnams84
 
           # Remove variables with non-zero variance
@@ -148,32 +151,44 @@ withProgress(message = 'Processing... Please wait', {
 
           # Combine with molecular features
           hex <- molec_fts[,2:8] 
+          hex
+          
           subs <- rep(pull(molec_fts[,1]), length(sqs))
-          hex_df <- data.frame(apply(hex, 2, function(x) rep(x, length(sqs))), stringsAsFactors = F)
-
-           colnames(hex_df) <- paste0("PC", 1:7)
-            
+          subs
+          hex_df <- data.frame(cbind(subs, apply(hex, 2, function(x) rep(x, length(sqs)))), stringsAsFactors = F)
+          
+          colnames(hex_df) <- c("substrate", paste0("PC", 1:7))
+          hex_df_sorted <- hex_df[order(hex_df$PC1),] 
+          
+          
           ex84_df_scaled <- data.frame(apply(extract_84_df, 2, function(x) rep(x, 15)), stringsAsFactors = F)
           
-          test_df <- bind_cols(hex_df, ex84_df_scaled) %>%
-          dplyr::select(-all_of(which_rem))
+          
+          test_df <- bind_cols(hex_df_sorted, ex84_df_scaled) %>%
+            dplyr::select(-all_of(which_rem), -substrate)
+          head(test_df)
           
           # Predict functional class
           rf_funct_class <- readRDS("data/models/20200324_rf_bin_class_all_data_no_prot_unscaled_optimized.rds")
           rf_funct_class_pred <- predict(rf_funct_class, data = test_df, predict.all = F)
           rf_fc_pred <- rf_funct_class_pred$predictions
           res_fc_prob <- apply(rf_fc_pred, 1, max)
+          
           res_fc <- tibble(colnames(rf_fc_pred)[apply(rf_fc_pred, 1, which.max)])
-
+          
           # Create a data frame of returns
-          pred_df <- data.frame(rep(names(sqs), 15), subs, res_fc, round(res_fc_prob, 2), stringsAsFactors = F) 
+          
+          pred_df <- data.frame(rep(names(sqs), 15), hex_df_sorted$substrate, res_fc, round(res_fc_prob, 2), stringsAsFactors = F) 
           
           colnames(pred_df) <- c("Query name", "subst", "is_active", "pred_prob")
+          
          # pred_df$Flag <- paste0("<","img src=/www/grp1.png",">")
          # pred_df$Flag <- '<img src = "/www/grp1.png">'
           #pred_df$Structure <- paste0('<img src = "https://serinarobinson.files.wordpress.com/2020/03/', pred_df$`Substrate abbrev`, '.jpeg" >')
-          pred_df$Substrate <- paste0('<img src = "https://github.com/serina-robinson/thiolase-machine-learning/raw/master/shiny_app/www/', pred_df$subst, '.jpeg" style="width: 75%;  height: auto;" >')
+          pred_df$Substrate <- paste0('<img src = "https://github.com/serina-robinson/thiolase-machine-learning/raw/master/shiny_app/www/', pred_df$subst, '.jpeg" style="width: 90%;  height: auto;" >')
+
           ord_df <- pred_df[order(pred_df$`Query name`),]
+          head(ord_df)
           return(ord_df)
 },
   error = function(e) {
@@ -197,13 +212,13 @@ shiny::renderUI(
   HTML(
     mytab() %>%
     mutate(`Active?` = cell_spec(is_active, color = "white",
-                               background = case_when(is_active == "Y" & pred_prob >= 0.75 ~ "green",
-                                                      is_active == "N" & pred_prob >= 0.75 ~ "red",
-                                                      pred_prob < 0.75 ~ "grey"))) %>%
+                               background = case_when(is_active == "Y" & pred_prob >= 0.65 ~ "green",
+                                                      is_active == "N" & pred_prob >= 0.65 ~ "red",
+                                                      pred_prob < 0.65 ~ "grey"))) %>%
     mutate(`Prediction probability` = cell_spec(pred_prob, color = "white",
-                               background = case_when(is_active == "Y" & pred_prob >= 0.75 ~ "green",
-                                                      is_active == "N" & pred_prob >= 0.75 ~ "red",
-                                                      pred_prob < 0.75 ~ "grey"))) %>%
+                               background = case_when(is_active == "Y" & pred_prob >= 0.65 ~ "green",
+                                                      is_active == "N" & pred_prob >= 0.65 ~ "red",
+                                                      pred_prob < 0.65 ~ "grey"))) %>%
     select(-pred_prob, -is_active, -subst) %>%
     kable(., format = 'html', escape = F) %>%
       row_spec(1:nrow(mytab()), background = "white") %>%
@@ -323,25 +338,27 @@ Training set database of thiolase enzymes paired with pNP substrates and their a
 
       sliderInput("range", label = "Search by enzyme activity:",
                     min = 0, max = 3,
-                    #value = 2.9,
                     value = c(2.8,2.9),
                     step = 0.05,
       )
 
        selectizeInput("substrate", "Search by substrate:",
-                    choices = tab$substrate,
+                    choices = tab$Substrate,
                     selected = NULL, multiple = TRUE
       )
       
       selectizeInput("org", "Search by organism:",
-                   choices = tab$org,
+                   choices = tab$Organism,
                    selected = NULL, multiple = TRUE
       )
+      
 ```
 
 Outputs
 -----------------------------------------------------------------------
 ```{r}  
+
+# Download button
 
 
 DT::renderDataTable({
@@ -354,6 +371,19 @@ DT::renderDataTable({
 
       return(xtable(dedup))
     })
+
+# downloadHandler(
+#       filename = function() {
+#         paste0("pNPred-", Sys.Date(), ".csv", sep = "")
+#       },
+#       content = function(file) {
+#         write.csv(dedup, file, row.names = FALSE)
+#       }
+#     )
+# 
+# downloadButton("downloadData", "Download", class = "download_this", width = '30%')
+
+
 ```   
 
 About

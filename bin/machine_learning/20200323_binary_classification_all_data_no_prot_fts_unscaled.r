@@ -16,7 +16,7 @@ colnames(dat)
 x_train <- dat[,!colnames(dat) %in% c("id", "is_active")]
 y_train <- dat$is_active
 form_train <- data.frame(cbind(x_train, y_train), stringsAsFactors = F, row.names = dat$id)
-
+x_train
 # Random forest with one-hot encoding, tuning different mtrys
 mtrys <- c(round(log2(ncol(dat)), 0), round(sqrt(ncol(dat)), 0), round(ncol(dat)/2, 0), 
            round(ncol(dat) * (2/3), 0), round(ncol(dat) * (5/6), 0))

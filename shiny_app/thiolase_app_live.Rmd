@@ -2,6 +2,7 @@
 title: "Thiolase substrate specificity prediction"
 resource_files:
 - www/grp1.png
+- www/heptynoate.png
 runtime: shiny
 output:
   flexdashboard::flex_dashboard:
@@ -16,8 +17,9 @@ output:
 ```{r setup, include=FALSE}
 # install.packages("BiocManager")
 # options(repos = BiocManager::repositories())
-# getOption("repos")
-library("flexdashboard")
+# etOption("repos")
+# setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/shiny_app/")
+# library("flexdashboard")
 library("xtable")
 library("dplyr")
 library("data.table")
@@ -126,14 +128,16 @@ withProgress(message = 'Processing... Please wait', {
             ret <- data.frame("Error: please input less than 100 sequences")
             colnames(ret) <- ""
           }
-        }
+           }
+
           query_fils <- sapply(1:length(sqs), function(x) {tempfile(pattern = "", fileext = ".fasta")})
           sapply(1:length(sqs), function(x) {writeXStringSet(sqs[x], query_fils[x])})
-
+          
+          # Align active site residues and extract
           extract_84_list <- lapply(1:length(sqs), function(x) { extract_12angstrom_aas(query_fils[x]) })
           extract_84_df <- data.frame(matrix(unlist(extract_84_list), nrow = length(extract_84_list), byrow=T), 
                             stringsAsFactors = FALSE)
-          head(extract_84_df)
+          
           # Set column names
           colnams84 <- read_csv("data/seqft_colnames.csv", col_names = F) %>%
             pull()
@@ -143,29 +147,62 @@ withProgress(message = 'Processing... Please wait', {
           which_rem <- read_csv("data/vars_to_remove.csv", col_names = T) %>%
             pull()
 
-          # Combine with molecular features
- 
-          hex <- molec_fts[13,2:8] 
-          hexn <- rep(hex, length(sqs))
-          hex_df <- data.frame(matrix(hexn, nrow = length(sqs), byrow = T), stringsAsFactors = F)
-          colnames(hex_df) <- paste0("PC", 1:7)
-          head(hex_df)
-          test_df <- bind_cols(hex_df, extract_84_df) %>%
-            dplyr::select(-all_of(which_rem))
-         # write_csv(test_df, "output/test_extracted.csv")
+          # Combine with substrate features
+          hex <- molec_fts[,2:8] 
+          subs <- rep(pull(molec_fts[,1]), length(sqs))
+          hex_df <- data.frame(cbind(subs, apply(hex, 2, function(x) rep(x, length(sqs)))), stringsAsFactors = F)
+          colnames(hex_df) <- c("substrate", paste0("PC", 1:7))
           
-          # Predict functional class
+          hex_df_sorted <- hex_df[order(hex_df$PC1),] 
+          
+          ex84_df_scaled <- data.frame(apply(extract_84_df, 2, function(x) rep(x, 15)), stringsAsFactors = F)
+          
+          test_df <- bind_cols(hex_df_sorted, ex84_df_scaled) %>%
+            dplyr::select(-all_of(which_rem), -substrate)
+          test_df[,1:7] <- apply(test_df[,1:7], 2, as.numeric)
+          
+          # Binary classification
           rf_funct_class <- readRDS("data/models/20200324_rf_bin_class_all_data_no_prot_unscaled_optimized.rds")
-        #  newdat <- read_csv("output/test_extracted.csv")
           rf_funct_class_pred <- predict(rf_funct_class, data = test_df, predict.all = F)
           rf_fc_pred <- rf_funct_class_pred$predictions
           res_fc_prob <- apply(rf_fc_pred, 1, max)
           res_fc <- tibble(colnames(rf_fc_pred)[apply(rf_fc_pred, 1, which.max)])
+          
+          # Return a data frame of predictions
+          pred_df <- data.frame(rep(names(sqs), 15), hex_df_sorted$substrate, res_fc, round(res_fc_prob, 2), stringsAsFactors = F) 
 
-          # Create a data frame of returns
-          pred_df <- data.frame(names(sqs), res_fc, round(res_fc_prob, 2), stringsAsFactors = F)
-          colnames(pred_df) <- c("Query name", "Active with pNP hexanoate?", "Prediction probability")
-          return(pred_df)
+          # Identify active enzymes and predict activity
+          rf_reg <- readRDS("data/models/20200401_rf_regression_all_data_no_prot_unscaled_optimized.rds")
+          rf_reg <- predict(rf_reg, data = test_df, predict.all = F)
+          head(rf_reg$predictions)
+          rf_reg_pred <- rf_reg$predictions
+          
+          reg_df <- data.frame(cbind(pred_df, round(rf_reg_pred, 2)), stringsAsFactors = F)
+          colnames(reg_df) <- c("query_name", "subst", "is_active", "pred_prob", "raw_activity")
+          
+          
+          # Show picture of substrate
+          reg_df$substrate <- paste0('<img src = "https://github.com/serina-robinson/thiolase-machine-learning/raw/master/shiny_app/www/', ... = reg_df$subst, '.jpeg" style="width: 90%;  height: auto;" >')
+          
+          reg_df$raw_activity[reg_df$is_active == "N"] <- "No predicted activity"  
+          ord_df <- reg_df[order(reg_df$query_name),] %>%
+            dplyr::mutate(IUPAC_name = case_when(subst == "decanoate" ~ "4-nitrophenyl decanoate",
+                                subst == "dodecanoate" ~ "4-nitrophenyl dodecanoate",
+                                subst == "7Ph.heptanoate" ~ "4-nitrophenyl 7-phenylheptanoate",
+                                subst == "hexanote" ~ "4-nitrophenyl hexanoate",
+                                subst == "biotin" ~ "4-nitrophenyl biotin",
+                                subst == "heptynoate" ~ "4-nitrophenyl heptynoate",
+                                subst == "oxadiazole" ~ "4-nitrophenyl 3-(5-phenyl-1,3,4-oxadiazol-2-yl)propanoate",
+                                subst == "dimethyl" ~ "4-nitrophenyl 2,2-dimethylhexanoate",
+                                subst == "butoxy" ~ "4-nitrophenyl 2-(2-butoxyethoxy)acetate",
+                                subst == "cyclopentyl" ~ "4-nitrophenyl 3-cyclopentylpropanoate",
+                                subst == "TMA" ~ "4-nitrophenyl trimethylacetate",
+                                subst == "azido" ~ "4-nitrophenyl 6-azidohexanoate",
+                                subst == "ClPh.propionate" ~ "4-nitrophenyl-3-(4-chlorophenoxy)propanoate",
+                                TRUE ~ "")) %>%
+            dplyr::select(query_name, IUPAC_name, substrate, is_active,	pred_prob, raw_activity)
+          
+          return(ord_df)
 },
   error = function(e) {
     # return a safeError if a parsing error occurs
@@ -176,9 +213,37 @@ withProgress(message = 'Processing... Please wait', {
 })
 })
 
-
-renderTable({ mytab() }, align = 'c')
+shiny::renderUI(
+  HTML(
+    mytab() %>%
+    mutate(`Query name` = query_name) %>%
+    mutate(`Substrate` = substrate) %>%    
+    mutate(`IUPAC name` = IUPAC_name) %>%
+    mutate(`Active?` = cell_spec(is_active, color = "white",
+                               background = case_when(is_active == "Y" & pred_prob >= 0.65 ~ "green",
+                                                      is_active == "N" & pred_prob >= 0.65 ~ "darkred",
+                                                      pred_prob < 0.65 ~ "grey"))) %>%
+    mutate(`Prediction probability` = cell_spec(pred_prob, color = "white",
+                               background = case_when(is_active == "Y" & pred_prob >= 0.65 ~ "green",
+                                                      is_active == "N" & pred_prob >= 0.65 ~ "darkred",
+                                                      pred_prob < 0.65 ~ "grey"))) %>%
+    mutate(`Estimated log10 activity ☨` = cell_spec(raw_activity, color = "white",
+                                background = case_when(is_active == "Y" & pred_prob >= 0.65 ~ "green",
+                                                    is_active == "N" & pred_prob >= 0.65 ~ "darkred",
+                                                    pred_prob < 0.65 ~ "grey"))) %>%
+    select(-query_name, -pred_prob, -is_active, -raw_activity, -substrate, -IUPAC_name) %>%
+    kable(., format = 'html', escape = F) %>%
+      row_spec(1:nrow(mytab()), background = "white") %>%
+    kable_styling(
+        font_size = 15,
+        bootstrap_options = c("striped", "hover", "condensed")
+       
+    )
+       
+  )
+)
 ```
+☨ Units of activity are log10 of nmol pNP produced over the course of one hour by an E. coli BL21 culture with an OD of 1.0 heterologously expressing the enzyme of interest
 
 **Note:** pNPred will make predictions for ALL sequences submitted even if they are not OleA-type enzymes. To limit your input to only thiolases consider first extracting sequences matching the [3-oxoacyl-ACP synthase III (PF08545)](https://pfam.xfam.org/family/ACP_syn_III/) PFAM domain using [HMMscan](https://www.ebi.ac.uk/Tools/hmmer/search/hmmscan)
 <br>
@@ -195,9 +260,13 @@ renderTable({ mytab() }, align = 'c')
 
 pNP substrates
 =====================================
-<!-- Column {.sidebar data-width=350} -->
-<!-- ----------------------------------------------------------------------- -->
-<!-- The following pNPs were tested in this study -->
+Column {.sidebar data-width=200}
+-----------------------------------------------------------------------
+The *p*-nitrophenyl (pNP) compounds to the right are the substrates which we have tested to date. We are in the process of expanding our compound libraries and training set to make predictions for new pNP substrates in the future. Stay tuned!
+
+For more information on the synthesis of and 1H-NMR spectra of compounds in this library please see:
+
+Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., & Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. *Under review.*
 
 ```{r}
 # my_list <- list()
@@ -228,7 +297,7 @@ output$img <- renderImage({
 #   rv$data
 # })
 
-imageOutput("img", width = "60%", height = "50%")
+imageOutput("img", width = "80%", height = "60%")
 ```
 
 
@@ -284,26 +353,30 @@ Training set database of thiolase enzymes paired with pNP substrates and their a
 
       sliderInput("range", label = "Search by enzyme activity:",
                     min = 0, max = 3,
-                    #value = 2.9,
                     value = c(2.8,2.9),
                     step = 0.05,
       )
 
        selectizeInput("substrate", "Search by substrate:",
-                    choices = tab$substrate,
+                    choices = tab$Substrate,
                     selected = NULL, multiple = TRUE
       )
       
       selectizeInput("org", "Search by organism:",
-                   choices = tab$org,
+                   choices = tab$Organism,
                    selected = NULL, multiple = TRUE
       )
+      
 ```
 
 Outputs
 -----------------------------------------------------------------------
-```{r}   
- DT::renderDataTable({
+```{r}  
+
+# Download button
+
+
+DT::renderDataTable({
       srch <- tab[tab$Substrate %in% input$substrate,]
       tax <- tab[tab$Organism %in% input$org,]
       minact <- tab[tab$Enzyme_Activity >= input$range[1],]
@@ -313,19 +386,36 @@ Outputs
 
       return(xtable(dedup))
     })
+
+# downloadHandler(
+#       filename = function() {
+#         paste0("pNPred-", Sys.Date(), ".csv", sep = "")
+#       },
+#       content = function(file) {
+#         write.csv(dedup, file, row.names = FALSE)
+#       }
+#     )
+# 
+# downloadButton("downloadData", "Download", class = "download_this", width = '30%')
+
+
 ```   
 
 About
 =====================================
-Main
+
+Column {.sidebar data-width=200}
 -----------------------------------------------------------------------
 **Welcome to pNPred**
 <br>
 <br>
-pNPred uses supervised machine learning approaches to predict pNP substrate specificity from thiolase amino acid sequences.
+*pNPred uses supervised machine learning approaches to predict pNP substrate specificity from thiolase amino acid sequences.*
 <br>
 <br>
-If you use pNPred in your work, please cite the following reference:
+
+Main
+-----------------------------------------------------------------------
+**If you use pNPred in your work, please cite the following reference:**
 <br>
 <br>
 Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., & Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. *Under review.*

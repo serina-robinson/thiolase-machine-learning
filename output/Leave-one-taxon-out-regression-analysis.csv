@@ -1,0 +1,11 @@
+left-out taxon,leave-one-taxon-out RMSE,Testing set size,Training set size
+Clostridia,0.23,8,492
+Deltaproteobacteria,0.23,36,464
+Oligoflexia,0.24,13,487
+Bacteroidia,0.28,4,496
+Bacilli,0.31,23,477
+Chloroflexi,0.32,7,493
+Opitutae,0.33,5,495
+Actinobacteria,0.35,336,164
+Chlamydiae,0.37,4,496
+Gammaproteobacteria,0.42,114,386

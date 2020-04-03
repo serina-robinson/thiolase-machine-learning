@@ -1,0 +1,17 @@
+t.summary.traindf.score...Var1,t.summary.traindf.score...Var2,t.summary.traindf.score...Freq,t.summary.testdf.score...Var1,t.summary.testdf.score...Var2,t.summary.testdf.score...Freq,
+A,Min.,0.221824919,A,Min.,0.194232607,
+A,1st Qu.,0.241383123,A,1st Qu.,0.232439912,
+A,Median,0.245652295,A,Median,0.242785447,
+A,Mean,0.245271621,A,Mean,0.243489447,
+A,3rd Qu.,0.249651457,A,3rd Qu.,0.25371768,
+A,Max.,0.259921912,A,Max.,0.30319331,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,Training Set Classification Accuracy Quartiles,,,,,
+,Min.,1st Qu.,Median,Mean,3rd Qu.,Max.
+,0.222,0.241,0.246,0.245,0.250,0.260
+,Testing Set Classification Accuracy Quartiles,,,,,
+,Min.,1st Qu.,Median,Mean,3rd Qu.,Max.
+,0.194,0.232,0.243,0.243,0.254,0.303
