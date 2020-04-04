@@ -17,7 +17,7 @@ output:
 ```{r setup, include=FALSE}
 # install.packages("BiocManager")
 # options(repos = BiocManager::repositories())
-# etOption("repos")
+# getOption("repos")
 # setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/shiny_app/")
 # library("flexdashboard")
 library("xtable")
@@ -33,6 +33,7 @@ library("DECIPHER")
 library("ranger")
 library("muscle")
 library("DT")
+library("vroom")
 ```
 
 ```{r global}
@@ -102,7 +103,10 @@ downloadHandler(
         paste0("pNPred-", Sys.Date(), ".csv", sep = "")
       },
       content = function(file) {
-        write.csv(mytab(), file, row.names = FALSE)
+        rv <- mytab()
+        if(nrow(rv) > 0) {
+          vroom::vroom_write(mytab(), file)
+        }
       }
     )
 
@@ -243,6 +247,8 @@ shiny::renderUI(
   )
 )
 ```
+If the download fails, check that you have first uploaded a FASTA file and clicked the "Run Analysis" button.
+
 ☨ Units of activity are log10 of nmol pNP produced over the course of one hour by an E. coli BL21 culture with an OD of 1.0 heterologously expressing the enzyme of interest
 
 **Note:** pNPred will make predictions for ALL sequences submitted even if they are not OleA-type enzymes. To limit your input to only thiolases consider first extracting sequences matching the [3-oxoacyl-ACP synthase III (PF08545)](https://pfam.xfam.org/family/ACP_syn_III/) PFAM domain using [HMMscan](https://www.ebi.ac.uk/Tools/hmmer/search/hmmscan)
@@ -384,7 +390,7 @@ DT::renderDataTable({
       out <- data.frame(rbind(tax, srch, minact), stringsAsFactors = F)
       dedup <- out[!duplicated(out),]
 
-      return(xtable(dedup))
+      return(datatable(dedup))
     })
 
 # downloadHandler(
