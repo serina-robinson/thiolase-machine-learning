@@ -2,7 +2,7 @@
 pacman::p_load("tidyverse", "maditr", "readxl", "RColorBrewer", "ggplot2", "viridis", "scales", "ggtree")
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
 
 # Read in the data
 fils <- list.files("output/", recursive=TRUE, full.names = T)
@@ -41,12 +41,17 @@ newdat <- rawdat %>%
 maprdat_log <- newdat %>%
   dplyr::mutate(hr_slope = max_slope * 10 * 60) %>%
   dplyr::mutate(log_slope = log10(hr_slope)) 
-maprdat_log
+
 
 # Combine averaged controls with C6 data
-maprdat_long <- maprdat_log %>%
+maprdat_towrite <- maprdat_log %>%
   bind_rows(., avged_ctrls) %>%
-  dplyr::select(cmpnd, org, log_slope)
+  dplyr::select(filename, cmpnd, org, log_slope)
+# write_csv(maprdat_towrite, "data/enzyme_substrate_activity_data.csv")
+
+# 
+maprdat_long <- maprdat_towrite %>%
+  dplyr::select(-filename)
 
 # Find the average across replicates 
 maprdat_avg <- maprdat_long %>%
@@ -58,7 +63,6 @@ maprdat_merg <- as.data.frame(maprdat_avg, stringsAsFactors = F)
 
 # Convert to wide format
 maprdat_wide <- reshape2::dcast(maprdat_merg, org ~ cmpnd, value.var = "log_slope") 
-
 maprdat_wide[is.na(maprdat_wide)] <- 0
 
 rawdat_mat <- maprdat_wide %>%
@@ -146,7 +150,7 @@ ggt <- ggtree(ggtree_phylo) +
   xlim(NA, 20)
 ggt
 
-# Try ggtree and barplot
+# Calculate average activity
 avg_act <- test_ord %>%
   rowMeans(.) %>%
   data.frame(., stringsAsFactors = F) %>%

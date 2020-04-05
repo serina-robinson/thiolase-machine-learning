@@ -3,7 +3,7 @@
 pacman::p_load("tidyverse", "ggpubr", "cowplot", "ggplot2", "readxl", "PerformanceAnalytics")
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
 
 # Read in the molecular features
 molec_fts <- read_csv("data/machine_learning/PC7_molecular_descriptors.csv") %>%

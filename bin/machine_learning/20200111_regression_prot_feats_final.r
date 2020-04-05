@@ -5,7 +5,7 @@ pacman::p_load("tidyverse", "DECIPHER", "Biostrings", "skimr", "caret",
                "glmnet", "svmpath", "readxl", "ggpubr", "doMC", "doParallel")
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
 
 
 # Read in the principal componenets of molecular features
@@ -113,6 +113,7 @@ rf_mod <- train(
   verbose = TRUE,
   importance = "permutation") # BEST RMSE is 55.7%
 
+# Confusion matrix
 getTrainPerf(rf_mod) # RMSE is 25%
 rf_imp <- varImp(rf_mod)
 
@@ -163,7 +164,7 @@ ggplot(rf_df, aes(x = y_test, y = rf_pred)) +
 
 dev.off()
 
-# saveRDS(rf_mod, "data/machine_learning/models/20200111_rf_regression_10foldcv.rds")
+saveRDS(rf_mod, "data/machine_learning/models/20200111_rf_regression_10foldcv.rds")
 
 rfdf_train <- data.frame(cbind(rf_mod$finalModel$predictions, y_train), stringsAsFactors = F)
 colnames(rfdf_train) <- c("Pred", "Obs")

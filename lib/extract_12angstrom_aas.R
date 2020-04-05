@@ -9,13 +9,12 @@ extract_12angstrom_aas <- function(query_fil) {
   names(ref) <- "4KU5"
   
   # Align the query and the reference
-  alned <- AlignSeqs(c(ref, query), verbose = TRUE)
-  # alned <- AAStringSet(muscle(c(ref, query), in1 = "data/A_domains_muscle.fasta", in2 = query_fil, profile = T)) # If you want to align with a profile
+  alned <- AlignSeqs(c(ref, query), verbose = FALSE)
   query_aln <- alned[length(alned)]
   ref_aln <- alned["4KU5"]
   
   # Read in the 12 angstrom residues
-  aa84_inds <- read_csv("data/machine_learning/84_residues_12_angstroms_4KU5_S143.csv") %>%
+  aa84_inds <- read_csv("shiny_app/data/84_residues_12_angstroms_4KU5_S143.csv") %>%
     pull()
   aa84_inds_adj <- aa84_inds # Depends on ref
 

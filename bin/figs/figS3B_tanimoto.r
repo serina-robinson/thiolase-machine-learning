@@ -3,7 +3,7 @@ pacman::p_load("webchem", "readxl", "tidyverse", "ChemmineR", "RColorBrewer",
                "data.table", "plot3D", "plot3Drgl", "ggrepel")
 
 # Set working directory
-setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/synbio-data-analysis/")
+setwd("~/Documents/University_of_Minnesota/Wackett_Lab/github/thiolase-machine-learning/")
 
 # Read in the list of compounds
 ll <- list.files("data/sigma_carboxylic_acid_scrape/", pattern = "C")

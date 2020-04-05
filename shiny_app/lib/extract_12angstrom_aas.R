@@ -9,7 +9,7 @@ extract_12angstrom_aas <- function(query_fil) {
   names(ref) <- "4KU5"
   
   # Align the query and the reference
-  alned <- AlignSeqs(c(ref, query), verbose = TRUE)
+  alned <- AlignSeqs(c(ref, query), verbose = FALSE)
   query_aln <- alned[length(alned)]
   ref_aln <- alned["4KU5"]
   
