@@ -36,7 +36,7 @@ gheatmap(gsz, test_ord, offset = 5.75, width = 2,
   theme(legend.title = element_blank(), 
         legend.position = "none")
 ```
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/fig2.png>
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/fig2.png">
 
 ##### Taxonomic legend
 <img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/tax_legend.png" height="200" width="250">
