@@ -27,7 +27,7 @@ maprdat_avg <- maprdat %>%
 
 ### 2. Visualize phylogenetic tree of enzyme sequences paired with enzyme activity heatmap
 
-```{r a_taller_figure, fig.height = 20, fig.width = 11}
+```{r}
 # Pair phylogenetic tree with heatmap
 gheatmap(gsz, test_ord, offset = 5.75, width = 2, 
          colnames_position = "top", colnames_offset_y = 2,
@@ -36,20 +36,10 @@ gheatmap(gsz, test_ord, offset = 5.75, width = 2,
   theme(legend.title = element_blank(), 
         legend.position = "none")
 ```
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/tax_legend.png" alt="heatmap">
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/fig2.png>
 
 ##### Taxonomic legend
-
-```{r legend, fig.height = 3, fig.width = 2.5}
-# Taxonomic legend
-plot.new()
-par(mar=c(0.01,0.01,0.01,0.01))
-legend("center", bty = "n", bg = "white",
-       legend = clustord$levs,  pch = 19, 
-       cex = 1, pt.cex = 1, 
-       col = clustord$pal2)
-```
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/fig2_legend.png" alt="heatmap">
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/tax_legend.png" height="200" width="250">
 
 ### 3. Machine learning classification of active vs. inactive enzyme-substrate pairs
 
@@ -108,11 +98,11 @@ plot(rfRoc, type = "s",
      col = "#529DCF", xaxs = "i", yaxs="i",
      print.auc = TRUE, print.auc.x = 0.8, print.auc.y = 0.6)
 ```
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/auroc.png" alt="heatmap">
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/auroc.png" height="400" width="600">
 
 ##### Variable importance
 
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/vimp1.png" alt="heatmap">
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/vimp1.png" height="500" width="600">
 
 ### 4. Machine learning regression of enzyme-substrate activity levels
 
@@ -184,7 +174,8 @@ ggplot(rf_df_resid, aes(x = pred, y = resid)) +
   xlab("Predicted enzyme activity") +
   ylab("Residuals")
 ```
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/resid.png" alt="heatmap">
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/resid.png" height="400" width="600">
+
 ```
 ggplot(rf_df_resid, aes(x = obs, y = pred)) +
   geom_point(alpha = .3) +
@@ -197,10 +188,11 @@ ggplot(rf_df_resid, aes(x = obs, y = pred)) +
                aes(label = paste(..rr.label.., sep = "~~~")),
                parse = TRUE)
 ```
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/resid2.png" alt="heatmap">
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/resid2.png" height="400" width="600">
 
 ##### Variable importance
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/vimp2.png" alt="heatmap">
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/vimp2.png"
+height="500" width="600">
 
 ### 5. Prediction of substrate specificity for a new protein sequence
 ```{r}
@@ -208,7 +200,6 @@ ggplot(rf_df_resid, aes(x = obs, y = pred)) +
 # Align with template sequence and extract active site residues
 new_query_seq <- "data/new_test_OleA.fasta"
 nqs <- readAAStringSet("data/new_test_OleA.fasta")
-nqs$Vulcaniibacterium_new_seq 
 
 source("lib/extract_12angstrom_aas.R")
 extract_84_list <- lapply(1:length(length(new_query_seq)), 
