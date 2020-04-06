@@ -36,7 +36,7 @@ gheatmap(gsz, test_ord, offset = 5.75, width = 2,
   theme(legend.title = element_blank(), 
         legend.position = "none")
 ```
-<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/fig2.png" alt="heatmap">
+<img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/tax_legend.png" alt="heatmap">
 
 ##### Taxonomic legend
 
@@ -255,4 +255,5 @@ rf_reg_pred <- rf_reg$predictions
 reg_df <- data.frame(cbind(pred_df, round(rf_reg_pred, 2)), stringsAsFactors = F)
 colnames(reg_df) <- c("query_name", "subst", "is_active", "pred_prob", "raw_activity")
 ```
+
 <img src="https://github.com/serina-robinson/thiolase-machine-learning/raw/master/pngs/tbl.png" alt="heatmap">
