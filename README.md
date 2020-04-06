@@ -4,7 +4,7 @@ Welcome to an example workflow* to generate figures and analysis in the followin
 
 Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., & Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. **Under review.**
 
-**Note:** this is an abbreviated version of the workflow. For a complete RMarkdown version of this document go to [https://rpubs.com/robinsonserina/thiolases](https://rpubs.com/robinsonserina/thiolases)
+&ast; **Note:** this is an abbreviated version of the workflow. For a complete RMarkdown version of this document go to [https://rpubs.com/robinsonserina/thiolases](https://rpubs.com/robinsonserina/thiolases)
 
 ```{r}
 # Install and load packages
@@ -67,20 +67,20 @@ df_train <- data.frame(x_train, stringsAsFactors = F, row.names = dat_train$id)
 form_train <- data.frame(cbind(x_train, y_train), stringsAsFactors = F, row.names = dat_train$id)
 form_test <- data.frame(cbind(x_test, y_test), stringsAsFactors = F, row.names = dat_test$id)
 
-# Random forest 10-fold cross-validation (not run due to computational time)
-# rf <- train(
-#   x = df_train,
-#   y = y_train,
-#   method = "ranger",
-#   metric = "ROC",
-#   trControl = trainControl(method = "repeatedcv", number = 10,
-#                            repeats = 3,
-#                            verboseIter = T, classProbs = T,
-#                            savePredictions = "final",
-#                            returnResamp = "all"),
-#   num.trees = 1000,
-#   verbose = TRUE,
-#   importance = "permutation") 
+# Random forest 10-fold cross-validation
+rf <- train(
+  x = df_train,
+  y = y_train,
+  method = "ranger",
+  metric = "ROC",
+  trControl = trainControl(method = "repeatedcv", number = 10,
+                           repeats = 3,
+                           verboseIter = T, classProbs = T,
+                           savePredictions = "final",
+                           returnResamp = "all"),
+  num.trees = 1000,
+  verbose = TRUE,
+  importance = "permutation")
 # saveRDS(rf, "data/machine_learning/models/20200111_rf_10foldcv.rds")
 
 # Read in the random forest model from cross-validation
@@ -130,17 +130,17 @@ df_train <- data.frame(x_train, stringsAsFactors = F, row.names = dat_train$id)
 form_train <- data.frame(cbind(x_train, y_train), stringsAsFactors = F, row.names = dat_train$id)
 form_test <- data.frame(cbind(x_test, y_test), stringsAsFactors = F, row.names = dat_test$id)
 
-# Random forest regression 10-fold cross-validation (not run due to computational time)
-# rf_mod <- train(
-#   x = df_train,
-#   y = y_train,
-#   method = "ranger",
-#   trControl = trainControl(method = "repeatedcv", number = 10,
-#                            repeats = 3,
-#                            savePredictions = "final"),
-#   num.trees = 1000,
-#   verbose = TRUE,
-#   importance = "permutation")
+# Random forest regression 10-fold cross-validation 
+rf_mod <- train(
+  x = df_train,
+  y = y_train,
+  method = "ranger",
+  trControl = trainControl(method = "repeatedcv", number = 10,
+                           repeats = 3,
+                           savePredictions = "final"),
+  num.trees = 1000,
+  verbose = TRUE,
+  importance = "permutation")
 # saveRDS(rf_mod, "data/machine_learning/models/220200104_final_rf_regression_model.rds")
 
 # rf_reg_xval <- readRDS("data/machine_learning/models/20200104_final_rf_regression_model.rds")
