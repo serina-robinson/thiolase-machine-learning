@@ -367,15 +367,12 @@ summary {
 
 <div id="example-machine-learning-workflow-to-predict-enzyme-substrate-specificity" class="section level2">
 <h2>Example machine learning workflow to predict enzyme substrate specificity</h2>
-<p>Welcome to an example workflow to generate figures and analysis in the following manuscript:</p>
+<p>Welcome to an example workflow* to generate figures and analysis in the following manuscript:</p>
 <p>Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., &amp; Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. <strong>Under review.</strong></p>
-<div id="note-this-is-an-abbreviated-version-of-the-workflow.-for-a-complete-rmarkdown-version-of-this-document-go-to-httpsrpubs.comrobinsonserinathiolases" class="section level6">
-<h6><em>Note:</em> this is an abbreviated version of the workflow. For a complete RMarkdown version of this document go to <a href="https://rpubs.com/robinsonserina/thiolases">https://rpubs.com/robinsonserina/thiolases</a></h6>
-<p>The complete scripts for analysis conducted in this study are available on the <a href="https://github.com/serina-robinson/thiolase-machine-learning/">thiolase-machine-learning Github repo</a></p>
+<p>&amp;ast <em>Note:</em> this is an abbreviated version of the workflow. For a complete RMarkdown version of this document go to <a href="https://rpubs.com/robinsonserina/thiolases">https://rpubs.com/robinsonserina/thiolases</a></p>
 <pre class="{r}"><code># Install and load packages
 pacman::p_load(&quot;tidyverse&quot;, viridis&quot;, &quot;readxl&quot;, &quot;ggtree&quot;, &quot;caret&quot;, &quot;rsample&quot;,
 &quot;ranger&quot;, &quot;pROC&quot;, &quot;RColorBrewer&quot;, &quot;ggpubr&quot;, &quot;ggpmisc&quot;, &quot;Biostrings&quot;, &quot;DECIPHER&quot;,&quot;kableExtra&quot;)</code></pre>
-</div>
 <div id="reading-in-and-cleaning-up-the-data" class="section level3">
 <h3>1. Reading in and cleaning up the data</h3>
 <pre class="{r}"><code>maprdat &lt;- read_csv(&quot;data/enzyme_substrate_activity_data.csv&quot;)

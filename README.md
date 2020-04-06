@@ -1,12 +1,10 @@
 ## Example machine learning workflow to predict enzyme substrate specificity
 
-Welcome to an example workflow to generate figures and analysis in the following manuscript: 
+Welcome to an example workflow* to generate figures and analysis in the following manuscript: 
 
 Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., & Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. **Under review.**
 
-###### *Note:* this is an abbreviated version of the workflow. For a complete RMarkdown version of this document go to [https://rpubs.com/robinsonserina/thiolases](https://rpubs.com/robinsonserina/thiolases)
-
-The complete scripts for analysis conducted in this study are available on the [thiolase-machine-learning Github repo](https://github.com/serina-robinson/thiolase-machine-learning/)
+**Note:** this is an abbreviated version of the workflow. For a complete RMarkdown version of this document go to [https://rpubs.com/robinsonserina/thiolases](https://rpubs.com/robinsonserina/thiolases)
 
 ```{r}
 # Install and load packages
