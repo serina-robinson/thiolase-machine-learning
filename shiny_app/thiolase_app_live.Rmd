@@ -33,7 +33,6 @@ library("DECIPHER")
 library("ranger")
 library("muscle")
 library("DT")
-library("vroom")
 ```
 
 ```{r global}
@@ -105,7 +104,7 @@ downloadHandler(
       content = function(file) {
         rv <- mytab()
         if(nrow(rv) > 0) {
-          vroom::vroom_write(mytab(), file)
+           write_csv(mytab(), file)
         }
       }
     )
