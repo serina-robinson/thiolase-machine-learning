@@ -141,9 +141,8 @@ rf_mod <- train(
   num.trees = 1000,
   verbose = TRUE,
   importance = "permutation")
-# saveRDS(rf_mod, "data/machine_learning/models/220200104_final_rf_regression_model.rds")
+# saveRDS(rf_mod, "data/machine_learning/models/20200111_rf_mod_10foldcv.rds")
 
-# rf_reg_xval <- readRDS("data/machine_learning/models/20200104_final_rf_regression_model.rds")
 rf_reg_xval <- readRDS("data/machine_learning/models/20200111_rf_mod_10foldcv.rds")
 
 # Calculate training set root-mean square error 
