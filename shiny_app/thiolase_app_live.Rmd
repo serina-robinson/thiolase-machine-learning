@@ -50,10 +50,10 @@ Column {.sidebar}
 **Welcome to pNPred**
 <br>
 <br>
-*Prediction tool for pNP substrate specificity of OleA-type thiolase enzymes*
+*Prediction tool for substrate specificity of OleA-type thiolase enzymes towards different p-nitrophenyl esters (pNPs)*
 <br>
 <br>
-pNPred uses supervised machine learning approaches to predict pNP substrate specificity from thiolase amino acid sequences. 
+pNPred uses a supervised machine learning approach to predict pNP substrate specificity using thiolase amino acid sequences as inputs. 
 <br>
 <br>
 This tool is maintained by [Dr. Larry Wackett’s lab](https://cbs.umn.edu/wackett-lab/home) at the University of Minnesota.
@@ -250,7 +250,7 @@ shiny::renderUI(
 ```
 If the download fails, check that you have first uploaded a FASTA file and clicked the "Run Analysis" button.
 
-☨ Units of activity are log10 of nmol pNP produced over the course of one hour by an E. coli BL21 culture with an OD of 1.0 heterologously expressing the enzyme of interest
+☨ Units of activity are log10 of nmol *p*-nitrophenolate produced over the course of one hour by an E. coli BL21 culture with an OD of 1.0 heterologously expressing the enzyme of interest
 
 **Note:** pNPred will make predictions for ALL sequences submitted even if they are not OleA-type enzymes. To limit your input to only thiolases consider first extracting sequences matching the [3-oxoacyl-ACP synthase III (PF08545)](https://pfam.xfam.org/family/ACP_syn_III/) PFAM domain using [HMMscan](https://www.ebi.ac.uk/Tools/hmmer/search/hmmscan)
 <br>
@@ -269,7 +269,7 @@ pNP substrates
 =====================================
 Column {.sidebar data-width=200}
 -----------------------------------------------------------------------
-The *p*-nitrophenyl (pNP) compounds to the right are the substrates which we have tested to date. We are in the process of expanding our compound libraries and training set to make predictions for new pNP substrates in the future. Stay tuned!
+The *p*-nitrophenyl esters (pNPs) to the right are the substrates which we have tested to date. We are in the process of expanding our compound libraries and training set to make predictions for new pNP substrates in the future. Stay tuned!
 
 For more information on the synthesis of and 1H-NMR spectra of compounds in this library please see:
 
@@ -316,7 +316,7 @@ Column {.sidebar}
 **Welcome to pNPred**
 <br>
 <br>
-*Prediction tool for functional classification and substrate specificity of class I adenylate-forming enzymes*
+*Prediction tool for functional classification and substrate specificity of thiolases towards p-nitrophenyl esters (pNPs)*
 <br>
 <br>
 This tool is maintained by [Dr. Larry Wackett’s lab](https://cbs.umn.edu/wackett-lab/home) at the University of Minnesota.
@@ -416,7 +416,7 @@ Column {.sidebar data-width=200}
 **Welcome to pNPred**
 <br>
 <br>
-*pNPred uses supervised machine learning approaches to predict pNP substrate specificity from thiolase amino acid sequences.*
+*pNPred uses supervised machine learning approaches to predict substrate specificity of thiolases towards different p-nitrophenyl esters (pNPs).*
 <br>
 <br>
 
