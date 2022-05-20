@@ -2,7 +2,7 @@
 
 Welcome to an example workflow* to generate figures and analysis in the following manuscript: 
 
-Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., & Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. **Under review.**
+Robinson, S.L., Smith, M.D., Richman, J.E., Aukema, K.G., & Wackett, L.P. (2020) Machine learning-based prediction of activity and substrate specificity for OleA enzymes in the thiolase superfamily. **Synthetic Biology.** Volume 5, Issue 1, 2020, ysaa004, https://doi.org/10.1093/synbio/ysaa004
 
 &ast; **Note:** this is an abbreviated version of the workflow. For a complete RMarkdown version of this document go to [https://rpubs.com/robinsonserina/thiolases](https://rpubs.com/robinsonserina/thiolases)
 
